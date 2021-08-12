@@ -3,7 +3,9 @@ import { Route, Redirect, BrowserRouter, Switch } from "react-router-dom";
 import Layout from "./layout/Layout";
 import CadastroCliente from "./views/CadastroCliente";
 import AlteraCliente from "./views/AlteraCliente";
-import ConsultaCliente from "./views/ConsultaCliente";
+import DadosCliente from "./views/DadosCliente";
+import Endereco from "./views/Endereco";
+import HomeCadastroSucesso from "./views/HomeCadastroSucesso";
 
 
 export default class App extends Component {
@@ -67,24 +69,24 @@ export default class App extends Component {
             component={AlteraCliente}
           />
           <this.PublicRoute
-            path="/ConsultaCliente"
+            path="/DadosCliente"
             authed={this.state.isLoggedIn}
             exact
-            component={ConsultaCliente}
+            component={DadosCliente}
           />
-          {/* <this.PublicRoute
-            path="/login"
+         <this.PublicRoute
+            path="/Endereco"
             //authed={this.state.isLoggedIn}
             exact
-            component={login}
+            component={Endereco}
           />
-          <this.PublicRoute
-            path="/signUp"
+             <this.PublicRoute
+            path="/HomeCadastroSucesso"
             //authed={this.state.isLoggedIn}
             exact
-            component={signUp}
+            component={HomeCadastroSucesso}
           />
-          <this.PublicRoute
+         {/* <this.PublicRoute
             path="/cart"
             //authed={this.state.isLoggedIn}
             exact

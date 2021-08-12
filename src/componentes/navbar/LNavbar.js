@@ -20,14 +20,14 @@ export default class LNavbar extends Component {
     return (
       <Navbar collapseOnSelect expand="lg"  bg="primary">
   <Container>
-    <Navbar.Brand style={{ color:"#755721"}} href="#home">Loja Mariana</Navbar.Brand>
+    <Navbar.Brand style={{ color:"#755721"}} href="/">Loja Mariana</Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="me-auto">
-        <Nav.Link  style={{ color:"#755721"}} href="#home">Minhas compras</Nav.Link>
+        {/* <Nav.Link  style={{ color:"#755721"}} href="#home">Minhas compras</Nav.Link> */}
         <Nav.Link  style={{ color:"#755721"}} href="#home">Forma de Pagamento</Nav.Link>
-        <Nav.Link  style={{ color:"#755721"}} href="#home">Endereço</Nav.Link>
-        <Nav.Link  style={{ color:"#755721"}} href="#home">Dados Pessoais</Nav.Link>
+        <Nav.Link  style={{ color:"#755721"}} href="/Endereco">Endereço</Nav.Link>
+        <Nav.Link  style={{ color:"#755721"}} href="/DadosCliente">Dados Pessoais</Nav.Link>
         {/* <NavDropdown   title="Meus Dados" id="basic-nav-dropdown">
           <NavDropdown.Item  href="#action/3.1">Forma de Pagamento</NavDropdown.Item>
           <NavDropdown.Item  href="#action/3.2">Endereço</NavDropdown.Item>
@@ -35,6 +35,9 @@ export default class LNavbar extends Component {
           {/* <NavDropdown.Divider />
           <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
         {/* </NavDropdown> */}
+      </Nav>
+      <Nav >
+         <Nav.Link  style={{ color:"#755721"}} href="/CadastroCliente">Cadastre-se</Nav.Link>
       </Nav>
     </Navbar.Collapse>
   </Container>

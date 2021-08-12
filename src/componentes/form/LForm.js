@@ -52,7 +52,7 @@ export default class LForm extends Component {
                 className="mr-2"
                 icon={this.props?.customCancelcon || faStopCircle}
               /> */}
-              Cancelar
+               {this.props?.customCancelText || "Cancelar"}
             </Button>
           </Col>
           {this.props.allowDelete && (
