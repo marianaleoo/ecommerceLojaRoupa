@@ -25,7 +25,7 @@ export default class LNavbar extends Component {
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="me-auto">
         {/* <Nav.Link  style={{ color:"#755721"}} href="#home">Minhas compras</Nav.Link> */}
-        <Nav.Link  style={{ color:"#755721"}} href="#home">Forma de Pagamento</Nav.Link>
+        <Nav.Link  style={{ color:"#755721"}} href="/FormaPagamento">Forma de Pagamento</Nav.Link>
         <Nav.Link  style={{ color:"#755721"}} href="/Endereco">Endereço</Nav.Link>
         <Nav.Link  style={{ color:"#755721"}} href="/DadosCliente">Dados Pessoais</Nav.Link>
         {/* <NavDropdown   title="Meus Dados" id="basic-nav-dropdown">

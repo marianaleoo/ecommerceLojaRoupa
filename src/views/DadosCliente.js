@@ -10,11 +10,23 @@ import { updateStateValue } from "../util/util";
 export default class DadosCliente extends Component {
     constructor(props) {
         super(props);
-        this.state = {cliente: {nome: "Mariana", email: "marianaleo@fatec.sp.gov.sp", telefone: "11 9 98998878", senha: "", confirmarSenha: "", logradouro: "Rua Benedito Souza", }};
+        this.state = {cliente: {nome: "Mariana Léo", email: "marianaleo@fatec.sp.gov.sp", telefone: "11 9 998385529", senha: "1234", confirmarSenha: "1234", logradouro: "Rua Pedro Paulo dos Santos", numero: "3175", bairro: "Jundiapeba", cep: "08750-710", cidade: "Mogi das Cruzes", estado: "São Paulo",  pais: "Brasil"  }};
     }
     async handlePreventDefaut(event) {
         event.preventDefault();
         event.stopPropagation();
+    }
+
+    async atualizadoSucesso(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        window.location.href = "/HomeAtualizadoSucesso";
+    }
+
+    async sair(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        window.location.href = "/";
     }
 
     async handleInputChange(event) {
@@ -43,7 +55,7 @@ export default class DadosCliente extends Component {
                     </Card.Title>
                     <hr />
                    
-                    <LForm onSubmit={this.handlePreventDefaut} customSubmitText='Alterar' customCancelText='Sair'> 
+                    <LForm onSubmit={this.atualizadoSucesso} customSubmitText='Atualizar Dados' onCancel={this.sair}> 
                          <Form.Row>
                             <Form.Group as={Col} md={12}>
                                 <LInput
@@ -109,7 +121,6 @@ export default class DadosCliente extends Component {
                                 <LInput
                                     label="BAIRRO"
                                     name="cliente.bairro"
-                                    type="password"
                                     value={this.state.cliente.bairro}
                                     onChange={this.handleInputChange.bind(this)}
                                 />

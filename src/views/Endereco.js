@@ -11,11 +11,33 @@ import LTable from "../componentes/table/LTable";
 export default class Endereco extends Component {
     constructor(props) {
         super(props);
-        this.state = {cliente: {logradouro: "", numero: "", bairro: "", cep: "", cidade: "", estado: "", pais: "", descricao: ""}};
+        //this.state = {cliente: {descricao: "Casa", logradouro: "Rua Pedro Paulo dos Santos", numero: "3175", bairro: "Jundiapeba", cep: "08750-710", cidade: "Mogi das Cruzes", estado: "São Paulo",  pais: "Brasil"}};
+        this.state = {cliente:{}}
     }
     async handlePreventDefaut(event) {
         event.preventDefault();
         event.stopPropagation();
+    }
+
+    async alteraSucesso(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        window.location.href = "/HomeAlteradoSucesso";
+    }
+
+    handleSelectedRow(row) {
+        let selectedRow = (row);
+    
+        console.log(selectedRow);
+        this.setState({
+          cliente: selectedRow,
+        });
+      }
+
+    async sair(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        window.location.href = "/";
     }
 
     async handleInputChange(event) {
@@ -35,37 +57,33 @@ export default class Endereco extends Component {
         console.log( this.state);
     }
 
+    rowEvents = {
+        onClick: (e, column, columnIndex, row, rowIndex) => {
+          this.handleSelectedRow(row);
+        },
+      };
+
     render() {
         const columns = [
             {
               dataField: "descricao",
               text: "DESCRICAO",
+              events: this.rowEvents,
             },
             {
               dataField: "logradouro",
               text: "LOGRADOURO",
+              events: this.rowEvents,
             },
             {
-                dataField: "cidade.nome",
+                dataField: "cidade",
                 text: "CIDADE",
+                events: this.rowEvents,
             },
           ];
         const data= [
-            {
-                descricao: 'Casa',
-                logradouro: 'Rua Benedito',
-                cidade:{
-                    nome: 'Mogi das Cruzes'
-                }
-                
-            },
-            {
-                descricao: 'Trabalho',
-                logradouro: 'Rua Joao',
-                cidade:{
-                    nome: 'Mogi das Cruzes'
-                }
-            }
+            {descricao: "Casa", logradouro: "Rua Pedro Paulo dos Santos", numero: "3175", bairro: "Jundiapeba", cep: "08750-710", cidade: "Mogi das Cruzes", estado: "São Paulo",  pais: "Brasil"}             
+
         ]
         return (
             <FormLayout>
@@ -75,7 +93,7 @@ export default class Endereco extends Component {
                     </Card.Title>
                     <hr />
                     <LTable data={data} columns={columns}></LTable>
-                    <LForm onSubmit={this.handlePreventDefaut}>
+                    <LForm  onSubmit={this.alteraSucesso} onCancel={this.sair} allowDelete>
                         <Form.Row>
                             <h4 className="mt-5" style={{ color: "#755721" }}>Endereço de entrega</h4>
                             <Form.Group as={Col} md={12}>

@@ -6,6 +6,9 @@ import AlteraCliente from "./views/AlteraCliente";
 import DadosCliente from "./views/DadosCliente";
 import Endereco from "./views/Endereco";
 import HomeCadastroSucesso from "./views/HomeCadastroSucesso";
+import HomeAlteradoSucesso from "./views/HomeAlteradoSucesso";
+import FormaPagamento from "./views/FormaPagamento";
+import HomeAtualizadoSucesso from "./views/HomeAtualizadoSucesso";
 
 
 export default class App extends Component {
@@ -52,68 +55,49 @@ export default class App extends Component {
         <Switch>
           <this.PublicRoute
             path="/"
-            authed={this.state.isLoggedIn}
             exact
             component={Layout}
           />
           <this.PublicRoute
             path="/CadastroCliente"
-            authed={this.state.isLoggedIn}
             exact
             component={CadastroCliente}
           />
           <this.PublicRoute
             path="/AlteraCliente"
-            authed={this.state.isLoggedIn}
             exact
             component={AlteraCliente}
           />
           <this.PublicRoute
             path="/DadosCliente"
-            authed={this.state.isLoggedIn}
             exact
             component={DadosCliente}
           />
          <this.PublicRoute
             path="/Endereco"
-            //authed={this.state.isLoggedIn}
             exact
             component={Endereco}
           />
              <this.PublicRoute
             path="/HomeCadastroSucesso"
-            //authed={this.state.isLoggedIn}
             exact
             component={HomeCadastroSucesso}
           />
-         {/* <this.PublicRoute
-            path="/cart"
-            //authed={this.state.isLoggedIn}
+          <this.PublicRoute
+            path="/HomeAlteradoSucesso"
             exact
-            component={cart}
+            component={HomeAlteradoSucesso}
+          />
+            <this.PublicRoute
+            path="/FormaPagamento"
+            exact
+            component={FormaPagamento}
           />
           <this.PublicRoute
-            path="/artist"
-            //authed={this.state.isLoggedIn}
+            path="/HomeAtualizadoSucesso"
             exact
-            component={artist}
+            component={HomeAtualizadoSucesso}
           />
-          <this.PublicRoute
-            path="/genres"
-            //authed={this.state.isLoggedIn}
-            exact
-            component={genre}
-          />
-          <this.PublicRoute
-            path="/disc"
-            //authed={this.state.isLoggedIn}
-            exact
-            component={disc}
-          />
-
-          <this.NotFoundRoute //authed={this.state.isLoggedIn}
-            component={home}
-          /> */}
         </Switch>
       </BrowserRouter>
     );

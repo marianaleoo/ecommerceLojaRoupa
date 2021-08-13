@@ -58,7 +58,7 @@ export default class LForm extends Component {
           {this.props.allowDelete && (
             <Col md={3}>
               <Button
-                variant="danger"
+                variant="primary"
                 block
                 disabled={this.props?.disabled}
                 onClick={this.props?.onDelete || this.handlePreventDefaut}

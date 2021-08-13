@@ -23,6 +23,12 @@ export default class CadastroCliente extends Component {
         window.location.href = "/HomeCadastroSucesso";
     }
 
+    async sair(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        window.location.href = "/";
+    }
+
     async handleInputChange(event) {
         const target = event.target;
         let { name, value } = target;
@@ -49,7 +55,7 @@ export default class CadastroCliente extends Component {
                     </Card.Title>
                     <hr />
                    
-                    <LForm onSubmit={this.cadastroSucesso}>
+                    <LForm onSubmit={this.cadastroSucesso} onCancel={this.sair}>
                         <Form.Row>
                             <Form.Group as={Col} md={12}>
                                 <LInput
