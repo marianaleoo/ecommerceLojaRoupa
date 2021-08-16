@@ -10,7 +10,7 @@ import { updateStateValue } from "../util/util";
 export default class DadosCliente extends Component {
     constructor(props) {
         super(props);
-        this.state = {cliente: {nome: "Mariana Léo", email: "marianaleo@fatec.sp.gov.sp", telefone: "11 9 998385529", senha: "1234", confirmarSenha: "1234", logradouro: "Rua Pedro Paulo dos Santos", numero: "3175", bairro: "Jundiapeba", cep: "08750-710", cidade: "Mogi das Cruzes", estado: "São Paulo",  pais: "Brasil"  }};
+        this.state = {cliente: {cpf: "444.333.222-11", dataNascimento: "5/12/1997", genero: "Feminino", nome: "Mariana Léo", email: "marianaleo@fatec.sp.gov.sp", telefone: "+55 11 9 998385529", senha: "1234", confirmarSenha: "1234", logradouro: "Rua Pedro Paulo dos Santos", numero: "3175", bairro: "Jundiapeba", cep: "08750-710", cidade: "Mogi das Cruzes", estado: "São Paulo",  pais: "Brasil"  }};
     }
     async handlePreventDefaut(event) {
         event.preventDefault();
@@ -61,6 +61,30 @@ export default class DadosCliente extends Component {
                                 <LInput
                                     label="NOME COMPLETO"
                                     value={this.state.cliente.nome}
+                                    onChange={this.AlteraNomeInput.bind(this)}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md={12}>
+                                <LInput
+                                    label="GÊNERO"
+                                    required
+                                    value={this.state.cliente.genero}
+                                    onChange={this.AlteraNomeInput.bind(this)}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md={12}>
+                                <LInput
+                                    label="DATA DE NASCIMENTO"
+                                    required
+                                    value={this.state.cliente.dataNascimento}
+                                    onChange={this.AlteraNomeInput.bind(this)}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md={12}>
+                                <LInput
+                                    label="CPF"
+                                    required
+                                    value={this.state.cliente.cpf}
                                     onChange={this.AlteraNomeInput.bind(this)}
                                 />
                             </Form.Group>

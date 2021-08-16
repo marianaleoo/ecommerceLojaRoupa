@@ -10,7 +10,7 @@ import { updateStateValue } from "../util/util";
 export default class CadastroCliente extends Component {
     constructor(props) {
         super(props);
-        this.state = {cliente: {nome: "", email: "", telefone: "", senha: "", confirmarSenha: "", logradouro: "", numero: "", bairro: "", cep: "", cidade: "", estado: "", pais: "", descricao: ""}};
+        this.state = {cliente: {cpf: "", dataNascimento: "", genero: "", nome: "", email: "", telefone: "", senha: "", confirmarSenha: "", logradouro: "", numero: "", bairro: "", cep: "", cidade: "", estado: "", pais: "", descricao: ""}};
     }
     async handlePreventDefaut(event) {
         event.preventDefault();
@@ -62,6 +62,30 @@ export default class CadastroCliente extends Component {
                                     label="NOME COMPLETO"
                                     required
                                     value={this.state.cliente.nome}
+                                    onChange={this.AlteraNomeInput.bind(this)}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md={12}>
+                                <LInput
+                                    label="GÊNERO"
+                                    required
+                                    value={this.state.cliente.genero}
+                                    onChange={this.AlteraNomeInput.bind(this)}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md={12}>
+                                <LInput
+                                    label="DATA DE NASCIMENTO"
+                                    required
+                                    value={this.state.cliente.dataNascimento}
+                                    onChange={this.AlteraNomeInput.bind(this)}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md={12}>
+                                <LInput
+                                    label="CPF"
+                                    required
+                                    value={this.state.cliente.cpf}
                                     onChange={this.AlteraNomeInput.bind(this)}
                                 />
                             </Form.Group>
