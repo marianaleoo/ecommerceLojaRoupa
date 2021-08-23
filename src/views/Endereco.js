@@ -1,5 +1,3 @@
-import { faCompactDisc } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Component } from "react";
 import { Card, Col, Form } from "react-bootstrap";
 import FormLayout from "../layout/FormLayout";
@@ -25,6 +23,12 @@ export default class Endereco extends Component {
         window.location.href = "/HomeAlteradoSucesso";
     }
 
+    async cadastroSucesso(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        window.location.href = "/HomeCadastroSucesso";
+    }
+
     handleSelectedRow(row) {
         let selectedRow = (row);
     
@@ -38,6 +42,12 @@ export default class Endereco extends Component {
         event.preventDefault();
         event.stopPropagation();
         window.location.href = "/";
+    }
+
+    async excluir(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        window.location.href = "/HomeExcluidoSucesso";
     }
 
     async handleInputChange(event) {
@@ -93,7 +103,7 @@ export default class Endereco extends Component {
                     </Card.Title>
                     <hr />
                     <LTable data={data} columns={columns}></LTable>
-                    <LForm  onSubmit={this.alteraSucesso} onCancel={this.sair} allowDelete>
+                    <LForm  onSubmit={this.alteraSucesso} onCancel={this.sair} onDelete={this.excluir} customDeleteText='Excluir'>
                         <Form.Row>
                             <h4 className="mt-5" style={{ color: "#755721" }}>Endereço de entrega</h4>
                             <Form.Group as={Col} md={12}>
@@ -127,7 +137,7 @@ export default class Endereco extends Component {
                                 <LInput
                                     label="BAIRRO"
                                     name="cliente.bairro"
-                                    type="password"
+                                    required
                                     value={this.state.cliente.bairro}
                                     onChange={this.handleInputChange.bind(this)}
                                 />

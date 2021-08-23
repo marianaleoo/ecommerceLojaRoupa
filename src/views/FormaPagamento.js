@@ -10,7 +10,8 @@ import LTable from "../componentes/table/LTable";
 export default class FormaPagamento extends Component {
     constructor(props) {
         super(props);
-        this.state = {formaPagamento: {numerocartao: "", nomecartao: "", bandeiracartao: "", codigoSeguranca: ""}};
+        //this.state = {formaPagamento: {numerocartao: "", nomecartao: "", bandeiracartao: "", codigoSeguranca: ""}};
+        this.state = {formaPagamento:{}}
     }
     async handlePreventDefaut(event) {
         event.preventDefault();
@@ -23,10 +24,25 @@ export default class FormaPagamento extends Component {
         window.location.href = "/HomeCadastroSucesso";
     }
 
+    handleSelectedRow(row) {
+        let selectedRow = (row);
+    
+        console.log(selectedRow);
+        this.setState({
+          formaPagamento: selectedRow,
+        });
+      }
+
     async sair(event) {
         event.preventDefault();
         event.stopPropagation();
         window.location.href = "/";
+    }
+
+    async excluir(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        window.location.href = "/HomeExcluidoSucesso";
     }
 
     async handleInputChange(event) {
@@ -42,25 +58,35 @@ export default class FormaPagamento extends Component {
     async AlteraNomeInput(event){
         const target = event.target;
         let { value } = target;
-        this.setState({cliente: {...this.state.cliente,  nome: value}})
+        this.setState({formaPagamento: {...this.state.formaPagamento,  nomecartao: value}})
         console.log( this.state);
     }
+
+    rowEvents = {
+        onClick: (e, column, columnIndex, row, rowIndex) => {
+          this.handleSelectedRow(row);
+        },
+      };
 
     render() {
         const columns = [
             {
               dataField: "numerocartao",
               text: "Nº do Cartão",
+              events: this.rowEvents,
             },
             {
               dataField: "nomecartao",
               text: "Nome impresso no Cartão",
+              events: this.rowEvents,
             },
           ];
         const data= [
             {
                 numerocartao: '4716 5601 0093 8307',
-                nomecartao: 'Mariana Leo'
+                nomecartao: 'Mariana Leo',
+                bandeiraCartao: 'Visa',
+                codigoSeguranca: '123'
              
             },
         ]
@@ -72,7 +98,7 @@ export default class FormaPagamento extends Component {
                     </Card.Title>
                     <hr />
                     <LTable data={data} columns={columns}></LTable>
-                    <LForm  onSubmit={this.cadastroSucesso} onCancel={this.sair}>
+                    <LForm  onSubmit={this.cadastroSucesso} onCancel={this.sair} onDelete={this.excluir} customDeleteText='Excluir'>
                         <Form.Row>
                             <h4 className="mt-5" style={{ color: "#755721" }}>Cadastrar Cartão</h4>
                             <Form.Group as={Col} md={12}>

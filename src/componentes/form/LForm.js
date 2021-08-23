@@ -55,7 +55,7 @@ export default class LForm extends Component {
                {this.props?.customCancelText || "Cancelar"}
             </Button>
           </Col>
-          {this.props.allowDelete && (
+          {/* {this.props.allowDelete && ( */}
             <Col md={3}>
               <Button
                 variant="primary"
@@ -67,7 +67,7 @@ export default class LForm extends Component {
                 {this.props?.customDeleteText || "Excluir"}
               </Button>
             </Col>
-          )}
+          {/* )} */}
         </Form.Row>
       </Form>
     );

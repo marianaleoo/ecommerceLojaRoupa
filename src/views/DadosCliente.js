@@ -29,6 +29,12 @@ export default class DadosCliente extends Component {
         window.location.href = "/";
     }
 
+    async excluir(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        window.location.href = "/HomeExcluidoSucesso";
+    }
+
     async handleInputChange(event) {
         const target = event.target;
         let { name, value } = target;
@@ -55,7 +61,7 @@ export default class DadosCliente extends Component {
                     </Card.Title>
                     <hr />
                    
-                    <LForm onSubmit={this.atualizadoSucesso} customSubmitText='Atualizar Dados' onCancel={this.sair}> 
+                    <LForm onSubmit={this.atualizadoSucesso} customSubmitText='Atualizar Dados' onCancel={this.sair} onDelete={this.excluir} customDeleteText='Excluir'> 
                          <Form.Row>
                             <Form.Group as={Col} md={12}>
                                 <LInput
