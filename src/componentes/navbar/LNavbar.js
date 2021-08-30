@@ -38,6 +38,7 @@ export default class LNavbar extends Component {
       </Nav>
       <Nav >
          <Nav.Link  style={{ color:"#755721"}} href="/CadastroCliente">Cadastre-se</Nav.Link>
+         <Nav.Link  style={{ color:"#755721"}} href="/ConsultaCliente">Consultar Cliente</Nav.Link>
       </Nav>
     </Navbar.Collapse>
   </Container>

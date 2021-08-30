@@ -6,12 +6,29 @@ import LForm from "../componentes/form/LForm";
 import FormLayout from "../layout/FormLayout";
 import LInput from "../componentes/form/LInput";
 import { updateStateValue } from "../util/util";
+import { apiPost } from "../util/apiultil";
 
 export default class DadosCliente extends Component {
     constructor(props) {
         super(props);
-        this.state = {cliente: {cpf: "444.333.222-11", dataNascimento: "5/12/1997", genero: "Feminino", nome: "Mariana Léo", email: "marianaleo@fatec.sp.gov.sp", telefone: "+55 11 9 998385529", senha: "1234", confirmarSenha: "1234", logradouro: "Rua Pedro Paulo dos Santos", numero: "3175", bairro: "Jundiapeba", cep: "08750-710", cidade: "Mogi das Cruzes", estado: "São Paulo",  pais: "Brasil"  }};
+        this.state = {cliente: {cpf: "444.333.222-11", dataNascimento: "5/12/1997", genero: "Feminino", nome: "Mariana Léo", email: "marianaleo@fatec.sp.gov.sp", telefone: "+55 11 9 998385529", senha: "1234", confirmarSenha: "1234", tipoLogradouroCobranca: "Casa", tipoResidenciaCobranca: "", logradouro: "Rua Pedro Paulo dos Santos", numero: "3175", bairro: "Jundiapeba", cep: "08750-710", cidade: "Mogi das Cruzes", estado: "São Paulo",  pais: "Brasil"  }};
     }
+
+    async handleSubmit(event) {
+        event.preventDefault();
+        event.stopPropagation();
+    
+        try {
+           console.log(this.state.cliente)
+           await apiPost("/Cliente/{id}", this.state.cliente)     
+           window.location.href = "/HomeAtualizadoSucesso";
+
+       } catch (error) {
+          console.log(error);
+        }
+
+      }
+
     async handlePreventDefaut(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -61,7 +78,7 @@ export default class DadosCliente extends Component {
                     </Card.Title>
                     <hr />
                    
-                    <LForm onSubmit={this.atualizadoSucesso} customSubmitText='Atualizar Dados' onCancel={this.sair} onDelete={this.excluir} customDeleteText='Excluir'> 
+                    <LForm onSubmit={this.handleSubmit} customSubmitText='Atualizar Dados' onCancel={this.sair} onDelete={this.excluir} customDeleteText='Excluir'> 
                          <Form.Row>
                             <Form.Group as={Col} md={12}>
                                 <LInput
@@ -129,6 +146,24 @@ export default class DadosCliente extends Component {
                                 />
                             </Form.Group>
                             <h4 className="mt-5" style={{ color: "#755721" }}>Endereço de cobrança</h4>
+                            <Form.Group as={Col} md={12}>
+                                <LInput
+                                    label="TIPO LOGRADOURO"
+                                    name="cliente.tipoLogradouroCobranca"
+                                    required
+                                    value={this.state.cliente.tipoLogradouroCobranca}
+                                    onChange={this.handleInputChange.bind(this)}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md={12}>
+                                <LInput
+                                    label="TIPO RESIDENCIA"
+                                    name="cliente.tipoResidenciaCobranca"
+                                    required
+                                    value={this.state.cliente.tipoResidenciaCobranca}
+                                    onChange={this.handleInputChange.bind(this)}
+                                />
+                            </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="LOGRADOURO"

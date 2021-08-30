@@ -10,6 +10,7 @@ import HomeAlteradoSucesso from "./views/HomeAlteradoSucesso";
 import FormaPagamento from "./views/FormaPagamento";
 import HomeAtualizadoSucesso from "./views/HomeAtualizadoSucesso";
 import HomeExcluidoSucesso from "./views/HomeExcluidoSucesso";
+import ConsultaCliente from "./views/ConsultaCliente";
 
 
 export default class App extends Component {
@@ -103,6 +104,11 @@ export default class App extends Component {
             path="/HomeExcluidoSucesso"
             exact
             component={HomeExcluidoSucesso}
+          />
+          <this.PublicRoute
+            path="/ConsultaCliente"
+            exact
+            component={ConsultaCliente}
           />
         </Switch>
       </BrowserRouter>

@@ -1,17 +1,32 @@
-import { faCompactDisc } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Component } from "react";
 import { Card, Col, Form } from "react-bootstrap";
 import FormLayout from "../layout/FormLayout";
 import LForm from "../componentes/form/LForm";
 import LInput from "../componentes/form/LInput";
 import { updateStateValue } from "../util/util";
+import { apiPost } from "../util/apiultil";
 
 export default class CadastroCliente extends Component {
     constructor(props) {
         super(props);
-        this.state = {cliente: {cpf: "", dataNascimento: "", genero: "", nome: "", email: "", telefone: "", senha: "", confirmarSenha: "", logradouroCobranca: "", numeroCobranca: "", bairroCobranca: "", cepCobranca: "", cidadeCobranca: "", estadoCobranca: "", paisCobranca: "", descricaoCobranca: "", descricaoEntrega: "",  logradouroEntrega: "", numeroEntrega: "", bairroEntrega: "", cepEntrega: "", cidadeEntrega: "", estadoEntrega: "", paisEntrega: ""}};
+        this.state = {cliente: {cpf: "", dataNascimento: "", genero: "", nome: "", email: "", telefone: "", senha: "", confirmarSenha: "", tipoLogradouroCobranca: "", tipoResidenciaCobranca: "", logradouroCobranca: "", numeroCobranca: "", bairroCobranca: "", cepCobranca: "", cidadeCobranca: "", estadoCobranca: "", paisCobranca: "",  tipoLogradouroEntrega: "", tipoResidenciaEntrega: "", logradouroEntrega: "", numeroEntrega: "", bairroEntrega: "", cepEntrega: "", cidadeEntrega: "", estadoEntrega: "", paisEntrega: ""}};
     }
+
+    async handleSubmit(event) {
+        event.preventDefault();
+        event.stopPropagation();
+    
+        try {
+           console.log(this.state.cliente)
+           await apiPost("/Cliente", this.state.cliente)     
+           window.location.href = "/HomeCadastroSucesso";
+
+       } catch (error) {
+          console.log(error);
+        }
+
+      }
+
     async handlePreventDefaut(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -32,7 +47,6 @@ export default class CadastroCliente extends Component {
     async handleInputChange(event) {
         const target = event.target;
         let { name, value } = target;
-        console.log(name, value);
         const updated = updateStateValue(this.state, name, value);
         await this.setState({
           updated,
@@ -55,7 +69,7 @@ export default class CadastroCliente extends Component {
                     </Card.Title>
                     <hr />
                    
-                    <LForm onSubmit={this.cadastroSucesso} onCancel={this.sair}>
+                    <LForm onSubmit={this.handleSubmit.bind(this)} onCancel={this.sair.bind(this)}>
                         <Form.Row>
                             <Form.Group as={Col} md={12}>
                                 <LInput
@@ -80,6 +94,7 @@ export default class CadastroCliente extends Component {
                                     label="DATA DE NASCIMENTO"
                                     name="cliente.dataNascimento"
                                     required
+                                    type="Date"
                                     value={this.state.cliente.dataNascimento}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
@@ -132,6 +147,24 @@ export default class CadastroCliente extends Component {
                                 />
                             </Form.Group>
                             <h4 className="mt-5" style={{ color: "#755721" }}>Endereço de cobrança</h4>
+                            <Form.Group as={Col} md={12}>
+                                <LInput
+                                    label="TIPO LOGRADOURO"
+                                    name="cliente.tipoLogradouroCobranca"
+                                    required
+                                    value={this.state.cliente.tipoLogradouroCobranca}
+                                    onChange={this.handleInputChange.bind(this)}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md={12}>
+                                <LInput
+                                    label="TIPO RESIDENCIA"
+                                    name="cliente.tipoResidenciaCobranca"
+                                    required
+                                    value={this.state.cliente.tipoResidenciaCobranca}
+                                    onChange={this.handleInputChange.bind(this)}
+                                />
+                            </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="LOGRADOURO"
@@ -198,10 +231,19 @@ export default class CadastroCliente extends Component {
                             <h4 className="mt-5" style={{ color: "#755721" }}>Endereço de entrega</h4>
                             <Form.Group as={Col} md={12}>
                                 <LInput
-                                    label="DESCRICAO"
-                                    name="cliente.descricaoEntrega"
+                                    label="TIPO LOGRADOURO"
+                                    name="cliente.tipoLogradouroEntrega"
                                     required
-                                    value={this.state.cliente.descricaoEntrega}
+                                    value={this.state.cliente.tipoLogradouroEntrega}
+                                    onChange={this.handleInputChange.bind(this)}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md={12}>
+                                <LInput
+                                    label="TIPO RESIDENCIA"
+                                    name="cliente.tipoResidenciaEntrega"
+                                    required
+                                    value={this.state.cliente.tipoResidenciaEntrega}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
