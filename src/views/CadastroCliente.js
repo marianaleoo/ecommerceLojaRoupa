@@ -4,28 +4,79 @@ import FormLayout from "../layout/FormLayout";
 import LForm from "../componentes/form/LForm";
 import LInput from "../componentes/form/LInput";
 import { updateStateValue } from "../util/util";
-import { apiPost } from "../util/apiultil";
+import { apiGet, apiPost } from "../util/apiultil";
+import LSelect from "../componentes/form/LSelect";
 
 export default class CadastroCliente extends Component {
     constructor(props) {
         super(props);
-        this.state = {cliente: {cpf: "", dataNascimento: "", genero: "", nome: "", email: "", telefone: "", senha: "", confirmarSenha: "", tipoLogradouroCobranca: "", tipoResidenciaCobranca: "", logradouroCobranca: "", numeroCobranca: "", bairroCobranca: "", cepCobranca: "", cidadeCobranca: "", estadoCobranca: "", paisCobranca: "",  tipoLogradouroEntrega: "", tipoResidenciaEntrega: "", logradouroEntrega: "", numeroEntrega: "", bairroEntrega: "", cepEntrega: "", cidadeEntrega: "", estadoEntrega: "", paisEntrega: ""}};
+        this.state = {
+            cliente: {
+                cpf: "", dataNascimento: "", genero: "", nome: "", email: "", telefone: "", senha: "", confirmarSenha: "", enderecoCobranca: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", estado: "", pais: "" }
+            },
+            cidades:[],
+            estados:[],
+            paises:[]            
+        };
     }
+
+    async componentDidMount() {
+        await this.consultaCidade();
+        await this.consultaEstado();
+        await this.consultaPais();
+    }
+    async consultaCidade() {
+        try {
+            let cidades = await apiGet("/Cidade");
+
+            this.setState({
+                cidades,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async consultaEstado() {
+        try {
+            let estados = await apiGet("/Estado");
+
+            this.setState({
+                estados,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async consultaPais() {
+        try {
+            let paises = await apiGet("/Pais");
+            console.log(paises);
+
+            this.setState({
+                paises,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     async handleSubmit(event) {
         event.preventDefault();
         event.stopPropagation();
-    
-        try {
-           console.log(this.state.cliente)
-           await apiPost("/Cliente", this.state.cliente)     
-           window.location.href = "/HomeCadastroSucesso";
 
-       } catch (error) {
-          console.log(error);
+        try {
+            console.log(this.state.cliente)
+            await apiPost("/Cliente", this.state.cliente)
+            window.location.href = "/HomeCadastroSucesso";
+
+        } catch (error) {
+            console.log(error);
         }
 
-      }
+    }
 
     async handlePreventDefaut(event) {
         event.preventDefault();
@@ -47,17 +98,19 @@ export default class CadastroCliente extends Component {
     async handleInputChange(event) {
         const target = event.target;
         let { name, value } = target;
+        console.log(name, value);
         const updated = updateStateValue(this.state, name, value);
         await this.setState({
-          updated,
-        });
-      }
+            updated,
 
-    async AlteraNomeInput(event){
+        });
+    }
+
+    async AlteraNomeInput(event) {
         const target = event.target;
         let { value } = target;
-        this.setState({cliente: {...this.state.cliente,  nome: value}})
-        console.log( this.state);
+        this.setState({ cliente: { ...this.state.cliente, nome: value } })
+        console.log(this.state);
     }
 
     render() {
@@ -65,10 +118,10 @@ export default class CadastroCliente extends Component {
             <FormLayout>
                 <Card.Body>
                     <Card.Title style={{ color: "#755721" }} as="h1">
-                     Cadastre-se
+                        Cadastre-se
                     </Card.Title>
                     <hr />
-                   
+
                     <LForm onSubmit={this.handleSubmit.bind(this)} onCancel={this.sair.bind(this)}>
                         <Form.Row>
                             <Form.Group as={Col} md={12}>
@@ -102,7 +155,7 @@ export default class CadastroCliente extends Component {
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="CPF"
-                                    name= "cliente.cpf"
+                                    name="cliente.cpf"
                                     required
                                     value={this.state.cliente.cpf}
                                     onChange={this.handleInputChange.bind(this)}
@@ -150,163 +203,82 @@ export default class CadastroCliente extends Component {
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="TIPO LOGRADOURO"
-                                    name="cliente.tipoLogradouroCobranca"
+                                    name="cliente.enderecoCobranca.tipoLogradouro"
                                     required
-                                    value={this.state.cliente.tipoLogradouroCobranca}
+                                    value={this.state.cliente.enderecoCobranca.tipoLogradouro}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
-                                    label="TIPO RESIDENCIA"
-                                    name="cliente.tipoResidenciaCobranca"
+                                    label="TIPO RESidENCIA"
+                                    name="cliente.enderecoCobranca.tipoResidencia"
                                     required
-                                    value={this.state.cliente.tipoResidenciaCobranca}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} md={12}>
-                                <LInput
-                                    label="LOGRADOURO"
-                                    name="cliente.logradouroCobranca"
-                                    required
-                                    value={this.state.cliente.logradouroCobranca}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} md={12}>
-                                <LInput
-                                    label="NUMERO"
-                                    name="cliente.numeroCobranca"
-                                    required
-                                    value={this.state.cliente.numeroCobranca}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} md={12}>
-                                <LInput
-                                    label="BAIRRO"
-                                    name="cliente.bairroCobranca"
-                                    required
-                                    value={this.state.cliente.bairroCobranca}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} md={12}>
-                                <LInput
-                                    label="CEP"
-                                    name="cliente.cepCobranca"
-                                    required
-                                    value={this.state.cliente.cepCobranca}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} md={12}>
-                                <LInput
-                                    label="CIDADE"
-                                    name="cliente.cidadeCobranca"
-                                    required
-                                    value={this.state.cliente.cidadeCobranca}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} md={12}>
-                                <LInput
-                                    label="ESTADO"
-                                    name="cliente.estadoCobranca"
-                                    required
-                                    value={this.state.cliente.estadoCobranca}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} md={12}>
-                                <LInput
-                                    label="PAIS"
-                                    name="cliente.paisCobranca"
-                                    required
-                                    value={this.state.cliente.paisCobranca}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                            <h4 className="mt-5" style={{ color: "#755721" }}>Endereço de entrega</h4>
-                            <Form.Group as={Col} md={12}>
-                                <LInput
-                                    label="TIPO LOGRADOURO"
-                                    name="cliente.tipoLogradouroEntrega"
-                                    required
-                                    value={this.state.cliente.tipoLogradouroEntrega}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} md={12}>
-                                <LInput
-                                    label="TIPO RESIDENCIA"
-                                    name="cliente.tipoResidenciaEntrega"
-                                    required
-                                    value={this.state.cliente.tipoResidenciaEntrega}
+                                    value={this.state.cliente.enderecoCobranca.tipoResidencia}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="LOGRADOURO"
-                                    name="cliente.logradouroEntrega"
+                                    name="cliente.enderecoCobranca.logradouro"
                                     required
-                                    value={this.state.cliente.logradouroEntrega}
+                                    value={this.state.cliente.enderecoCobranca.logradouro}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="NUMERO"
-                                    name="cliente.numeroEntrega"
+                                    name="cliente.enderecoCobranca.numero"
                                     required
-                                    value={this.state.cliente.numeroEntrega}
+                                    value={this.state.cliente.enderecoCobranca.numero}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="BAIRRO"
-                                    name="cliente.bairroEntrega"
+                                    name="cliente.enderecoCobranca.bairro"
                                     required
-                                    value={this.state.cliente.bairroEntrega}
+                                    value={this.state.cliente.enderecoCobranca.bairro}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="CEP"
-                                    name="cliente.cepEntrega"
+                                    name="cliente.enderecoCobranca.cep"
                                     required
-                                    value={this.state.cliente.cepEntrega}
+                                    value={this.state.cliente.enderecoCobranca.cep}
                                     onChange={this.handleInputChange.bind(this)}
-                                />
+                                /> 
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
-                                <LInput
+                                <LSelect
                                     label="CIDADE"
-                                    name="cliente.cidadeEntrega"
+                                    items={this.state.cidades}
+                                    name="cliente.enderecoCobranca.cidadeId"
                                     required
-                                    value={this.state.cliente.cidadeEntrega}
+                                    value={this.state.cliente.enderecoCobranca.cidadeId}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="ESTADO"
-                                    name="cliente.estadoEntrega"
+                                    name="cliente.enderecoCobranca.estado"
                                     required
-                                    value={this.state.cliente.estadoEntrega}
+                                    value={this.state.cliente.enderecoCobranca.estado}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="PAIS"
-                                    name="cliente.paisEntrega"
+                                    name="cliente.enderecoCobranca.pais"
                                     required
-                                    value={this.state.cliente.paisEntrega}
+                                    value={this.state.cliente.enderecoCobranca.pais}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>

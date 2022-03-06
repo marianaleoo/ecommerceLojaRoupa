@@ -5,7 +5,7 @@ import LForm from "../componentes/form/LForm";
 import LInput from "../componentes/form/LInput";
 import { updateStateValue } from "../util/util";
 import LTable from "../componentes/table/LTable";
-import { apiDelete, apiGet } from "../util/apiultil";
+import { apiDelete, apiGet } from "../util/apiutil";
 
 export default class Endereco extends Component {
     constructor(props) {
@@ -103,21 +103,16 @@ export default class Endereco extends Component {
     render() {
         const columns = [
             {
-              dataField: "codigo",
-              text: "CÓDIGO",
+              dataField: "cliente.cep",
+              text: "CEP",
               events: this.rowEvents,
             },
             {
-              dataField: "nome",
+              dataField: "cliente.nome",
               text: "Nome",
               events: this.rowEvents,
             },
-            {
-                dataField: "genero",
-                text: "Gênero",
-                events: this.rowEvents,
-            },
-          ];
+           ];
 
         return (
             <FormLayout>

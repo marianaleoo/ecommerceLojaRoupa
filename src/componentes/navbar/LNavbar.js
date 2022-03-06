@@ -28,6 +28,9 @@ export default class LNavbar extends Component {
         <Nav.Link  style={{ color:"#755721"}} href="/FormaPagamento">Forma de Pagamento</Nav.Link>
         <Nav.Link  style={{ color:"#755721"}} href="/Endereco">Endereço</Nav.Link>
         <Nav.Link  style={{ color:"#755721"}} href="/DadosCliente">Dados Pessoais</Nav.Link>
+        {/* <Nav.Link  style={{ color:"#755721"}} href="/CadastroRoupa">Cadastro Roupa</Nav.Link> */}
+        <Nav.Link  style={{ color:"#755721"}} href="/MeuCarrinho">Meu Carrinho</Nav.Link>
+        <Nav.Link  style={{ color:"#755721"}} href="/MinhasCompras">Minhas Compras</Nav.Link>
         {/* <NavDropdown   title="Meus Dados" id="basic-nav-dropdown">
           <NavDropdown.Item  href="#action/3.1">Forma de Pagamento</NavDropdown.Item>
           <NavDropdown.Item  href="#action/3.2">Endereço</NavDropdown.Item>
@@ -37,8 +40,8 @@ export default class LNavbar extends Component {
         {/* </NavDropdown> */}
       </Nav>
       <Nav >
-         <Nav.Link  style={{ color:"#755721"}} href="/CadastroCliente">Cadastre-se</Nav.Link>
-         <Nav.Link  style={{ color:"#755721"}} href="/ConsultaCliente">Consultar Cliente</Nav.Link>
+         <Nav.Link  style={{ color:"#755721"}} href="/CadastroCliente">Cadastra-se</Nav.Link>
+         {/* <Nav.Link  style={{ color:"#755721"}} href="/ConsultaCliente">Consultar Cliente</Nav.Link> */}
       </Nav>
     </Navbar.Collapse>
   </Container>

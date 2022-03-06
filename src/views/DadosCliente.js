@@ -1,38 +1,64 @@
-import { faCompactDisc } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faCompactDisc } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Component } from "react";
 import { Card, Col, Form } from "react-bootstrap";
 import LForm from "../componentes/form/LForm";
 import FormLayout from "../layout/FormLayout";
 import LInput from "../componentes/form/LInput";
 import { updateStateValue } from "../util/util";
-import { apiPost } from "../util/apiultil";
+import { apiGet, apiPost } from "../util/apiutil";
+import LTable from "../componentes/table/LTable";
 
 export default class DadosCliente extends Component {
     constructor(props) {
         super(props);
-        this.state = {cliente: {cpf: "444.333.222-11", dataNascimento: "5/12/1997", genero: "Feminino", nome: "Mariana Léo", email: "marianaleo@fatec.sp.gov.sp", telefone: "+55 11 9 998385529", senha: "1234", confirmarSenha: "1234", tipoLogradouroCobranca: "Casa", tipoResidenciaCobranca: "", logradouro: "Rua Pedro Paulo dos Santos", numero: "3175", bairro: "Jundiapeba", cep: "08750-710", cidade: "Mogi das Cruzes", estado: "São Paulo",  pais: "Brasil"  }};
+        this.state = {cliente:{}, clientes:[]}
     }
 
-    async handleSubmit(event) {
-        event.preventDefault();
-        event.stopPropagation();
-    
+    async componentDidMount() {
+        await this.consultaClientes();
+    }
+      async consultaClientes() {
         try {
-           console.log(this.state.cliente)
-           await apiPost("/Cliente/{id}", this.state.cliente)     
-           window.location.href = "/HomeAtualizadoSucesso";
-
-       } catch (error) {
+          let clientes = await apiGet("/Cliente");
+          console.log(clientes);
+    
+          this.setState({
+            clientes,
+          });
+        } catch (error) {
           console.log(error);
         }
-
       }
+
+    // async handleSubmit(event) {
+    //     event.preventDefault();
+    //     event.stopPropagation();
+    
+    //     try {
+    //        console.log(this.state.cliente)
+    //        await apiPost("/Cliente/{id}", this.state.cliente)     
+    //        window.location.href = "/HomeAtualizadoSucesso";
+
+    //    } catch (error) {
+    //       console.log(error);
+    //     }
+
+    //   }
 
     async handlePreventDefaut(event) {
         event.preventDefault();
         event.stopPropagation();
     }
+
+    handleSelectedRow(row) {
+        let selectedRow = (row);
+    
+        console.log(selectedRow);
+        this.setState({
+          cliente: selectedRow,
+        });
+      }
 
     async atualizadoSucesso(event) {
         event.preventDefault();
@@ -69,7 +95,31 @@ export default class DadosCliente extends Component {
         console.log( this.state);
     }
 
-    render() {
+    rowEvents = {
+        onClick: (e, column, columnIndex, row, rowIndex) => {
+          this.handleSelectedRow(row);
+        },
+      };
+    
+      render() {
+        const columns = [
+            {
+              dataField: "nome",
+              text: "NOME COMPLETO",
+              events: this.rowEvents,
+            },
+            {
+              dataField: "dataNascimento",
+              text: "DATA DE NASCIMENTO",
+              events: this.rowEvents,
+            },
+            {
+                dataField: "cpf",
+                text: "CPF",
+                events: this.rowEvents,
+              },
+          ];
+
         return (
             <FormLayout>
                 <Card.Body>
@@ -77,12 +127,13 @@ export default class DadosCliente extends Component {
                      Meus Dados
                     </Card.Title>
                     <hr />
-                   
+                    <LTable data={this.state.clientes} columns={columns}></LTable>
                     <LForm onSubmit={this.handleSubmit} customSubmitText='Atualizar Dados' onCancel={this.sair} onDelete={this.excluir} customDeleteText='Excluir'> 
                          <Form.Row>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="NOME COMPLETO"
+                                    name="cliente.nome"
                                     value={this.state.cliente.nome}
                                     onChange={this.AlteraNomeInput.bind(this)}
                                 />
@@ -90,6 +141,7 @@ export default class DadosCliente extends Component {
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="GÊNERO"
+                                    name= "cliente.genero"
                                     required
                                     value={this.state.cliente.genero}
                                     onChange={this.AlteraNomeInput.bind(this)}
@@ -98,6 +150,7 @@ export default class DadosCliente extends Component {
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="DATA DE NASCIMENTO"
+                                    name= "cliente.dataNascimento"
                                     required
                                     value={this.state.cliente.dataNascimento}
                                     onChange={this.AlteraNomeInput.bind(this)}
@@ -106,6 +159,7 @@ export default class DadosCliente extends Component {
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="CPF"
+                                    name= "cliente.cpf"
                                     required
                                     value={this.state.cliente.cpf}
                                     onChange={this.AlteraNomeInput.bind(this)}
@@ -115,6 +169,7 @@ export default class DadosCliente extends Component {
                                 <LInput
                                     label="E-MAIL"
                                     name="cliente.email"
+                                    required
                                     value={this.state.cliente.email}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
@@ -123,6 +178,7 @@ export default class DadosCliente extends Component {
                                 <LInput
                                     label="TELEFONE"
                                     name="cliente.telefone"
+                                    required
                                     value={this.state.cliente.telefone}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
@@ -132,6 +188,7 @@ export default class DadosCliente extends Component {
                                     label="SENHA"
                                     name="cliente.senha"
                                     type="password"
+                                    required
                                     value={this.state.cliente.senha}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
@@ -141,6 +198,7 @@ export default class DadosCliente extends Component {
                                     label="CONFIRMAR SENHA"
                                     type="password"
                                     name="cliente.confirmarSenha"
+                                    required
                                     value={this.state.cliente.confirmarSenha}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
@@ -149,7 +207,7 @@ export default class DadosCliente extends Component {
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="TIPO LOGRADOURO"
-                                    name="cliente.tipoLogradouroCobranca"
+                                    name="cliente.tipoLogradouroCobrancaa"
                                     required
                                     value={this.state.cliente.tipoLogradouroCobranca}
                                     onChange={this.handleInputChange.bind(this)}
@@ -232,5 +290,8 @@ export default class DadosCliente extends Component {
                 </Card.Body>
             </FormLayout>
         );
+      }
     }
-}
+
+
+
