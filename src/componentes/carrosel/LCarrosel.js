@@ -10,19 +10,13 @@ export default class LCarrosel extends Component {
           title: "",
           description: "",
           imgLink:
-            "",
+            "https://conceitoprisma.com.br/wp-content/uploads/2019/09/roupa-conceito-prisma.jpg",
         },
         {
           title: "",
           description: "",
           imgLink:
-            "",
-        },
-        {
-          title: "",
-          description: "",
-          imgLink:
-            "",
+            "https://thumbs.web.sapo.io/?W=800&H=0&png=1&delay_optim=1&epic=MmZkmb3leen49dwBB+6xGelXHS7icaMvOkd8e6+2QsSglqQKJaWJuQarEL1eYwQ6oSAkGiDf7cZZCnIem+uewp12W1SSO+3M2+fMhR+oqNqZZ7w=",
         },
       ],
     };
@@ -37,7 +31,7 @@ export default class LCarrosel extends Component {
             style={{
               filter: "brightness(50%)",
               width: "800px",
-              height: "300px",
+              height: "500px",
               objectFit: "cover",
             }}
             className="d-block w-100"

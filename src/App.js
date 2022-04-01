@@ -5,6 +5,7 @@ import CadastroCliente from "./views/CadastroCliente";
 import AlteraCliente from "./views/AlteraCliente";
 import DadosCliente from "./views/DadosCliente";
 import Endereco from "./views/Endereco";
+import Home from "./views/home/Home";
 import HomeCadastroSucesso from "./views/HomeCadastroSucesso";
 import HomeAlteradoSucesso from "./views/HomeAlteradoSucesso";
 import FormaPagamento from "./views/FormaPagamento";
@@ -58,7 +59,7 @@ export default class App extends Component {
           <this.PublicRoute
             path="/"
             exact
-            component={Layout}
+            component={Home}
           />
           <this.PublicRoute
             path="/CadastroCliente"

@@ -12,7 +12,7 @@ export default class CadastroCliente extends Component {
         super(props);
         this.state = {
             cliente: {
-                cpf: "", dataNascimento: "", genero: "", nome: "", email: "", telefone: "", senha: "", confirmarSenha: "", enderecoCobranca: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", estado: "", pais: "" }
+                cpf: "", dataNascimento: "", genero: "", nome: "", email: "", telefone: "", senha: "", confirmarSenha: "", enderecoCobranca: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", estadoId: "", paisId: "" }
             },
             cidades:[],
             estados:[],
@@ -211,7 +211,7 @@ export default class CadastroCliente extends Component {
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
-                                    label="TIPO RESidENCIA"
+                                    label="TIPO RESIDENCIA"
                                     name="cliente.enderecoCobranca.tipoResidencia"
                                     required
                                     value={this.state.cliente.enderecoCobranca.tipoResidencia}
@@ -265,20 +265,22 @@ export default class CadastroCliente extends Component {
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
-                                <LInput
+                                <LSelect
                                     label="ESTADO"
-                                    name="cliente.enderecoCobranca.estado"
+                                    items={this.state.estados}
+                                    name="cliente.enderecoCobranca.estadoId"
                                     required
-                                    value={this.state.cliente.enderecoCobranca.estado}
+                                    value={this.state.cliente.enderecoCobranca.estadoId}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
-                                <LInput
+                               <LSelect
                                     label="PAIS"
-                                    name="cliente.enderecoCobranca.pais"
+                                    items={this.state.paises}
+                                    name="cliente.enderecoCobranca.paisId"
                                     required
-                                    value={this.state.cliente.enderecoCobranca.pais}
+                                    value={this.state.cliente.enderecoCobranca.paisId}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>

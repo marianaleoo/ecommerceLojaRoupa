@@ -6,19 +6,63 @@ import LForm from "../componentes/form/LForm";
 import FormLayout from "../layout/FormLayout";
 import LInput from "../componentes/form/LInput";
 import { updateStateValue } from "../util/util";
-import { apiGet, apiPost } from "../util/apiutil";
+import { apiGet } from "../util/apiutil";
 import LTable from "../componentes/table/LTable";
+import LSelect from "../componentes/form/LSelect";
+import { apiPost, apiPut, apiDelete } from "../util/apiultil";
 
 export default class DadosCliente extends Component {
     constructor(props) {
         super(props);
-        this.state = {cliente:{}, clientes:[]}
+        this.state = {cliente:{enderecoCobranca:{cidade:{estado:{pais:{}}}}}, clientes:[], cidades:[], estados:[], paises:[] 
+       }
+        
     }
 
     async componentDidMount() {
+        await this.consultaCidade();
+        await this.consultaEstado();
+        await this.consultaPais();
         await this.consultaClientes();
     }
-      async consultaClientes() {
+    async consultaCidade() {
+        try {
+            let cidades = await apiGet("/Cidade");
+
+            this.setState({
+                cidades,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async consultaEstado() {
+        try {
+            let estados = await apiGet("/Estado");
+
+            this.setState({
+                estados,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async consultaPais() {
+        try {
+            let paises = await apiGet("/Pais");
+            console.log(paises);
+
+            this.setState({
+                paises,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async consultaClientes() {
         try {
           let clientes = await apiGet("/Cliente");
           console.log(clientes);
@@ -31,20 +75,21 @@ export default class DadosCliente extends Component {
         }
       }
 
-    // async handleSubmit(event) {
-    //     event.preventDefault();
-    //     event.stopPropagation();
+    async handleSubmit(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log(this.state)
     
-    //     try {
-    //        console.log(this.state.cliente)
-    //        await apiPost("/Cliente/{id}", this.state.cliente)     
-    //        window.location.href = "/HomeAtualizadoSucesso";
+        try {
+            console.log(this.state.cliente)
+           await apiPut("/Cliente/" + this.state.cliente.id, this.state.cliente)     
+           window.location.href = "/HomeAtualizadoSucesso";
 
-    //    } catch (error) {
-    //       console.log(error);
-    //     }
+       } catch (error) {
+          console.log(error);
+        }
 
-    //   }
+      }
 
     async handlePreventDefaut(event) {
         event.preventDefault();
@@ -57,6 +102,7 @@ export default class DadosCliente extends Component {
         console.log(selectedRow);
         this.setState({
           cliente: selectedRow,
+          enderecoCobranca:selectedRow,
         });
       }
 
@@ -75,9 +121,17 @@ export default class DadosCliente extends Component {
     async excluir(event) {
         event.preventDefault();
         event.stopPropagation();
-        window.location.href = "/HomeExcluidoSucesso";
-    }
+    
+        try {
+            console.log(this.state.cliente)
+           await apiDelete("/Cliente" , this.state.cliente.id)     
+           window.location.href = "/HomeExcluidoSucesso";
 
+       } catch (error) {
+          console.log(error);
+        }
+
+      }
     async handleInputChange(event) {
         const target = event.target;
         let { name, value } = target;
@@ -128,7 +182,7 @@ export default class DadosCliente extends Component {
                     </Card.Title>
                     <hr />
                     <LTable data={this.state.clientes} columns={columns}></LTable>
-                    <LForm onSubmit={this.handleSubmit} customSubmitText='Atualizar Dados' onCancel={this.sair} onDelete={this.excluir} customDeleteText='Excluir'> 
+                    <LForm onSubmit={this.handleSubmit.bind(this)} customSubmitText='Atualizar Dados' onCancel={this.sair} onDelete={this.excluir.bind(this)} customDeleteText='Excluir'> 
                          <Form.Row>
                             <Form.Group as={Col} md={12}>
                                 <LInput
@@ -207,80 +261,84 @@ export default class DadosCliente extends Component {
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="TIPO LOGRADOURO"
-                                    name="cliente.tipoLogradouroCobrancaa"
+                                    name="cliente.enderecoCobranca.tipoLogradouro"
                                     required
-                                    value={this.state.cliente.tipoLogradouroCobranca}
+                                    value={this.state?.cliente?.enderecoCobranca?.tipoLogradouro}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="TIPO RESIDENCIA"
-                                    name="cliente.tipoResidenciaCobranca"
+                                    name="cliente.enderecoCobranca.tipoResidencia"
                                     required
-                                    value={this.state.cliente.tipoResidenciaCobranca}
+                                    value={this.state?.cliente?.enderecoCobranca?.tipoResidencia}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="LOGRADOURO"
-                                    name="cliente.logradouro"
+                                    name="cliente.enderecoCobranca.logradouro"
                                     required
-                                    value={this.state.cliente.logradouro}
+                                    value={this.state?.cliente?.enderecoCobranca?.logradouro}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="NUMERO"
-                                    name="cliente.numero"
+                                    name="cliente.enderecoCobranca.numero"
                                     required
-                                    value={this.state.cliente.numero}
+                                    value={this.state?.cliente?.enderecoCobranca?.numero}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="BAIRRO"
-                                    name="cliente.bairro"
-                                    value={this.state.cliente.bairro}
+                                    name="cliente.enderecoCobranca.bairro"
+                                    required
+                                    value={this.state?.cliente?.enderecoCobranca?.bairro}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="CEP"
-                                    name="cliente.cep"
+                                    name="cliente.enderecoCobranca.cep"
                                     required
-                                    value={this.state.cliente.cep}
+                                    value={this.state?.cliente?.enderecoCobranca?.cep}
                                     onChange={this.handleInputChange.bind(this)}
-                                />
+                                /> 
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
-                                <LInput
+                                <LSelect 
                                     label="CIDADE"
-                                    name="cliente.cidade"
+                                    items={this.state.cidades}
+                                    name="cliente.enderecoCobranca.cidade.id"
                                     required
-                                    value={this.state.cliente.cidade}
+                                    value={this.state?.cliente?.enderecoCobranca?.cidade?.id}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
-                                <LInput
+                                <LSelect
                                     label="ESTADO"
-                                    name="cliente.estado"
+                                    items={this.state.estados}
+                                    name="cliente.enderecoCobranca.estadoId"
                                     required
-                                    value={this.state.cliente.estado}
+                                    value={this.state?.cliente?.enderecoCobranca?.estadoId}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
-                                <LInput
+                               <LSelect
                                     label="PAIS"
-                                    name="cliente.pais"
+                                    items={this.state.paises}
+                                    name="cliente.enderecoCobranca.paisId"
                                     required
-                                    value={this.state.cliente.pais}
+                                    value={this.state?.cliente?.enderecoCobranca?.paisId}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
