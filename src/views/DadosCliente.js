@@ -313,32 +313,32 @@ export default class DadosCliente extends Component {
                                 /> 
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
-                                <LSelect 
+                                <LInput 
                                     label="CIDADE"
-                                    items={this.state.cidades}
-                                    name="cliente.enderecoCobranca.cidade.id"
+                                    //items={this.state.cidades}
+                                    name="cliente.enderecoCobranca.cidade.descricao"
                                     required
-                                    value={this.state?.cliente?.enderecoCobranca?.cidade?.id}
+                                    value={this.state?.cliente?.enderecoCobranca?.cidade.descricao}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
-                                <LSelect
+                                <LInput
                                     label="ESTADO"
-                                    items={this.state.estados}
-                                    name="cliente.enderecoCobranca.estadoId"
+                                    //items={this.state.estados}
+                                    name="cliente.enderecoCobranca.cidade.estado.descricao"
                                     required
-                                    value={this.state?.cliente?.enderecoCobranca?.estadoId}
+                                    value={this.state?.cliente?.enderecoCobranca?.cidade.estado.descricao}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
-                               <LSelect
+                               <LInput
                                     label="PAIS"
-                                    items={this.state.paises}
-                                    name="cliente.enderecoCobranca.paisId"
+                                    //items={this.state.paises}
+                                    name="cliente.enderecoCobranca.cidade.estado.pais.descricao"
                                     required
-                                    value={this.state?.cliente?.enderecoCobranca?.paisId}
+                                    value={this.state?.cliente?.enderecoCobranca?.cidade.estado.pais.descricao}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
