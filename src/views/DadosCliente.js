@@ -189,7 +189,7 @@ export default class DadosCliente extends Component {
                                     label="NOME COMPLETO"
                                     name="cliente.nome"
                                     value={this.state.cliente.nome}
-                                    onChange={this.AlteraNomeInput.bind(this)}
+                                    onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
@@ -198,7 +198,7 @@ export default class DadosCliente extends Component {
                                     name= "cliente.genero"
                                     required
                                     value={this.state.cliente.genero}
-                                    onChange={this.AlteraNomeInput.bind(this)}
+                                    onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
@@ -207,7 +207,7 @@ export default class DadosCliente extends Component {
                                     name= "cliente.dataNascimento"
                                     required
                                     value={this.state.cliente.dataNascimento}
-                                    onChange={this.AlteraNomeInput.bind(this)}
+                                    onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
@@ -216,7 +216,7 @@ export default class DadosCliente extends Component {
                                     name= "cliente.cpf"
                                     required
                                     value={this.state.cliente.cpf}
-                                    onChange={this.AlteraNomeInput.bind(this)}
+                                    onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
