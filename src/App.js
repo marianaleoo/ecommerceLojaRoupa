@@ -11,7 +11,7 @@ import FormaPagamento from "./views/FormaPagamento";
 import HomeAtualizadoSucesso from "./views/HomeAtualizadoSucesso";
 import HomeExcluidoSucesso from "./views/HomeExcluidoSucesso";
 import ConsultaCliente from "./views/ConsultaCliente";
-import EnderecoTeste from "./views/EnderecoTeste";
+import CadastroClienteTeste from "./views/CadastroClienteTeste";
 
 
 export default class App extends Component {
@@ -81,11 +81,6 @@ export default class App extends Component {
             exact
             component={Endereco}
           />
-            <this.PublicRoute
-            path="/EnderecoTeste"
-            exact
-            component={EnderecoTeste}
-          />
              <this.PublicRoute
             path="/HomeCadastroSucesso"
             exact
@@ -115,6 +110,11 @@ export default class App extends Component {
             path="/ConsultaCliente"
             exact
             component={ConsultaCliente}
+          />
+           <this.PublicRoute
+            path="/CadastroClienteTeste"
+            exact
+            component={CadastroClienteTeste}
           />
         </Switch>
       </BrowserRouter>
