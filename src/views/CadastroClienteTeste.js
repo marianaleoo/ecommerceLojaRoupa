@@ -12,14 +12,13 @@ export default class CadastroClienteTeste extends Component {
         super(props);
         this.state = {
             cliente: {
-                cpf: "", dataNascimento: "", genero: "", nome: "", email: "", telefone: "", senha: "", confirmarSenha: "", enderecoCobranca: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", estadoId: "", paisId: "", tipoEnderecoId: "" }
+                cpf: "", dataNascimento: "", genero: "", nome: "", email: "", telefone: "", senha: "", confirmarSenha: "", enderecoCobranca: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", estadoId: "", paisId: "", tipoEnderecoId: "" },   cartaoCredito:{numerocartao: "", nomecartao: "", bandeiraCartaoId: "", codigoSeguranca: ""}, 
             },
-            cartaoCredito:{numerocartao: "", nomecartao: "", bandeiracartao: "", codigoSeguranca: ""}, 
+            bandeiras:[],
             tipoEnderecos: [],
             cidades: [],
             estados: [],
-            paises: [],
-            cartoesCredito:[]
+            paises: []
             
         };
     }
@@ -29,6 +28,7 @@ export default class CadastroClienteTeste extends Component {
         await this.consultaEstado();
         await this.consultaPais();
         await this.consultaTipoEndereco();
+        await this.consultaBandeira();
     }
 
     async consultaTipoEndereco() {
@@ -37,6 +37,18 @@ export default class CadastroClienteTeste extends Component {
 
             this.setState({
                 tipoEnderecos,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async consultaBandeira() {
+        try {
+            let bandeiras = await apiGet("/Bandeira");
+
+            this.setState({
+                bandeiras,
             });
         } catch (error) {
             console.log(error);
@@ -79,6 +91,7 @@ export default class CadastroClienteTeste extends Component {
             console.log(error);
         }
     }
+
 
 
     async handleSubmit(event) {
@@ -438,50 +451,49 @@ export default class CadastroClienteTeste extends Component {
                             </Form.Group> */}
                         {/* </Row> */}
                     {/* <hr /> */}
-                        <Form.Row>
                             <h4 className="mt-5" style={{ color: "#755721" }}>Formas de Pagamento</h4>
                             <h5 className="mt-3" style={{ color: "#755721" }}>Cartão de crédito</h5>
                             <Row>
                             <Form.Group as={Col} controlId="formGridNumeroCartao">
                                 <LInput
-                                    label="Nº DO CARTÃO"
-                                    name="cartaoCredito.numerocartao"
+                                    label="Nº do Cartão"
+                                    name="cliente.cartaoCredito.numerocartao"
                                     required
-                                    value={this.state.cartaoCredito.numerocartao}
-                                    onChange={this.AlteraNomeInput.bind(this)}
+                                    value={this.state.cliente.cartaoCredito.numerocartao}
+                                    onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} controlId="formGridNomeCartao">
                                 <LInput
-                                    label="NOME IMPRESSO NO CARTÃO"
-                                    name="cartaoCredito.nomecartao"
+                                    label="Nome impresso do cartão"
+                                    name="cliente.cartaoCredito.nomecartao"
                                     required
-                                    value={this.state.cartaoCredito.nomecartao}
-                                    onChange={this.AlteraNomeInput.bind(this)}
+                                    value={this.state.cliente.cartaoCredito.nomecartao}
+                                    onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             </Row>
                             <Row>
                             <Form.Group as={Col} controlId="formGridBandeiraCartao">
-                                <LInput
-                                    label="BANDEIRA"
-                                    name="cartaoCredito.bandeiraCartao"
+                                <LSelect
+                                    label="Bandeira"
+                                    items={this.state.bandeiras}
+                                    name="cliente.cartaoCredito.bandeiraCartaoId"
                                     required
-                                    value={this.state.cartaoCredito.bandeiraCartao}
+                                    value={this.state.cliente.cartaoCredito.bandeiraCartaoId}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} controlId="formGridCodigoCartao">
                                 <LInput
-                                    label="CÓDIGO DE SEGURANÇA"
-                                    name="cartaoCredito.codigoSeguranca"
+                                    label="Código de segurança"
+                                    name="cliente.cartaoCredito.codigoSeguranca"
                                     required
-                                    value={this.state.cartaoCredito.codigoSeguranca}
+                                    value={this.state.cliente.cartaoCredito.codigoSeguranca}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                                 </Row>                              
-                        </Form.Row>
                     </LForm>
                 </Card.Body>
             </FormLayout>
