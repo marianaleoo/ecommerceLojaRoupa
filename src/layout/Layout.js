@@ -21,7 +21,7 @@ export default class Layout extends Component {
           <footer className="p-2 ">
             <p className="text-center m-0">Loja Mariana</p>
             <p className="text-center m-0">Mariana Léo</p>
-            <p className="text-center m-0">Fatec Mogi das Cruzes 2021</p>
+            <p className="text-center m-0">Fatec Mogi das Cruzes 2022</p>
           </footer>
         </div>
       </>
