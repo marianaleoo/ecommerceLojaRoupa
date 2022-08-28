@@ -10,14 +10,14 @@ export default class LCarrosel extends Component {
           title: "",
           description: "",
           imgLink:
-            "https://conceitoprisma.com.br/wp-content/uploads/2019/09/roupa-conceito-prisma.jpg",
+            "https://images.tcdn.com.br/img/img_prod/889236/1655321419_bannercategoriaacessorios.jpg",
         },
-        {
-          title: "",
-          description: "",
-          imgLink:
-            "https://thumbs.web.sapo.io/?W=800&H=0&png=1&delay_optim=1&epic=MmZkmb3leen49dwBB+6xGelXHS7icaMvOkd8e6+2QsSglqQKJaWJuQarEL1eYwQ6oSAkGiDf7cZZCnIem+uewp12W1SSO+3M2+fMhR+oqNqZZ7w=",
-        },
+        // {
+        //   title: "",
+        //   description: "",
+        //   imgLink:
+        //     "https://thumbs.web.sapo.io/?W=800&H=0&png=1&delay_optim=1&epic=MmZkmb3leen49dwBB+6xGelXHS7icaMvOkd8e6+2QsSglqQKJaWJuQarEL1eYwQ6oSAkGiDf7cZZCnIem+uewp12W1SSO+3M2+fMhR+oqNqZZ7w=",
+        // },
       ],
     };
   }
@@ -29,9 +29,9 @@ export default class LCarrosel extends Component {
         <Carousel.Item interval={5000}>
           <img
             style={{
-              filter: "brightness(50%)",
-              width: "800px",
-              height: "500px",
+              //filter: "brightness(50%)",
+              width: "300px",
+              height: "200px",
               objectFit: "cover",
             }}
             className="d-block w-100"

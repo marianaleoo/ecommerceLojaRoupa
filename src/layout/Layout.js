@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import App from "../App";
+import LCarrosel from "../componentes/carrosel/LCarrosel";
+import LCatalogoTeste from "../componentes/catalogo/LCatalogoTeste";
 import LNavbar from "../componentes/navbar/LNavbar";
 
 export default class Layout extends Component {
@@ -14,9 +17,13 @@ export default class Layout extends Component {
             backgroundColor: "#ffffff"
           }}
         >
-          <header className="mb-5">
             <LNavbar />
-          </header>
+            <header>
+            <LCarrosel />
+            </header>
+            <header>
+            <LCatalogoTeste/>
+            </header>
           <main style={{ flexGrow: "1" }}>{children}</main>
           <footer className="p-2 ">
             <p className="text-center m-0">Loja Mariana</p>

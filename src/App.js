@@ -12,6 +12,10 @@ import HomeAtualizadoSucesso from "./views/HomeAtualizadoSucesso";
 import HomeExcluidoSucesso from "./views/HomeExcluidoSucesso";
 import ConsultaCliente from "./views/ConsultaCliente";
 import CadastroClienteTeste from "./views/CadastroClienteTeste";
+import DetalheRoupa from "./views/DetalheRoupa";
+import LoginCliente from "./views/LoginCliente";
+import MeuCarrinho from "./views/MeuCarrinho";
+import CarrinhoCliente from "./views/CarrinhoCliente";
 
 
 export default class App extends Component {
@@ -115,6 +119,26 @@ export default class App extends Component {
             path="/CadastroClienteTeste"
             exact
             component={CadastroClienteTeste}
+          />
+          <this.PublicRoute
+            path="/DetalheRoupa"
+            exact
+            component={DetalheRoupa}
+          />
+          <this.PublicRoute
+            path="/LoginCliente"
+            exact
+            component={LoginCliente}
+          />
+              <this.PublicRoute
+            path="/MeuCarrinho"
+            exact
+            component={MeuCarrinho}
+          />
+            <this.PublicRoute
+            path="/CarrinhoCliente"
+            exact
+            component={CarrinhoCliente}
           />
         </Switch>
       </BrowserRouter>

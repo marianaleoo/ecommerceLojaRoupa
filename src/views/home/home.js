@@ -3,7 +3,6 @@ import { Container } from "react-bootstrap";
 import LAlerta from "../../componentes/alerta/LAlerta";
 import LCarrosel from "../../componentes/carrosel/LCarrosel";
 import LCatalogo from "../../componentes/catalogo/LCatalogo";
-// import DiscSearchForm from "../../components/disc/discSearchForm";
 import Layout from "../../layout/Layout";
 import { apiGet } from "../../util/apiutil";
 // import {
@@ -26,19 +25,19 @@ export default class Home extends Component {
     //     genre: null,
     };
   }
-  async componentDidMount() {
-    await this.fetchDiscs();
-  }
-  async fetchDiscs() {
-    try {
-      let discs = await apiGet(process.env.REACT_APP_DISC_ENDPOINT);
-      this.setState({
-        discs,
-      });
-    } catch (error) {
-      //handleErrorMessage(this.setState.bind(this), error);
-    }
-  }
+  // async componentDidMount() {
+  //   await this.fetchDiscs();
+  // }
+  // async fetchDiscs() {
+  //   try {
+  //     let discs = await apiGet(process.env.REACT_APP_DISC_ENDPOINT);
+  //     this.setState({
+  //       discs,
+  //     });
+  //   } catch (error) {
+  //     //handleErrorMessage(this.setState.bind(this), error);
+  //   }
+  // }
 
   async handleSubmit() {
     const { discFilter } = this.state;
@@ -93,14 +92,14 @@ export default class Home extends Component {
         <Container>
           <LCarrosel className="mb-5 mt-5" />
 
-          <Container>
-            {/* <LAlerta
+          {/* <Container>
+            <LAlerta
               showAlert={this.state.alert.show}
               messages={this.state.alert.messages}
               variant={this.state.alert.variant}
               title={this.state.alert.title}
-            /> */}
-            {/* <DiscSearchForm
+            /> 
+             <DiscSearchForm
               root={"discFilter"}
               disc={this.state.discFilter}
               onChange={this.handleInputChange.bind(this)}
@@ -109,8 +108,8 @@ export default class Home extends Component {
               }}
               onCancel={this.handleClear.bind(this)}
               onSubmit={this.handleSubmit.bind(this)}
-            /> */}
-          </Container>
+            />
+          </Container> */}
           <hr></hr>
           <LCatalogo  />
         </Container>
