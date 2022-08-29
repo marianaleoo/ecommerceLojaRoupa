@@ -117,7 +117,7 @@ export default class CadastroClienteTeste extends Component {
     async cadastroSucesso(event) {
         event.preventDefault();
         event.stopPropagation();
-        window.location.href = "/HomeCadastroSucesso";
+        window.location.href = "\CarrinhoCliente";
     }
 
     async sair(event) {
@@ -152,7 +152,7 @@ export default class CadastroClienteTeste extends Component {
                         Cadastre-se
                     </Card.Title>
                     <hr />
-                    <LForm onSubmit={this.handleSubmit.bind(this)} onCancel={this.sair.bind(this)}>
+                    <LForm onSubmit={this.cadastroSucesso} onCancel={this.sair.bind(this)}>
                     <Form.Group as={Col} md={5}>
                         <h4 className="mt-5" style={{ color: "#755721" }}>Dados Pessoais</h4>
                         </Form.Group>

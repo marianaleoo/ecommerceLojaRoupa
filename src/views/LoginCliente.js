@@ -25,10 +25,14 @@ export default class LoginCliente extends Component {
                     <Form.Control type="password" placeholder="Senha" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicLabel">
-                <Button href= "\CarrinhoCliente">Entrar</Button>
+                <Button  style={{
+                            color: "#755721" 
+                        }}href= "\CarrinhoCliente">Entrar</Button>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicLabel">
-                <Button href= "\CadastroClienteTeste">Cadastrar-se</Button>
+                <Button style={{
+                            color: "#755721" 
+                        }}href= "\CadastroClienteTeste">Cadastrar-se</Button>
                 </Form.Group>
             </Form>
             </FormLayout> 

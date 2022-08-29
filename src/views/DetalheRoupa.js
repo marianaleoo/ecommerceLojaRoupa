@@ -1,3 +1,5 @@
+import { faShoppingCart, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Component } from 'react';
 import { Button, ButtonGroup, CardGroup, Dropdown, DropdownButton, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
@@ -27,13 +29,18 @@ render(){
         style={{
           width: '18rem',
          margin: '1em' }}>
-          <Card.Title
+          <Card.Title style={{
+                            color: "#755721" 
+                        }}
           >Shorts Saia</Card.Title>
-          <Card.Title>
+          <Card.Title style={{
+                            color: "#755721" 
+                        }}>
            R$59,90
           </Card.Title>
       <Card.Title style={{
-        marginLeft: '7.3em'
+        color: "#755721" ,
+        margin: '1em'
 
       }} >
            Escolha seu tamanho
@@ -41,16 +48,32 @@ render(){
        <ButtonGroup style={{
         margin: '1em'
       }}>
-        <Button>PP</Button>
-        <Button>P</Button>
-        <Button>M</Button>
-        <Button>G</Button>
-        <Button>GG</Button>
+        <Button style={{
+                            color: "#755721" 
+                        }}>PP</Button>
+        <Button style={{
+                            color: "#755721" 
+                        }}>P</Button>
+        <Button style={{
+                            color: "#755721" 
+                        }}>M</Button>
+        <Button style={{
+                            color: "#755721" 
+                        }}>G</Button>
+        <Button style={{
+                            color: "#755721" 
+                        }}>GG</Button>
        </ButtonGroup>
        <Dropdown style={{
             margin: '1em'
        }}>
-       <DropdownButton id="dropdown-basic-button" title="Quantidade">
+           <Card.Title style={{
+        color: "#755721" ,
+
+      }} >
+           Quantidade
+          </Card.Title>
+      <DropdownButton> 
         <Dropdown.Item href="#/action-1">1</Dropdown.Item>
         <Dropdown.Item href="#/action-2">2</Dropdown.Item>
         <Dropdown.Item href="#/action-3">3</Dropdown.Item>
@@ -64,9 +87,20 @@ render(){
         </DropdownButton>
     </Dropdown>
     <Button href="\LoginCliente" style={{
-      margin: '1em'
+      margin: '1em',
+      color: '#755721'
+
     }}>
+        <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
       Comprar
+    </Button>
+    <Button style={{
+      margin: '1em',
+      color: '#755721'
+
+    }}>
+        <FontAwesomeIcon icon={faTimesCircle} className="mr-2" />
+      Remover do carrinho
     </Button>
       </Card>
         </CardGroup>           

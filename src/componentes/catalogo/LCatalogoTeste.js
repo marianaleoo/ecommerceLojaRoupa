@@ -19,7 +19,9 @@ function GroupExample() {
           </Card.Text>
         </Card.Body>
         <Card.Footer>
-          <Button href="/DetalheRoupa">Comprar</Button>
+          <Button  style={{
+                            color: "#755721" 
+                        }} href="/DetalheRoupa">Comprar</Button>
         </Card.Footer>
       </Card>
       <Card style={{
@@ -33,7 +35,9 @@ function GroupExample() {
           </Card.Text>
         </Card.Body>
         <Card.Footer>
-          <Button href="/DetalheRoupa">Comprar</Button>
+          <Button  style={{
+                            color: "#755721" 
+                        }} href="/DetalheRoupa">Comprar</Button>
         </Card.Footer>
       </Card>
       <Card  style={{
@@ -47,7 +51,9 @@ function GroupExample() {
           </Card.Text>
         </Card.Body>
         <Card.Footer>
-          <Button href="/DetalheRoupa">Comprar</Button>
+          <Button style={{
+                            color: "#755721" 
+                        }} href="/DetalheRoupa">Comprar</Button>
         </Card.Footer>
       </Card>
     </CardGroup>

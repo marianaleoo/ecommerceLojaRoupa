@@ -16,6 +16,8 @@ import DetalheRoupa from "./views/DetalheRoupa";
 import LoginCliente from "./views/LoginCliente";
 import MeuCarrinho from "./views/MeuCarrinho";
 import CarrinhoCliente from "./views/CarrinhoCliente";
+import FinalizandoCompra from "./views/FinalizandoCompra";
+import HomeFinalizaCompra from "./views/HomeFinalizaCompra";
 
 
 export default class App extends Component {
@@ -105,6 +107,11 @@ export default class App extends Component {
             exact
             component={HomeAtualizadoSucesso}
           />
+            <this.PublicRoute
+            path="/HomeFinalizaCompra"
+            exact
+            component={HomeFinalizaCompra}
+          />
           <this.PublicRoute
             path="/HomeExcluidoSucesso"
             exact
@@ -139,6 +146,11 @@ export default class App extends Component {
             path="/CarrinhoCliente"
             exact
             component={CarrinhoCliente}
+          />
+            <this.PublicRoute
+            path="/FinalizandoCompra"
+            exact
+            component={FinalizandoCompra}
           />
         </Switch>
       </BrowserRouter>
