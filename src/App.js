@@ -18,6 +18,7 @@ import MeuCarrinho from "./views/MeuCarrinho";
 import CarrinhoCliente from "./views/CarrinhoCliente";
 import FinalizandoCompra from "./views/FinalizandoCompra";
 import HomeFinalizaCompra from "./views/HomeFinalizaCompra";
+import Teste from "./views/Teste";
 
 
 export default class App extends Component {
@@ -151,6 +152,11 @@ export default class App extends Component {
             path="/FinalizandoCompra"
             exact
             component={FinalizandoCompra}
+          />
+           <this.PublicRoute
+            path="/Teste"
+            exact
+            component={Teste}
           />
         </Switch>
       </BrowserRouter>

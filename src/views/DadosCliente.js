@@ -1,7 +1,7 @@
 // import { faCompactDisc } from "@fortawesome/free-solid-svg-icons";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Component } from "react";
-import { Card, Col, Form, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import LForm from "../componentes/form/LForm";
 import FormLayout from "../layout/FormLayout";
 import LInput from "../componentes/form/LInput";
@@ -10,21 +10,25 @@ import { apiGet } from "../util/apiutil";
 import LTable from "../componentes/table/LTable";
 import LSelect from "../componentes/form/LSelect";
 import { apiPost, apiPut, apiDelete } from "../util/apiultil";
+import Accordion from '../componentes/accordion/Accordion';
+import { faPlus, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class DadosCliente extends Component {
     constructor(props) {
         super(props);
         this.state = {
             cliente: {
-                cpf: "", dataNascimento: "", genero: "", nome: "", email: "", telefone: "", senha: "", confirmarSenha: "", enderecoCobranca: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", estadoId: "", paisId: "", tipoEnderecoId: "" }, cartaoCredito: {numeroCartao: "", nomeCartao: "", bandeiraCartaoId: "", codigoSeguranca: ""}, 
+                cpf: "", dataNascimento: "", nome: "", email: "", telefone: "", senha: "", confirmarSenha: "", generoId: "", enderecoCobranca: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", estadoId: "", paisId: "", tipoEnderecoId: "" }, cartaoCredito: { numeroCartao: "", nomeCartao: "", bandeiraCartaoId: "", codigoSeguranca: "" },
             },
-            clientes:[],
-            bandeiras:[],
+            generos: [],
+            clientes: [],
+            bandeiras: [],
             tipoEnderecos: [],
             cidades: [],
             estados: [],
             paises: []
-            
+
         };
     }
 
@@ -35,6 +39,19 @@ export default class DadosCliente extends Component {
         await this.consultaClientes();
         await this.consultaTipoEndereco();
         await this.consultaBandeira();
+        await this.consultaGenero();
+    }
+
+    async consultaGenero() {
+        try {
+            let generos = await apiGet("/Genero");
+
+            this.setState({
+                generos,
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     async consultaTipoEndereco() {
@@ -100,218 +117,332 @@ export default class DadosCliente extends Component {
 
     async consultaClientes() {
         try {
-          let clientes = await apiGet("/Cliente");
-          console.log(clientes);
-    
-          this.setState({
-            clientes,
-          });
+            let clientes = await apiGet("/Cliente");
+            console.log(clientes);
+
+            this.setState({
+                clientes,
+            });
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      }
+    }
 
     async handleSubmit(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        console.log(this.state)
-    
-        try {
-            console.log(this.state.cliente)
-           await apiPut("/Cliente/" + this.state.cliente.id, this.state.cliente)     
-           window.location.href = "/HomeAtualizadoSucesso";
+    event.preventDefault();
+    event.stopPropagation();
+    console.log(this.state)
 
-       } catch (error) {
-          console.log(error);
-        }
+    try {
+        console.log(this.state.cliente)
+        await apiPut("/Cliente/" + this.state.cliente.id, this.state.cliente)
+        window.location.href = "/HomeAtualizadoSucesso";
 
-      }
+    } catch (error) {
+        console.log(error);
+    }
+
+}
 
     async handlePreventDefaut(event) {
-        event.preventDefault();
-        event.stopPropagation();
-    }
+    event.preventDefault();
+    event.stopPropagation();
+}
 
-    handleSelectedRow(row) {
-        let selectedRow = (row);
-    
-        console.log(selectedRow);
-        this.setState({
-          cliente: selectedRow,
-          enderecoCobranca:selectedRow,
-        });
-      }
+handleSelectedRow(row) {
+    let selectedRow = (row);
+
+    console.log(selectedRow);
+    this.setState({
+        cliente: selectedRow,
+        enderecoCobranca: selectedRow,
+    });
+}
 
     async atualizadoSucesso(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        window.location.href = "/HomeAtualizadoSucesso";
-    }
+    event.preventDefault();
+    event.stopPropagation();
+    window.location.href = "/HomeAtualizadoSucesso";
+}
 
     async sair(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        window.location.href = "/";
-    }
+    event.preventDefault();
+    event.stopPropagation();
+    window.location.href = "/";
+}
 
     async excluir(event) {
-        event.preventDefault();
-        event.stopPropagation();
-    
-        try {
-            console.log(this.state.cliente)
-           await apiDelete("/Cliente" , this.state.cliente.id)     
-           window.location.href = "/HomeExcluidoSucesso";
+    event.preventDefault();
+    event.stopPropagation();
 
-       } catch (error) {
-          console.log(error);
-        }
+    try {
+        console.log(this.state.cliente)
+        await apiDelete("/Cliente", this.state.cliente.id)
+        window.location.href = "/HomeExcluidoSucesso";
 
-      }
-    async handleInputChange(event) {
-        const target = event.target;
-        let { name, value } = target;
-        console.log(name, value);
-        const updated = updateStateValue(this.state, name, value);
-        await this.setState({
-          updated,
-        });
-      }
-
-    async AlteraNomeInput(event){
-        const target = event.target;
-        let { value } = target;
-        this.setState({cliente: {...this.state.cliente,  nome: value}})
-        console.log( this.state);
+    } catch (error) {
+        console.log(error);
     }
 
-    rowEvents = {
-        onClick: (e, column, columnIndex, row, rowIndex) => {
-          this.handleSelectedRow(row);
-        },
-      };
-    
-      render() {
-        const columns = [
-            {
-              dataField: "nome",
-              text: "Nome Completo",
-              events: this.rowEvents,
-            },
-            {
-              dataField: "dataNascimento",
-              text: "Data Nascimento",
-              events: this.rowEvents,
-            },
-            {
-                dataField: "cpf",
-                text: "Cpf",
-                events: this.rowEvents,
-              },
-          ];
+}
+    async handleInputChange(event) {
+    const target = event.target;
+    let { name, value } = target;
+    console.log(name, value);
+    const updated = updateStateValue(this.state, name, value);
+    await this.setState({
+        updated,
+    });
+}
 
-        return (
-            <FormLayout>
-                <Card.Body>
-                    <Card.Title style={{ color: "#755721" }} as="h1">
-                     Meus Dados
-                    </Card.Title>
-                    <hr />
-                    <LTable data={this.state.clientes} columns={columns}></LTable>
-                    <LForm onSubmit={this.handleSubmit.bind(this)} customSubmitText='Atualizar Dados' onCancel={this.sair} onDelete={this.excluir.bind(this)} customDeleteText='Excluir'> 
+    async AlteraNomeInput(event) {
+    const target = event.target;
+    let { value } = target;
+    this.setState({ cliente: { ...this.state.cliente, nome: value } })
+    console.log(this.state);
+}
+
+rowEvents = {
+    onClick: (e, column, columnIndex, row, rowIndex) => {
+        this.handleSelectedRow(row);
+    },
+};
+
+render() {
+    const columns = [
+        {
+            dataField: "nome",
+            text: "Nome Completo",
+            events: this.rowEvents,
+        },
+        {
+            dataField: "dataNascimento",
+            text: "Data Nascimento",
+            events: this.rowEvents,
+        },
+        {
+            dataField: "cpf",
+            text: "CPF",
+            events: this.rowEvents,
+        },
+    ];
+
+    return (
+        <FormLayout>
+            <Card.Body>
+                <Card.Title style={{ color: "#755721" }} as="h1">
+                    Meus Dados
+                </Card.Title>
+                <hr />
+                <LTable data={this.state.clientes} columns={columns}></LTable>
+                <LForm onSubmit={this.handleSubmit.bind(this)} customSubmitText='Atualizar Dados' onCancel={this.sair} onDelete={this.excluir.bind(this)} customDeleteText='Excluir'>
                     <Form.Group as={Col} md={5}>
                         <h4 className="mt-5" style={{ color: "#755721" }}>Dados Pessoais</h4>
+                    </Form.Group>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} controlId="formGridNome">
+                            <LInput
+                                label="Nome Completo"
+                                name="cliente.nome"
+                                required
+                                value={this.state.cliente.nome}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
                         </Form.Group>
-                        <Row className="mb-3">
-                            <Form.Group as={Col} controlId="formGridNome">
-                                <LInput
-                                    label="Nome Completo"
-                                    name="cliente.nome"
-                                    required
-                                    value={this.state.cliente.nome}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} controlId="formGridGenero">
-                                <LInput
-                                    label="Gênero"
-                                    name="cliente.genero"
-                                    required
-                                    value={this.state.cliente.genero}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                        </Row>
-                        <Row  className="mb-3">
-                            <Form.Group as={Col} controlId="formGridDataNasc">
-                                <LInput
-                                    label="Data de Nascimento"
-                                    name="cliente.dataNascimento"
-                                    required
-                                    type="Date"
-                                    value={this.state.cliente.dataNascimento}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} controlId="formGridEmail">
-                                <LInput
-                                    label="E-mail"
-                                    name="cliente.email"
-                                    required
-                                    value={this.state.cliente.email}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                        </Row>
-                        <Row  className="mb-3">
-                            <Form.Group as={Col} controlId="formGridCpf">
+                        <Form.Group as={Col} controlId="formGridGenero">
+                            <LSelect
+                                label="Gênero"
+                                items={this.state.generos}
+                                name="cliente.generoId"
+                                required
+                                value={this.state.cliente.generoId}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                    </Row>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} controlId="formGridDataNasc">
                             <LInput
-                                    label="Cpf"
-                                    name="cliente.cpf"
-                                    required
-                                    value={this.state.cliente.cpf}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} controlId="formGridTelefone">
-                                <LInput
-                                      label="Telefone"
-                                      name="cliente.telefone"
-                                      required
-                                      value={this.state.cliente.telefone}
-                                      onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                        </Row>
-                        <Row  className="mb-3">
-                            <Form.Group as={Col} controlId="formGriSenha">
+                                label="Data de Nascimento"
+                                name="cliente.dataNascimento"
+                                required
+                                type="Date"
+                                value={this.state.cliente.dataNascimento}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridEmail">
                             <LInput
-                                    label="Senha"
-                                    name="cliente.senha"
-                                    type="password"
-                                    required
-                                    value={this.state.cliente.senha}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} controlId="formGridConfSenha">
+                                label="E-mail"
+                                name="cliente.email"
+                                required
+                                value={this.state.cliente.email}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                    </Row>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} controlId="formGridCpf">
                             <LInput
-                                    label="Confirmar senha"
-                                    name="cliente.confirmarSenha"
-                                    type="password"
-                                    required
-                                    value={this.state.cliente.confirmarSenha}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                        </Row>
-                        <Form.Group as={Col} md={5}>
+                                label="Cpf"
+                                name="cliente.cpf"
+                                required
+                                value={this.state.cliente.cpf}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridTelefone">
+                            <LInput
+                                label="Telefone"
+                                name="cliente.telefone"
+                                required
+                                value={this.state.cliente.telefone}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                    </Row>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} controlId="formGriSenha">
+                            <LInput
+                                label="Senha"
+                                name="cliente.senha"
+                                type="password"
+                                required
+                                value={this.state.cliente.senha}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridConfSenha">
+                            <LInput
+                                label="Confirmar senha"
+                                name="cliente.confirmarSenha"
+                                type="password"
+                                required
+                                value={this.state.cliente.confirmarSenha}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                    </Row>
+                    <Form.Group as={Col} md={5}>
                         <h4 className="mt-5" style={{ color: "#755721" }}>Endereços</h4>
-                        </Form.Group>
-                        <Row>
+                    </Form.Group>
+                    <Row>
                         <h5 className="mt-3" style={{ color: "#755721" }}>Tipo de Endereço</h5>
                         <Form.Group as={Col} controlId="formGridTipoEndereco">
-                            <LSelect                                 
+                            <LSelect
+                                items={this.state.tipoEnderecos}
+                                name="cliente.enderecoCobranca.tipoEnderecoId"
+                                required
+                                value={this.state.cliente.enderecoCobranca.tipoEnderecoId}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                    </Row>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} controlId="formGridTipoLogradouro">
+                            <LInput
+                                label="Tipo logradouro"
+                                name="cliente.enderecoCobranca.tipoLogradouro"
+                                required
+                                value={this.state.cliente.enderecoCobranca.tipoLogradouro}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridTipoResidencia">
+                            <LInput
+                                label="Tipo residência"
+                                name="cliente.enderecoCobranca.tipoResidencia"
+                                required
+                                value={this.state.cliente.enderecoCobranca.tipoResidencia}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                    </Row>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} controlId="formGridLogradouro">
+                            <LInput
+                                label="Logradouro"
+                                name="cliente.enderecoCobranca.logradouro"
+                                required
+                                value={this.state.cliente.enderecoCobranca.logradouro}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridNumero">
+                            <LInput
+                                label="Número"
+                                name="cliente.enderecoCobranca.numero"
+                                required
+                                value={this.state.cliente.enderecoCobranca.numero}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                    </Row>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} controlId="formGridBairro">
+                            <LInput
+                                label="Bairro"
+                                name="cliente.enderecoCobranca.bairro"
+                                required
+                                value={this.state.cliente.enderecoCobranca.bairro}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridCep">
+                            <LInput
+                                label="Cep"
+                                name="cliente.enderecoCobranca.cep"
+                                required
+                                value={this.state.cliente.enderecoCobranca.cep}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                    </Row>
+                    <Row className="mb-3">
+                        <Form.Group as={Col} controlId="formGridCidade">
+                            <LSelect
+                                label="Cidade"
+                                items={this.state.cidades}
+                                name="cliente.enderecoCobranca.cidadeId"
+                                required
+                                value={this.state.cliente.enderecoCobranca.cidadeId}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridEstado">
+                            <LSelect
+                                label="Estado"
+                                items={this.state.estados}
+                                name="cliente.enderecoCobranca.estadoId"
+                                required
+                                value={this.state.cliente.enderecoCobranca.estadoId}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridPais">
+                            <LSelect
+                                label="Pais"
+                                items={this.state.paises}
+                                name="cliente.enderecoCobranca.paisId"
+                                required
+                                value={this.state.cliente.enderecoCobranca.paisId}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                    </Row>
+                    <Button id="button" onClick={this.handleClick} style={{
+                        color: "#755721"
+                    }}>
+                        <FontAwesomeIcon style={{
+                            color: "#755721"
+                        }} icon={faPlusCircle} className="mr-2" />
+                        Adicionar novo endereço
+                    </Button>
+                    <Form id="form">
+                        <Row>
+                            <h5 className="mt-3" style={{ color: "#755721" }}>Tipo de Endereço</h5>
+                            <Form.Group as={Col} controlId="formGridTipoEndereco">
+                                <LSelect
                                     items={this.state.tipoEnderecos}
                                     name="cliente.enderecoCobranca.tipoEnderecoId"
                                     required
@@ -320,9 +451,9 @@ export default class DadosCliente extends Component {
                                 />
                             </Form.Group>
                         </Row>
-                        <Row  className="mb-3">
+                        <Row className="mb-3">
                             <Form.Group as={Col} controlId="formGridTipoLogradouro">
-                            <LInput
+                                <LInput
                                     label="Tipo logradouro"
                                     name="cliente.enderecoCobranca.tipoLogradouro"
                                     required
@@ -331,7 +462,7 @@ export default class DadosCliente extends Component {
                                 />
                             </Form.Group>
                             <Form.Group as={Col} controlId="formGridTipoResidencia">
-                            <LInput
+                                <LInput
                                     label="Tipo residência"
                                     name="cliente.enderecoCobranca.tipoResidencia"
                                     required
@@ -340,9 +471,9 @@ export default class DadosCliente extends Component {
                                 />
                             </Form.Group>
                         </Row>
-                        <Row  className="mb-3">
+                        <Row className="mb-3">
                             <Form.Group as={Col} controlId="formGridLogradouro">
-                            <LInput
+                                <LInput
                                     label="Logradouro"
                                     name="cliente.enderecoCobranca.logradouro"
                                     required
@@ -360,9 +491,9 @@ export default class DadosCliente extends Component {
                                 />
                             </Form.Group>
                         </Row>
-                        <Row  className="mb-3">
+                        <Row className="mb-3">
                             <Form.Group as={Col} controlId="formGridBairro">
-                            <LInput
+                                <LInput
                                     label="Bairro"
                                     name="cliente.enderecoCobranca.bairro"
                                     required
@@ -371,18 +502,18 @@ export default class DadosCliente extends Component {
                                 />
                             </Form.Group>
                             <Form.Group as={Col} controlId="formGridCep">
-                            <LInput
+                                <LInput
                                     label="Cep"
                                     name="cliente.enderecoCobranca.cep"
                                     required
                                     value={this.state.cliente.enderecoCobranca.cep}
                                     onChange={this.handleInputChange.bind(this)}
-                                /> 
+                                />
                             </Form.Group>
                         </Row>
-                        <Row  className="mb-3">
+                        <Row className="mb-3">
                             <Form.Group as={Col} controlId="formGridCidade">
-                            <LSelect
+                                <LSelect
                                     label="Cidade"
                                     items={this.state.cidades}
                                     name="cliente.enderecoCobranca.cidadeId"
@@ -392,7 +523,7 @@ export default class DadosCliente extends Component {
                                 />
                             </Form.Group>
                             <Form.Group as={Col} controlId="formGridEstado">
-                            <LSelect
+                                <LSelect
                                     label="Estado"
                                     items={this.state.estados}
                                     name="cliente.enderecoCobranca.estadoId"
@@ -402,7 +533,7 @@ export default class DadosCliente extends Component {
                                 />
                             </Form.Group>
                             <Form.Group as={Col} controlId="formGridPais">
-                            <LSelect
+                                <LSelect
                                     label="Pais"
                                     items={this.state.paises}
                                     name="cliente.enderecoCobranca.paisId"
@@ -412,9 +543,10 @@ export default class DadosCliente extends Component {
                                 />
                             </Form.Group>
                         </Row>
-                        {/* <Row className="mb-3"> */}
-                        {/* <h5 className="mt-3" style={{ color: "#755721" }}>Tipo de Endereço</h5> */}
-                        {/* <Form.Group as={Col} controlId="formGridTipoEnd">
+                    </Form>
+                    {/* <Row className="mb-3"> */}
+                    {/* <h5 className="mt-3" style={{ color: "#755721" }}>Tipo de Endereço</h5> */}
+                    {/* <Form.Group as={Col} controlId="formGridTipoEnd">
                             <LSelect                                 
                                     items={this.state.tipoEnderecos}
                                     name="cliente.enderecoCobranca.tipoEnderecoId"
@@ -515,58 +647,58 @@ export default class DadosCliente extends Component {
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group> */}
-                        {/* </Row> */}
+                    {/* </Row> */}
                     {/* <hr /> */}
-                            <h4 className="mt-5" style={{ color: "#755721" }}>Formas de Pagamento</h4>
-                            <h5 className="mt-3" style={{ color: "#755721" }}>Cartão de crédito</h5>
-                            <Row>
-                            <Form.Group as={Col} controlId="formGridNumeroCartao">
-                                <LInput
-                                    label="Nº do Cartão"
-                                    name="cliente.cartaoCredito.numeroCartao"
-                                    required
-                                    value={this.state.cliente.cartaoCredito.numeroCartao}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} controlId="formGridNomeCartao">
-                                <LInput
-                                    label="Nome impresso do cartão"
-                                    name="cliente.cartaoCredito.nomeCartao"
-                                    required
-                                    value={this.state.cliente.cartaoCredito.nomeCartao}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                            </Row>
-                            <Row>
-                            <Form.Group as={Col} controlId="formGridBandeiraCartao">
-                                <LSelect
-                                    label="Bandeira"
-                                    items={this.state.bandeiras}
-                                    name="cliente.cartaoCredito.bandeiraCartaoId"
-                                    required
-                                    value={this.state.cliente.cartaoCredito.bandeiraCartaoId}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} controlId="formGridCodigoCartao">
-                                <LInput
-                                    label="Código de segurança"
-                                    name="cliente.cartaoCredito.codigoSeguranca"
-                                    required
-                                    value={this.state.cliente.cartaoCredito.codigoSeguranca}
-                                    onChange={this.handleInputChange.bind(this)}
-                                />
-                            </Form.Group>
-                                </Row>                             
-                     </LForm>
-                    <hr /> 
-                </Card.Body>
-            </FormLayout>
-        );
-      }
-    }
+                    <h4 className="mt-5" style={{ color: "#755721" }}>Formas de Pagamento</h4>
+                    <h5 className="mt-3" style={{ color: "#755721" }}>Cartão de crédito</h5>
+                    <Row>
+                        <Form.Group as={Col} controlId="formGridNumeroCartao">
+                            <LInput
+                                label="Nº do Cartão"
+                                name="cliente.cartaoCredito.numeroCartao"
+                                required
+                                value={this.state.cliente.cartaoCredito.numeroCartao}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridNomeCartao">
+                            <LInput
+                                label="Nome impresso do cartão"
+                                name="cliente.cartaoCredito.nomeCartao"
+                                required
+                                value={this.state.cliente.cartaoCredito.nomeCartao}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                    </Row>
+                    <Row>
+                        <Form.Group as={Col} controlId="formGridBandeiraCartao">
+                            <LSelect
+                                label="Bandeira"
+                                items={this.state.bandeiras}
+                                name="cliente.cartaoCredito.bandeiraCartaoId"
+                                required
+                                value={this.state.cliente.cartaoCredito.bandeiraCartaoId}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                        <Form.Group as={Col} controlId="formGridCodigoCartao">
+                            <LInput
+                                label="Código de segurança"
+                                name="cliente.cartaoCredito.codigoSeguranca"
+                                required
+                                value={this.state.cliente.cartaoCredito.codigoSeguranca}
+                                onChange={this.handleInputChange.bind(this)}
+                            />
+                        </Form.Group>
+                    </Row>
+                </LForm>
+                <hr />
+            </Card.Body>
+        </FormLayout>
+    );
+}
+}
 
 
 
