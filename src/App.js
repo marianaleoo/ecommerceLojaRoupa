@@ -19,6 +19,7 @@ import CarrinhoCliente from "./views/CarrinhoCliente";
 import FinalizandoCompra from "./views/FinalizandoCompra";
 import HomeFinalizaCompra from "./views/HomeFinalizaCompra";
 import Teste from "./views/Teste";
+import ConsultaClienteAdmin from "./views/Administrador/ConsultaClienteAdmin";
 
 
 export default class App extends Component {
@@ -157,6 +158,11 @@ export default class App extends Component {
             path="/Teste"
             exact
             component={Teste}
+          />
+           <this.PublicRoute
+            path="/ConsultaClienteAdmin"
+            exact
+            component={ConsultaClienteAdmin}
           />
         </Switch>
       </BrowserRouter>

@@ -73,7 +73,7 @@ export default class CadastroCliente extends Component {
             window.location.href = "/HomeCadastroSucesso";
 
         } catch (error) {
-            console.log(error);
+            const mensagem = error.response.error 
         }
 
     }

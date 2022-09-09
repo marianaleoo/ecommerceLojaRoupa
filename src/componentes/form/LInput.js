@@ -12,7 +12,7 @@ export default class LInput extends Component {
         )}
         <Form.Control {...this.props} className="form-control-sm" />
         <Form.Control.Feedback type="invalid">
-          campo obrigatório
+          Campo obrigatório
         </Form.Control.Feedback>
         {this.props.debug && `Value: ${this.props.value}`}
       </Form.Group>

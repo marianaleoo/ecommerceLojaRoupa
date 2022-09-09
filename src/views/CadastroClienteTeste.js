@@ -1,5 +1,5 @@
-import { Component } from "react";
-import { Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
+import { Component, useState } from "react";
+import { Button, Card, Col, Form, FormGroup, Modal, Row } from "react-bootstrap";
 import FormLayout from "../layout/FormLayout";
 import LForm from "../componentes/form/LForm";
 import LInput from "../componentes/form/LInput";
@@ -23,7 +23,6 @@ export default class CadastroClienteTeste extends Component {
 
         };
     }
-
 
     async componentDidMount() {
         await this.consultaCidade();
@@ -122,7 +121,9 @@ export default class CadastroClienteTeste extends Component {
             window.location.href = "/HomeCadastroSucesso";
 
         } catch (error) {
-            console.log(error);
+            
+             const mensagem = error.response.error;
+             console.log(mensagem);
         }
 
     }
@@ -165,7 +166,6 @@ export default class CadastroClienteTeste extends Component {
 
     render() {
         return (
-
             <FormLayout>
                 <Card.Body>
                     <Card.Title style={{ color: "#755721" }} as="h1">
@@ -367,13 +367,10 @@ export default class CadastroClienteTeste extends Component {
                                 />
                             </Form.Group>
                         </Row>
-                        {/* <Form.Group className="mb-3" Id="formBasicCheckbox" >
+                        <Form.Group className="mb-3" Id="formBasicCheckbox" >
                             <Form.Check type="checkbox" label="Usar endereço para entrega.">
                             </Form.Check>
-                            <Button onClick={() => this.handleClick()}>
-                                Adicionar endereço de entrega
-                            </Button>
-                        </Form.Group> */}
+                        </Form.Group>
                         {/* <Row className="mb-3"> */}
                         {/* <h5 className="mt-3" style={{ color: "#755721" }}>Tipo de Endereço</h5> */}
                         {/* <Form.Group as={Col} controlId="formGridTipoEnd">
