@@ -1,8 +1,7 @@
 
 import React, { Component } from "react";
 import { Alert } from "react-bootstrap";
-import Layout from "../layout/Layout";
-import LayoutUpdate from "../layout/LayoutFinalizarCompra";
+import LayoutUpdate from "../../layout/LayoutFinalizarCompra";
 
 export default class HomeExcluidoSucesso extends Component {
     render() {

@@ -1,18 +1,18 @@
 
 import React, { Component } from "react";
 import { Alert } from "react-bootstrap";
-import Layout from "../layout/Layout";
+import LayoutUpdate from "../../layout/LayoutUpdate";
 
-export default class HomeAlteradoSucesso extends Component {
+export default class HomeAtualizadoSucesso extends Component {
     render() {
         const { children } = this.props;
         return (
             <>
-                <Layout>
+            <LayoutUpdate>
                     <Alert key='1' variant={'primary'}>
-                        Alterado com sucesso!
+                        Atualizado com sucesso!
                     </Alert>
-                </Layout>
+                </LayoutUpdate>
             </>
         );
     }

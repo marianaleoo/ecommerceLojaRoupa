@@ -102,7 +102,7 @@ export default class ConsultaClienteAdmin extends Component {
                 <Card.Body>
                     <Card.Title style={{ color: "#755721" }} as="h1">
                     Lista de clientes cadastrados no sistema
-                    <FontAwesomeIcon icon={faSearchengin} className="mr-2" />
+                    {/* <FontAwesomeIcon icon={faSearchengin} className="mr-2" /> */}
                     </Card.Title>
                     <hr />
                     <LTable data={this.state.clientes} columns={columns}></LTable>

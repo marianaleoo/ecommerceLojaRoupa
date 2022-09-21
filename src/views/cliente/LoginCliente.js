@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { Button, Card, Form} from 'react-bootstrap';
-import FormLayout from '../layout/FormLayout';
+import FormLayout from '../../layout/FormLayout';
 
 
 

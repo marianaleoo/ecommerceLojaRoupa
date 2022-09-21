@@ -2,11 +2,8 @@ import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Component } from 'react';
 import { Col, Row, Form, Button, ButtonGroup } from 'react-bootstrap';
-import LInput from '../componentes/form/LInput';
-import LSelect from '../componentes/form/LSelect';
-// import { Accordion } from 'react-bootstrap';
-import FormLayout from '../layout/FormLayout';
-import { updateStateValue } from '../util/util';
+import LInput from '../../componentes/form/LInput';
+import FormLayout from '../../layout/FormLayout';
 
 
 export default class FinalizandoCompra extends Component {

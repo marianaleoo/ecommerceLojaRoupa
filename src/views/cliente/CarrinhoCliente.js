@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { Button, ButtonGroup, Card, CardGroup, Dropdown, DropdownButton, Form, FormGroup } from 'react-bootstrap';
-import FormLayout from '../layout/FormLayout';
+import FormLayout from '../../layout/FormLayout';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 

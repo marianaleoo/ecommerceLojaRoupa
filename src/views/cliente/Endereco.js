@@ -1,11 +1,11 @@
 import { Component } from "react";
 import { Card, Col, Form } from "react-bootstrap";
-import FormLayout from "../layout/FormLayout";
-import LForm from "../componentes/form/LForm";
-import LInput from "../componentes/form/LInput";
-import { updateStateValue } from "../util/util";
-import LTable from "../componentes/table/LTable";
-import { apiDelete, apiGet } from "../util/apiutil";
+import FormLayout from "../../layout/FormLayout";
+import LForm from "../../componentes/form/LForm";
+import LInput from "../../componentes/form/LInput";
+import { updateStateValue } from "../../util/util";
+import LTable from "../../componentes/table/LTable";
+import { apiDelete, apiGet } from "../../util/apiutil";
 
 export default class Endereco extends Component {
     constructor(props) {

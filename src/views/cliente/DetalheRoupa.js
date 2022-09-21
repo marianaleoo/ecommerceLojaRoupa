@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Component } from 'react';
 import { Button, ButtonGroup, CardGroup, Dropdown, DropdownButton, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
-import FormLayout from "../layout/FormLayout";
+import FormLayout from "../../layout/FormLayout";
 
 export default class DetalheRoupa extends Component {
   constructor(props) {

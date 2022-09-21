@@ -1,13 +1,6 @@
 import React, { Component } from "react";
 import { Button, Col, Form } from "react-bootstrap";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faStopCircle,
-  faCompactDisc,
-  faTrashAlt,
-} from "@fortawesome/free-solid-svg-icons";
-
 export default class LForm extends Component {
   async handlePreventDefaut(event) {
     event.preventDefault();

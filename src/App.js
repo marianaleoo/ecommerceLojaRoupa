@@ -1,25 +1,23 @@
 import React, { Component } from "react";
 import { Route, Redirect, BrowserRouter, Switch } from "react-router-dom";
 import Layout from "./layout/Layout";
-import CadastroCliente from "./views/CadastroCliente";
-import AlteraCliente from "./views/AlteraCliente";
-import DadosCliente from "./views/DadosCliente";
-import Endereco from "./views/Endereco";
-import HomeCadastroSucesso from "./views/HomeCadastroSucesso";
-import HomeAlteradoSucesso from "./views/HomeAlteradoSucesso";
-import FormaPagamento from "./views/FormaPagamento";
-import HomeAtualizadoSucesso from "./views/HomeAtualizadoSucesso";
-import HomeExcluidoSucesso from "./views/HomeExcluidoSucesso";
-import ConsultaCliente from "./views/ConsultaCliente";
-import CadastroClienteTeste from "./views/CadastroClienteTeste";
-import DetalheRoupa from "./views/DetalheRoupa";
-import LoginCliente from "./views/LoginCliente";
-import MeuCarrinho from "./views/MeuCarrinho";
-import CarrinhoCliente from "./views/CarrinhoCliente";
-import FinalizandoCompra from "./views/FinalizandoCompra";
-import HomeFinalizaCompra from "./views/HomeFinalizaCompra";
-import Teste from "./views/Teste";
-import ConsultaClienteAdmin from "./views/Administrador/ConsultaClienteAdmin";
+import DadosCliente from "./views/cliente/DadosCliente";
+import Endereco from "./views/cliente/Endereco";
+import HomeCadastroSucesso from "./views/cliente/HomeCadastroSucesso";
+import HomeAlteradoSucesso from "./views/cliente/HomeAlteradoSucesso";
+import FormaPagamento from "./views/cliente/FormaPagamento";
+import HomeAtualizadoSucesso from "./views/cliente/HomeAtualizadoSucesso";
+import HomeExcluidoSucesso from "./views/cliente/HomeExcluidoSucesso";
+import ConsultaCliente from "./views/cliente/ConsultaCliente";
+import CadastroClienteTeste from "./views/cliente/CadastroClienteTeste";
+import DetalheRoupa from "./views/cliente/DetalheRoupa";
+import LoginCliente from "./views/cliente/LoginCliente";
+import MeuCarrinho from "./views/cliente/MeuCarrinho";
+import CarrinhoCliente from "./views/cliente/CarrinhoCliente";
+import FinalizandoCompra from "./views/cliente/FinalizandoCompra";
+import HomeFinalizaCompra from "./views/cliente/HomeFinalizaCompra";
+import Teste from "./views/cliente/Teste";
+import ConsultaClienteAdmin from "./views/administrador/ConsultaClienteAdmin";
 
 
 export default class App extends Component {
@@ -68,16 +66,6 @@ export default class App extends Component {
             path="/"
             exact
             component={Layout}
-          />
-          <this.PublicRoute
-            path="/CadastroCliente"
-            exact
-            component={CadastroCliente}
-          />
-          <this.PublicRoute
-            path="/AlteraCliente"
-            exact
-            component={AlteraCliente}
           />
           <this.PublicRoute
             path="/DadosCliente"

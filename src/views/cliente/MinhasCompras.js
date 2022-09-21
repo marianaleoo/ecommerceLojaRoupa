@@ -1,9 +1,6 @@
 import {
-    faCompactDisc,
-    faCreditCard,
     faPlus,
     faSync,
-    faUndo,
     faWallet,
   } from "@fortawesome/free-solid-svg-icons";
   import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,8 +14,8 @@ import {
     InputGroup,
     Row,
   } from "react-bootstrap";
-  import MeuCarrinho from "./MeuCarrinho";
-  import Layout from "../layout/Layout";
+  import MeuCarrinho from "../../MeuCarrinho";
+  import Layout from "../../layout/Layout";
   
   export default class MinhasCompras extends Component {
     constructor(props) {
