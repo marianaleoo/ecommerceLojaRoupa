@@ -27,6 +27,7 @@ export default class LNavbar extends Component {
         <Nav.Link  style={{ color:"#755721"}} href="/DadosCliente">Dados Pessoais</Nav.Link>
         <Nav.Link  style={{ color:"#755721"}} href="/CarrinhoCliente">Meu Carrinho</Nav.Link>
         <Nav.Link  style={{ color:"#755721"}} href="/MinhasCompras">Meus Pedidos</Nav.Link>
+
       </Nav>
       <Nav >
          <Nav.Link  style={{ color:"#755721"}} href="/CadastroClienteTeste">Cadastrar-se</Nav.Link>

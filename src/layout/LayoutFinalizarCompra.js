@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import App from "../App";
-import LCarrosel from "../componentes/carrosel/LCarrosel";
-import LCatalogoTeste from "../componentes/catalogo/LCatalogoTeste";
 import LNavbar from "../componentes/navbar/LNavbar";
 
 export default class LayoutUpdate extends Component {

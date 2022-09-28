@@ -1,65 +1,78 @@
-import { CardGroup } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import LayoutRoupa from '../../layout/LayoutRoupa';
+import { faCartPlus, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { Component } from "react";
+import { Button, ButtonGroup, Card, CardGroup, Col, Row } from "react-bootstrap";
+import "../../App.css";
+import LayoutRoupa from "../../layout/LayoutRoupa";
+import { apiGet, apiPost } from "../../util/apiutil";
+import LCard from "../form/LCard";
 
-function GroupExample() {
-  return (
-    <LayoutRoupa>
-      <CardGroup>
-      <Card
-      style={{
-          width: '18rem',
-         margin: '1em' }}>
-      <Card.Img  variant="top" src="https://images.tcdn.com.br/img/img_prod/889236/shorts_saia_bella_2_0_xadrez_145_3_87a438241de0ce24a3af78d321233dfc.jpg" />
-        <Card.Body>
-          <Card.Title>Shorts Saia</Card.Title>
-          <Card.Text>
-           R$59,90
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
-          <Button  style={{
-                            color: "#755721" 
-                        }} href="/DetalheRoupa">Comprar</Button>
-        </Card.Footer>
-      </Card>
-      <Card style={{
-          width: '18rem',
-         margin: '1em' }}>
-        <Card.Img variant="top" src="https://images.tcdn.com.br/img/img_prod/889236/calca_sarja_wide_cali_129_6_d11efcfa19bdee503c574dc9e06364c7.jpg" />
-        <Card.Body>
-          <Card.Title>Calça sarja wide</Card.Title>
-          <Card.Text>
-            R$120,00
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
-          <Button  style={{
-                            color: "#755721" 
-                        }} href="/DetalheRoupa">Comprar</Button>
-        </Card.Footer>
-      </Card>
-      <Card  style={{
-          width: '18rem',
-         margin: '1em' }}>
-        <Card.Img variant="top" src="https://images.tcdn.com.br/img/img_prod/889236/shorts_isis_31_1_2d682b4aaba04cc72d828ebd806186d7.png" />
-        <Card.Body>
-          <Card.Title>Short</Card.Title>
-          <Card.Text>
-           R$40,00
-          </Card.Text>
-        </Card.Body>
-        <Card.Footer>
-          <Button style={{
-                            color: "#755721" 
-                        }} href="/DetalheRoupa">Comprar</Button>
-        </Card.Footer>
-      </Card>
-    </CardGroup>
-    </LayoutRoupa>
-    
-  );
+export default class LCatalogoTeste extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      roupa: { nome: "", codigo: "", tecido: "", descricao: "", ativo: true, tamanho: "", preco: "", url: "", },
+      roupas: [],
+    };
+  }
+
+  async componentDidMount() {
+    await this.consultaRoupas();
+  }
+
+  async consultaRoupas() {
+    try {
+      let roupas = await apiGet("/Roupa");
+      console.log(roupas);
+
+      this.setState({
+        roupas,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  render() {
+    return (
+      <div>
+        {this.state.roupas.map((roupa, i) => {
+          return (
+            <div>
+                <LayoutRoupa>
+            <CardGroup>
+               <Card>
+                <Card.Img
+                  variant="top"
+                  src={`${roupa.url}`}
+                  style={{ width: "100%", height: "275px" }}
+                />
+                <Card.Body>
+                  <Card.Title>{`${roupa.nome}`}</Card.Title>
+                  <Card.Text>
+                    <strong>R${`${roupa.preco}`}</strong>
+                    <p>{`${roupa.descricao}`}</p>
+                  </Card.Text>
+                  <Button
+                  /*variant="dark"*/
+                  // block
+                  // onClick={() => {
+                  //   this.handleAddToCart(roupa);
+                  // }}
+                  >
+                    <FontAwesomeIcon icon={faCartPlus} className="mr-2" />
+                    Adicionar ao carrinho
+                  </Button>
+                </Card.Body>
+              </Card>
+            </CardGroup>
+          </LayoutRoupa>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
 }
 
-export default GroupExample;

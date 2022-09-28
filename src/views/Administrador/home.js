@@ -2,7 +2,7 @@ import { Component } from "react";
 import { Container } from "react-bootstrap";
 import LAlerta from "../../componentes/alerta/LAlerta";
 import LCarrosel from "../../componentes/carrosel/LCarrosel";
-import LCatalogo from "../../componentes/catalogo/LCatalogo";
+import LCatalogoTeste from "../../componentes/catalogo/LCatalogoTeste";
 import Layout from "../../layout/Layout";
 import { apiGet } from "../../util/apiutil";
 // import {
@@ -111,7 +111,7 @@ export default class Home extends Component {
             />
           </Container> */}
           <hr></hr>
-          <LCatalogo  />
+          <LCatalogoTeste  />
         </Container>
       </Layout>
     );

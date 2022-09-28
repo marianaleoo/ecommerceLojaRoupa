@@ -18,6 +18,7 @@ import FinalizandoCompra from "./views/cliente/FinalizandoCompra";
 import HomeFinalizaCompra from "./views/cliente/HomeFinalizaCompra";
 import Teste from "./views/cliente/Teste";
 import ConsultaClienteAdmin from "./views/administrador/ConsultaClienteAdmin";
+import LCatalogo from "./componentes/catalogo/LCatalogo";
 
 
 export default class App extends Component {
