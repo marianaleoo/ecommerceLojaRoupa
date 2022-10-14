@@ -162,7 +162,7 @@ export default class CadastroClienteTeste extends Component {
 
     async handleInputChange(event) {
         const target = event.target;
-        let { name, value } = target;
+        let { name, value } = target; 
         console.log(name, value);
         const updated = updateStateValue(this.state, name, value);
         await this.setState({

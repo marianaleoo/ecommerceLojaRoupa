@@ -4,12 +4,31 @@ import { Component } from 'react';
 import { Button, ButtonGroup, CardGroup, Dropdown, DropdownButton, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import FormLayout from "../../layout/FormLayout";
+import { apiGet } from '../../util/apiutil';
 
 export default class DetalheRoupa extends Component {
   constructor(props) {
     super(props)
-    this.state ={
+    this.state = { itemCarrinho: {id: "", quantidade: "", roupaId: ""},
+    itensCarrinho: []
     };
+}
+
+async componentDidMount() {
+  await this.consultaItemCarrinho();
+}
+
+async consultaItemCarrinho() {
+  try {
+    let itensCarrinho = await apiGet("/ItemCarrinho");
+    console.log(itensCarrinho);
+
+    this.setState({
+      itensCarrinho,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 render(){

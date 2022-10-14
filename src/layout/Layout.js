@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import App from "../App";
 import LCarrosel from "../componentes/carrosel/LCarrosel";
-import LCatalogoTeste from "../componentes/catalogo/LCatalogoTeste";
+import LTeste from "../componentes/catalogo/LTeste";
 import LNavbar from "../componentes/navbar/LNavbar";
 
 export default class Layout extends Component {
@@ -22,7 +22,7 @@ export default class Layout extends Component {
             <LCarrosel />
             </header>
             <header>
-            <LCatalogoTeste/>
+            <LTeste/>
             </header>
           <main style={{ flexGrow: "1" }}>{children}</main>
           <footer className="p-2 ">
