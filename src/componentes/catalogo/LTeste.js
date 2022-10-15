@@ -40,8 +40,7 @@ export default class SSCatalog extends Component {
 // ter o cliente id e resgatar o carrinho desse cliente, adicionar a roupa no item e o item no carrinho
   async handleAdicionaCarrinho(roupa) {
     try {
-      console.log(roupa.id)
-      await apiPost("/ItemCarrinho/", {roupaId : roupa.id, carrinhoCompraId: 2} );
+      await apiPost("/ItemCarrinho/", {roupaId : roupa.id} );
       window.location.href = "/DetalheRoupa";
 
       //await apiGet("/ItemCarrinho/", {id : id} );
