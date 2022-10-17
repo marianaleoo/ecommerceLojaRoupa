@@ -119,7 +119,7 @@ export default class App extends Component {
             component={CadastroClienteTeste}
           />
           <this.PublicRoute
-            path="/DetalheRoupa"
+            path="/DetalheRoupa/:roupaId"
             exact
             component={DetalheRoupa}
           />

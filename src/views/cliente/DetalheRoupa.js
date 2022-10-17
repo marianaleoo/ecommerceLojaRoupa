@@ -1,130 +1,118 @@
-import { faShoppingCart, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCartPlus, faShoppingCart, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Component } from 'react';
-import { Button, ButtonGroup, CardGroup, Dropdown, DropdownButton, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Row, Button, ButtonGroup, CardGroup, Dropdown, DropdownButton, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
+import { useParams } from 'react-router-dom';
+import LAlerta from '../../componentes/alerta/LAlerta';
 import FormLayout from "../../layout/FormLayout";
 import { apiGet } from '../../util/apiutil';
 
 export default class DetalheRoupa extends Component {
   constructor(props) {
     super(props)
-    this.state = { itemCarrinho: {id: "", quantidade: "", roupaId: ""},
-    itensCarrinho: []
+    this.state = {
+      itemCarrinho: { id: "", quantidade: "", roupaId: "" },
+      roupas: [],
     };
-}
-
-async componentDidMount() {
-  await this.consultaItemCarrinho();
-}
-
-async consultaItemCarrinho() {
-  try {
-    let itensCarrinho = await apiGet("/ItemCarrinho");
-    console.log(itensCarrinho);
-
-    this.setState({
-      itensCarrinho,
-    });
-  } catch (error) {
-    console.log(error);
   }
-}
 
-render(){
-    return(
-      <FormLayout>
-        <CardGroup>
-        <Card
-      style={{
-          width: '18rem',
-         margin: '1em' }}>
-      <Card.Img variant="top" src="https://images.tcdn.com.br/img/img_prod/889236/shorts_saia_bella_2_0_xadrez_145_3_87a438241de0ce24a3af78d321233dfc.jpg" />
-        {/* <Card.Footer>
-          <small className="text-muted">Last updated 3 mins ago</small>
-        </Card.Footer> */}
-      </Card>   
-      <Card
-        style={{
-          width: '18rem',
-         margin: '1em' }}>
-          <Card.Title style={{
-                            color: "#755721" 
-                        }}
-          >Shorts Saia</Card.Title>
-          <Card.Title style={{
-                            color: "#755721" 
-                        }}>
-           R$59,90
-          </Card.Title>
-      <Card.Title style={{
-        color: "#755721" ,
-        margin: '1em'
+  async componentDidMount() {
+    var clienteId = localStorage.getItem('clienteId');
+    const roupaId = this.props.match.params.roupaId;
+    await this.consultaItemCarrinho(roupaId);
+    console.log(roupaId);
+  }
 
-      }} >
-           Escolha seu tamanho
-          </Card.Title>
-       <ButtonGroup style={{
-        margin: '1em'
-      }}>
-        <Button style={{
-                            color: "#755721" 
-                        }}>PP</Button>
-        <Button style={{
-                            color: "#755721" 
-                        }}>P</Button>
-        <Button style={{
-                            color: "#755721" 
-                        }}>M</Button>
-        <Button style={{
-                            color: "#755721" 
-                        }}>G</Button>
-        <Button style={{
-                            color: "#755721" 
-                        }}>GG</Button>
-       </ButtonGroup>
-       <Dropdown style={{
-            margin: '1em'
-       }}>
-           <Card.Title style={{
-        color: "#755721" ,
+  async consultaItemCarrinho(roupaId) {
+    try {
+      let roupas = await apiGet("/Roupa" + "/" + roupaId);
+      console.log(roupas);
 
-      }} >
-           Quantidade
-          </Card.Title>
-      <DropdownButton> 
-        <Dropdown.Item href="#/action-1">1</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">2</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">3</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">4</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">5</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">6</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">7</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">8</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">9</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">10</Dropdown.Item>
-        </DropdownButton>
-    </Dropdown>
-    <Button href="\LoginCliente" style={{
-      margin: '1em',
-      color: '#755721'
+      this.setState({
+        roupas,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-    }}>
-        <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
-      Comprar
-    </Button>
-    <Button style={{
-      margin: '1em',
-      color: '#755721'
+  async adicionarCarrinho(){
+    try {
+      //   await apiPost("/ItemCarrinho/", {roupaId : roupa.id, clienteId: clienteId } );
+    } catch (error) {
+      
+    }
+  }
 
-    }}>
-        <FontAwesomeIcon icon={faTimesCircle} className="mr-2" />
-      Remover do carrinho
-    </Button>
-      </Card>
-        </CardGroup>           
-      </FormLayout> 
-    )
-}}
+  render() {
+    const { roupas } = this.props;
+    const catalog = this.state.roupas.map((roupa, roupaId) => (
+    <FormLayout>
+      <CardGroup>
+        <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
+          <Card.Img
+            variant="top"
+            src={`${roupa.imgLink}`}
+            style={{ width: "100%", height: "275px" }}
+          />
+          <Card.Body>
+            <Card.Title>{`${roupa.nome}`}</Card.Title>
+            <Card.Text>
+              <strong>R${roupa.preco}</strong>
+              <p>{roupa.descricao}</p>
+            </Card.Text>
+            <Card.Title style={{
+              color: "#755721",
+              margin: '1em'
+
+            }} >
+              Escolha seu tamanho
+            </Card.Title>
+            <ButtonGroup style={{
+              margin: '1em'
+            }}>
+              <Button style={{
+                color: "#755721"
+              }}>{roupa.tamanho}</Button>
+            </ButtonGroup>
+            <Card.Title style={{
+              color: "#755721",
+
+            }} >
+              Quantidade
+            </Card.Title>
+            {/* <DropdownButton>
+              <Dropdown.Item href="#/action-1">{itemCarrinho.quantidade}</Dropdown.Item>
+            </DropdownButton> */}
+              <Button
+                variant="dark"
+                block
+                // onClick={() => {
+                //   this.handleAdicionaCarrinho(roupa);
+                // }}
+              >
+                <FontAwesomeIcon icon={faCartPlus} className="mr-2" />
+                Adicionar item no carrinho
+              </Button>
+          </Card.Body>
+        </Card>
+        </CardGroup>
+        </FormLayout>
+    ));
+   return (
+    <>
+      <LAlerta
+          showAlert={this.state.alert}
+          messages={this.state.alert}
+          variant={this.state.alert}
+          title={this.state.alert}
+      />
+      <Row>{catalog}</Row>
+    </>
+   );
   
+  };
+  }
+
 

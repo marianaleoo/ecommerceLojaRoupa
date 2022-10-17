@@ -1,7 +1,10 @@
 import { Component } from 'react';
-import { Button, Card, Form} from 'react-bootstrap';
+import { Button, Card, Col, Form} from 'react-bootstrap';
+import LFormUsuario from '../../componentes/form/LFormUsuario';
+import LInput from '../../componentes/form/LInput';
 import FormLayout from '../../layout/FormLayout';
-import { apiPut } from '../../util/apiultil';
+import { apiGet, apiPut } from '../../util/apiultil';
+import { updateStateValue } from "../../util/util";
 
 
 
@@ -9,7 +12,7 @@ export default class LoginCliente extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            usuario:{email: "", senha: ""}
+            cliente:{usuario:{email: "", senha: ""}}
         };
     }
 
@@ -19,9 +22,11 @@ export default class LoginCliente extends Component {
         console.log(this.state)
 
         try {
-            console.log(this.state.cliente)
-            await apiPut("/Usuario/" + this.state.usuario.email, this.state.cliente.senha)
-            window.location.href = "/";
+           var response = await apiGet("/Cliente/" +  this.state.cliente.usuario.email + "/" + this.state.cliente.usuario.senha)
+           console.log(response);
+           localStorage.clear();
+           localStorage.setItem('clienteId', response[0].id);
+           window.location.href= "/";
 
         } catch (error) {
             console.log(error);
@@ -29,30 +34,41 @@ export default class LoginCliente extends Component {
 
     }
 
+    async handleInputChange(event) {
+        const target = event.target;
+        let { name, value } = target;
+        console.log(name, value);
+        const updated = updateStateValue(this.state, name, value);
+        await this.setState({
+            updated,
+        });
+    }
+
     render() {
         return (
             <FormLayout>
-                <Card.Title>
-                      Entre com sua conta
-                </Card.Title>
-                  <Form>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Control type="email" placeholder="E-mail" />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicSenha">
-                    <Form.Control type="password" placeholder="Senha" />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicLabel">
-                <Button  style={{
-                            color: "#755721" 
-                        }}href= "\CarrinhoCliente">Entrar</Button>
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicLabel">
-                <Button style={{
-                            color: "#755721" 
-                        }}href= "\CadastroClienteTeste">Cadastrar-se</Button>
-                </Form.Group>
-            </Form>
+               
+                <LFormUsuario onSubmit={this.handleSubmit.bind(this)} customSubmitText='Entrar'>     
+                <Form.Group as={Col} md={12}>
+                                <LInput
+                                    label="E-MAIL"
+                                    name="cliente.usuario.email"
+                                    required
+                                    value={this.state.cliente.usuario.email}
+                                    onChange={this.handleInputChange.bind(this)}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md={12}>
+                                <LInput
+                                    label="SENHA"
+                                    name="cliente.usuario.senha"
+                                    type="password"
+                                    required
+                                    value={this.state.cliente.usuario.senha}
+                                    onChange={this.handleInputChange.bind(this)}
+                                />
+                            </Form.Group>
+                   </LFormUsuario>
             </FormLayout> 
         );
     }

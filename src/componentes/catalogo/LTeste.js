@@ -18,6 +18,7 @@ export default class SSCatalog extends Component {
 
   async componentDidMount() {
     await this.consultaRoupas();
+
   }
 
   async consultaRoupas() {
@@ -38,10 +39,11 @@ export default class SSCatalog extends Component {
   }
 
 // ter o cliente id e resgatar o carrinho desse cliente, adicionar a roupa no item e o item no carrinho
-  async handleAdicionaCarrinho(roupa) {
+  async handleComprar(roupa) {
     try {
-      await apiPost("/ItemCarrinho/", {roupaId : roupa.id} );
-      window.location.href = "/DetalheRoupa";
+      var clienteId = localStorage.getItem('clienteId')
+     // await apiPost("/ItemCarrinho/", {roupaId : roupa.id, clienteId: clienteId } );
+      window.location.href = "/DetalheRoupa" + "/" + roupa.id;
 
       //await apiGet("/ItemCarrinho/", {id : id} );
       // handleSetAlert(
@@ -85,12 +87,12 @@ export default class SSCatalog extends Component {
                 variant="dark"
                 block
                 onClick={() => {
-                  this.handleAdicionaCarrinho(roupa);
+                  this.handleComprar(roupa);
 
                 }}
               >
                 <FontAwesomeIcon icon={faCartPlus} className="mr-2" />
-                Adicionar ao carrinho
+                Comprar
               </Button>
             </Card.Body>
           </Card>
