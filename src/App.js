@@ -134,7 +134,7 @@ export default class App extends Component {
             component={MeuCarrinho}
           />
             <this.PublicRoute
-            path="/CarrinhoCliente"
+            path="/CarrinhoCliente/:carrinhoCompraId"
             exact
             component={CarrinhoCliente}
           />

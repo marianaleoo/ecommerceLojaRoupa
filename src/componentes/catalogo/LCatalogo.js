@@ -28,15 +28,15 @@ export default class LCatalogo extends Component {
     }
   }
 
-  // async handleAddToCart(disc) {
+  // async handleAddToCart(roupa) {
   //   try {
   //     await apiPost(process.env.REACT_APP_ADD_CART_PRODUCT_ITEM_ENDPOINT, {
-  //       id: disc.id,
+  //       id: roupa.id,
   //     });
   //     await apiGet(process.env.REACT_APP_CART_ENDPOINT);
   //   //   handleSetAlert(
     //     this.setState.bind(this),
-    //     [`${disc.name} Adicionado ao carrinho`],
+    //     [`${roupa.name} Adicionado ao carrinho`],
     //     "Sucesso",
     //     "success"
     //   );

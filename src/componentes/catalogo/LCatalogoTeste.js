@@ -58,7 +58,7 @@ export default class LCatalogoTeste extends Component {
                 // variant="dark"
                 // block
                 // onClick={() => {
-                //   this.handleAddToCart(disc);
+                //   this.handleAddToCart(roupa);
                 // }}
                 >
                   <FontAwesomeIcon icon={faCartPlus} className="mr-2" />

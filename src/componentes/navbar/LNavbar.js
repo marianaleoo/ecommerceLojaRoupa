@@ -7,7 +7,6 @@ import "../../App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faShoppingCart,
-  faCompactDisc,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default class LNavbar extends Component {

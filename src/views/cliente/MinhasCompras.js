@@ -38,11 +38,6 @@ import {
                 <Card className="p-4" style={{ borderRadius: "0px" }}>
                   <Card.Body>
                     <Card.Title as="h1">
-                      {/* <FontAwesomeIcon
-                        // icon={faCompactDisc}
-                        spin
-                        className="mr-2"
-                      /> */}
                      Pagamento e Entrega
                     </Card.Title>
                     <hr />
@@ -98,11 +93,6 @@ import {
                 <Card className="p-4" style={{ borderRadius: "0px" }}>
                   <Card.Body>
                     <Card.Title as="h3">
-                      {/* <FontAwesomeIcon
-                        icon={faCompactDisc}
-                        spin
-                        className="mr-2"
-                      /> */}
                       Pagamento e entrega
                     </Card.Title>
                     <hr />

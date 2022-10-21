@@ -1,4 +1,4 @@
-import { faCartPlus, faShoppingCart, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCartPlus, faShoppingCart, faTimesCircle, faWindowRestore } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Component } from 'react';
 import { Row, Button, ButtonGroup, CardGroup, Dropdown, DropdownButton, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 import { useParams } from 'react-router-dom';
 import LAlerta from '../../componentes/alerta/LAlerta';
 import FormLayout from "../../layout/FormLayout";
-import { apiGet } from '../../util/apiutil';
+import { apiGet, apiPost } from '../../util/apiutil';
 
 export default class DetalheRoupa extends Component {
   constructor(props) {
@@ -17,17 +17,14 @@ export default class DetalheRoupa extends Component {
     };
   }
 
-  async componentDidMount() {
-    var clienteId = localStorage.getItem('clienteId');
+  async componentDidMount() { 
     const roupaId = this.props.match.params.roupaId;
     await this.consultaItemCarrinho(roupaId);
-    console.log(roupaId);
   }
 
   async consultaItemCarrinho(roupaId) {
     try {
       let roupas = await apiGet("/Roupa" + "/" + roupaId);
-      console.log(roupas);
 
       this.setState({
         roupas,
@@ -37,16 +34,27 @@ export default class DetalheRoupa extends Component {
     }
   }
 
-  async adicionarCarrinho(){
+  async handleAdicionarCarrinho(roupa){
     try {
-      //   await apiPost("/ItemCarrinho/", {roupaId : roupa.id, clienteId: clienteId } );
+      var clienteId = localStorage.getItem('clienteId');
+       var response =  await apiPost("/ItemCarrinho/", {roupaId : roupa.id, clienteId: clienteId } );
+       console.log(response);
+       window.location.href = "/CarrinhoCliente"  + "/" + response.clienteId ;
     } catch (error) {
-      
+      console.log(error);
     }
   }
 
+  // async handleQuantidadeItem(itemCarrinho){
+  //   try {
+  //     var clienteId = localStorage.getItem('clienteId');
+  //       //await apiPost("/ItemCarrinho/", {roupaId : roupa.id, clienteId: clienteId } );
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
   render() {
-    const { roupas } = this.props;
     const catalog = this.state.roupas.map((roupa, roupaId) => (
     <FormLayout>
       <CardGroup>
@@ -88,9 +96,9 @@ export default class DetalheRoupa extends Component {
               <Button
                 variant="dark"
                 block
-                // onClick={() => {
-                //   this.handleAdicionaCarrinho(roupa);
-                // }}
+                onClick={() => {
+                  this.handleAdicionarCarrinho(roupa);
+                }}
               >
                 <FontAwesomeIcon icon={faCartPlus} className="mr-2" />
                 Adicionar item no carrinho

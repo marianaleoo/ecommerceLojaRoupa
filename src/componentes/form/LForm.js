@@ -26,11 +26,7 @@ export default class LForm extends Component {
               disabled={this.props?.disabled}
               onClick={this.props?.onClick}
             >
-              {/* <FontAwesomeIcon
-                icon={this.props?.customSubmitIcon || faCompactDisc}
-                spin
-                className="mr-2"
-              /> */}
+  
               {this.props?.customSubmitText || "Salvar"}
             </Button>
           </Col>

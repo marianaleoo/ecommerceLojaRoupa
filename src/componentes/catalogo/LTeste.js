@@ -15,7 +15,6 @@ export default class SSCatalog extends Component {
       };
   }
 
-
   async componentDidMount() {
     await this.consultaRoupas();
 
@@ -34,24 +33,10 @@ export default class SSCatalog extends Component {
     }
   }
 
-  async consultaClienteCarrinho(){
-      
-  }
 
-// ter o cliente id e resgatar o carrinho desse cliente, adicionar a roupa no item e o item no carrinho
   async handleComprar(roupa) {
     try {
-      var clienteId = localStorage.getItem('clienteId')
-     // await apiPost("/ItemCarrinho/", {roupaId : roupa.id, clienteId: clienteId } );
       window.location.href = "/DetalheRoupa" + "/" + roupa.id;
-
-      //await apiGet("/ItemCarrinho/", {id : id} );
-      // handleSetAlert(
-      //   this.setState.bind(this), 
-      //   [`${roupa.nome} Adicionado ao carrinho`],
-      //   "Sucesso",
-      //   "success"
-      // );
     } catch (error) {
 
       handleErrorMessage(this.setState.bind(this), error);

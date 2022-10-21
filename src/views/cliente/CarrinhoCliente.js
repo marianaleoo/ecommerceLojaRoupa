@@ -3,15 +3,33 @@ import { Button, ButtonGroup, Card, CardGroup, Dropdown, DropdownButton, Form, F
 import FormLayout from '../../layout/FormLayout';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-
-
+import { apiGet } from '../../util/apiutil';
 
 export default class CarrinhoCliente extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-        };
-    }
+        this.state = { itemCarrinho: { id: "", quantidade: "", roupaId: "", carrinhoCompraId: "", clienteId: "" },
+        carrinhoCompras: [],
+        roupas: [],
+        itensCarrinho:[]
+    }};
+    
+    async componentDidMount() {
+        const clienteId = this.props.match.params.clienteId;
+        await this.consultaCarrinhoCompra(clienteId);
+      }
+    
+      async consultaCarrinhoCompra(clienteId) {
+        try {
+          let carrinhoCompras = await apiGet("/Cliente" + "/" + clienteId);
+    
+          this.setState({
+            carrinhoCompras,
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
 
     render() {
         return (
