@@ -40,8 +40,8 @@ export default class CarrinhoCliente extends Component {
     return (
       <FormLayout>
       {this.state.itensCarrinho.map((itemCarrinho, roupaId) => (
-      <Col md={6}>
-       <div className="mx-3 mb-4">
+      <Col md={12}>
+       <div className="mx- mb-4">
      <CardGroup>
        <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
          <Card.Img
@@ -60,7 +60,7 @@ export default class CarrinhoCliente extends Component {
              margin: '1em'
 
            }} >
-             Escolha seu tamanho
+             Tamanho
            </Card.Title>
            <ButtonGroup style={{
              margin: '1em'
@@ -77,6 +77,9 @@ export default class CarrinhoCliente extends Component {
              {itemCarrinho.quantidade}</Card.Title>
          </Card.Body>
        </Card>
+       <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
+            <Card.Title>Endereço de entrega</Card.Title>
+          </Card>
      </CardGroup>
      </div>
      </Col>

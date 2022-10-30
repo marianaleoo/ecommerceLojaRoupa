@@ -45,13 +45,13 @@ export default class DetalheRoupa extends Component {
     }
   }
 
-  async handleQuantidadeItem(itemCarrinho){
+  // async handleQuantidadeItem(itemCarrinho){
      
-  }
+  // }
 
-  async handleTamanhoItem(itemCarrinho){
+  // async handleTamanhoItem(itemCarrinho){
 
-  }
+  // }
 
   render() {
     const catalog = this.state.roupas.map((roupa, roupaId) => (
@@ -81,8 +81,8 @@ export default class DetalheRoupa extends Component {
               <ButtonGroup style={{
                 margin: '1em'
               }}>
-                 <Button  onClick={() => {
-                    this.handleTamanhoItem(this.state.itemCarrinho.tamanho);
+                 <Button value onClick={() => {
+                    this.handleTamanhoItem(roupa);
                   }} style={{
                   color: "#755721"
   
