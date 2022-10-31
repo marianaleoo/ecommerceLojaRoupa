@@ -5,28 +5,66 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { apiGet } from '../../util/apiutil';
 import LAlerta from '../../componentes/alerta/LAlerta';
+import LInput from '../../componentes/form/LInput';
+import LSelect from '../../componentes/form/LSelect';
 
 export default class CarrinhoCliente extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      itemCarrinho: { id: "", quantidade: "", roupaId: "", carrinhoCompraId: "", clienteId: "" },
+      // itemCarrinho: { id: "", quantidade: "", roupaId: "", carrinhoCompraId: "", clienteId: "" },
+      // enderecoEntrega:{ tipoResidencia : "", tipoLogradouro: "", logradouro: "", numero: "",  bairro: "", cep: "", clienteId: "", cidadeId: ""},
       carrinhoCompras: [],
       roupas: [],
-      itensCarrinho: []
+      itensCarrinho: [],
+      enderecosEntrega:[]
     }
   };
 
   async componentDidMount() {
     console.log("teste");
     await this.consultaCarrinhoCompra();
+    await this.consultaClienteEndereco();
+    
+  }
+
+  async consultaClienteEndereco(){
+    try {
+      var clienteId = localStorage.getItem('clienteId');
+      let enderecoEntrega = await apiGet("/EnderecoEntrega" + "/" + clienteId)
+      console.log(enderecoEntrega);
+
+      this.setState({ 
+       enderecosEntrega : enderecoEntrega
+       
+      });
+    } catch (error) {
+      console.log(error);
+    } 
+    
+  }
+
+  async consultaClienteCartão(){
+    try {
+      var clienteId = localStorage.getItem('clienteId');
+      let enderecoEntrega = await apiGet("/EnderecoEntrega" + "/" + clienteId)
+      console.log(enderecoEntrega);
+
+      this.setState({ 
+       enderecosEntrega : enderecoEntrega
+       
+      });
+    } catch (error) {
+      console.log(error);
+    } 
+    
   }
 
   async consultaCarrinhoCompra() {
     try {
       var clienteId = localStorage.getItem('clienteId');
       let cliente = await apiGet("/Cliente" + "/" + clienteId);
-      console.log(cliente);
+      // console.log(cliente);
 
       this.setState({
         itensCarrinho: cliente[0].carrinho.itensCarrinho
@@ -39,9 +77,10 @@ export default class CarrinhoCliente extends Component {
   render() {
     return (
       <FormLayout>
-      {this.state.itensCarrinho.map((itemCarrinho, roupaId) => (
+      {this.state.itensCarrinho.map((itemCarrinho, roupaId) => (    
       <Col md={12}>
        <div className="mx- mb-4">
+       <Card.Title>Meu carrinho</Card.Title>
      <CardGroup>
        <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
          <Card.Img
@@ -78,7 +117,17 @@ export default class CarrinhoCliente extends Component {
          </Card.Body>
        </Card>
        <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
-            <Card.Title>Endereço de entrega</Card.Title>
+            <Card.Title>Endereço de entrega cadastrado: </Card.Title>
+            {this.state.enderecosEntrega.map((enderecoEntrega, i) => (
+                       <Card.Text>
+                       <p>Tipo Residência: {enderecoEntrega.tipoResidencia}</p>
+                       <p>Tipo Logradouro: {enderecoEntrega.tipoLogradouro}</p>
+                       <p>Logradouro: {enderecoEntrega.logradouro}</p>
+                       <p>Número: {enderecoEntrega.numero}</p>
+                       <p>Bairro: {enderecoEntrega.bairro}</p>
+                       <p>Cep: {enderecoEntrega.cep}</p>
+                     </Card.Text>
+            ))}
           </Card>
      </CardGroup>
      </div>
