@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 import { useParams } from 'react-router-dom';
 import LAlerta from '../../componentes/alerta/LAlerta';
 import FormLayout from "../../layout/FormLayout";
-import { apiGet, apiPost } from '../../util/apiutil';
+import { apiGet, apiPost, apiPut } from '../../util/apiutil';
 
 export default class DetalheRoupa extends Component {
   constructor(props) {
@@ -14,15 +14,17 @@ export default class DetalheRoupa extends Component {
     this.state = {
       itemCarrinho: { id: "", quantidade: "", tamanho: "",  roupaId: "", carrinhoCompraId: "", clienteId: "" },
       roupas: [],
+      itensCarrinho: [],
     };
   }
 
   async componentDidMount() { 
     const roupaId = this.props.match.params.roupaId;
-    await this.consultaItemCarrinho(roupaId);
+    await this.consultaRoupa(roupaId);
+    await this.consultaItemCarrinho(roupaId)
   }
 
-  async consultaItemCarrinho(roupaId) {
+  async consultaRoupa(roupaId) {
     try {
       let roupas = await apiGet("/Roupa" + "/" + roupaId);
 
@@ -34,24 +36,46 @@ export default class DetalheRoupa extends Component {
     }
   }
 
-  async handleAdicionarCarrinho(roupa){
+  async consultaItemCarrinho(roupaId) {
     try {
-      var clienteId = localStorage.getItem('clienteId');
-       var response =  await apiPost("/ItemCarrinho/", {roupaId : roupa.id, clienteId: clienteId } );
-       console.log(response);    
+      let itensCarrinho = await apiGet("/ItemCarrinho" , roupaId);
+      console.log(itensCarrinho);
+
+      this.setState({
+        itensCarrinho,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async handleAdicionarCarrinho(roupa){
+    try {   
        window.location.href = ("/CarrinhoCliente");
     } catch (error) {
       console.log(error);
     }
   }
 
-  // async handleQuantidadeItem(itemCarrinho){
-     
-  // }
+  async handleTamanhoItem(itemCarrinho){
+    try {
+      console.log(itemCarrinho)
+      var clienteId = localStorage.getItem('clienteId');
+         await apiPut("/ItemCarrinho" + "/"  +  itemCarrinho + "/" + clienteId );
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-  // async handleTamanhoItem(itemCarrinho){
-
-  // }
+  async handleQuantidadeItem(itemCarrinho){
+    try {
+      var clienteId = localStorage.getItem('clienteId');
+      await apiPut("/ItemCarrinho" + "/"  +  itemCarrinho + "/" + clienteId );
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   render() {
     const catalog = this.state.roupas.map((roupa, roupaId) => (
@@ -80,36 +104,20 @@ export default class DetalheRoupa extends Component {
               </Card.Title>
               <ButtonGroup style={{
                 margin: '1em'
-              }}>
-                 <Button value onClick={() => {
-                    this.handleTamanhoItem(roupa);
-                  }} style={{
-                  color: "#755721"
-  
-                }}>PP</Button>
-                  <Button  onClick={() => {
-                    this.handleTamanhoItem(roupa);
-                  }} style={{
-                  color: "#755721"
-  
-                }}>P</Button>
-                   <Button  onClick={() => {
-                    this.handleTamanhoItem(roupa);
-                  }} style={{
-                  color: "#755721"
-  
-                }}>M</Button>
-                   <Button  onClick={() => {
-                    this.handleTamanhoItem(roupa);
-                  }} style={{
-                  color: "#755721"
-  
-                }}>G</Button>
-                   <Button  onClick={() => {
-                    this.handleTamanhoItem(roupa);
-                  }} style={{
-                  color: "#755721"
-                }}>GG</Button>
+              }}>{this.state.itensCarrinho.map((itemCarrinho, i) => (
+                <>
+                 <Button style={{color: "#755721"}} onClick={() =>
+                   {this.handleTamanhoItem(itemCarrinho.tamanho = "PP")}}>PP</Button>
+                     <Button style={{color: "#755721"}} onClick={() =>
+                   {this.handleTamanhoItem(itemCarrinho.tamanho = "P")}}>P</Button>
+                     <Button style={{color: "#755721"}} onClick={() =>
+                   {this.handleTamanhoItem(itemCarrinho.tamanho = "M")}}>M</Button>
+                     <Button style={{color: "#755721"}} onClick={() =>
+                   {this.handleTamanhoItem(itemCarrinho.tamanho = "G")}}>G</Button>
+                     <Button style={{color: "#755721"}} onClick={() =>
+                   {this.handleTamanhoItem(itemCarrinho.tamanho = "GG")}}>GG</Button>
+                </>
+              ))}
               </ButtonGroup>
               <Card.Title style={{
                 color: "#755721",
@@ -118,16 +126,29 @@ export default class DetalheRoupa extends Component {
                 Quantidade
               </Card.Title>
               <DropdownButton id="dropdown-basic-button" title="Quantidade">
-              <Dropdown.Item href="#/action-1">1</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">2</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">3</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">4</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">5</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">6</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">7</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">8</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">9</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">10</Dropdown.Item>
+              {this.state.itensCarrinho.map((itemCarrinho, i) => (
+                <>
+              <Dropdown.Item href="#/action-1" onClick={() =>  
+               {this.handleQuantidadeItem(itemCarrinho.quantidade = 1)} }>1</Dropdown.Item>
+              <Dropdown.Item href="#/action-2" onClick={() =>  
+               {this.handleQuantidadeItem(itemCarrinho.quantidade = 2)} }>2</Dropdown.Item>
+              <Dropdown.Item href="#/action-3" onClick={() =>  
+               {this.handleQuantidadeItem(itemCarrinho.quantidade = 3)} }>3</Dropdown.Item>
+              <Dropdown.Item href="#/action-3" onClick={() =>  
+               {this.handleQuantidadeItem(itemCarrinho.quantidade = 4)} }>4</Dropdown.Item>
+              <Dropdown.Item href="#/action-3" onClick={() =>  
+               {this.handleQuantidadeItem(itemCarrinho.quantidade = 5)} }>5</Dropdown.Item>
+              <Dropdown.Item href="#/action-3" onClick={() =>  
+               {this.handleQuantidadeItem(itemCarrinho.quantidade = 6)} }>6</Dropdown.Item>
+              <Dropdown.Item href="#/action-3" onClick={() =>  
+               {this.handleQuantidadeItem(itemCarrinho.quantidade = 7)} }>7</Dropdown.Item>
+              <Dropdown.Item href="#/action-3" onClick={() =>  
+               {this.handleQuantidadeItem(itemCarrinho.quantidade = 8)} }>8</Dropdown.Item>
+              <Dropdown.Item href="#/action-3" onClick={() =>  
+               {this.handleQuantidadeItem(itemCarrinho.quantidade = 9)} }>9</Dropdown.Item>
+              <Dropdown.Item href="#/action-3" onClick={() =>  
+               {this.handleQuantidadeItem(itemCarrinho.quantidade = 10)} }>10</Dropdown.Item>
+                </>))}
             </DropdownButton>
                 <Button
                   variant="dark"

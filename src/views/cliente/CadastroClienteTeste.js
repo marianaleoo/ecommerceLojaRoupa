@@ -19,7 +19,6 @@ export default class CadastroClienteTeste extends Component {
             tiposTelefone: [],
             generos: [],
             bandeiras: [],
-            tipoEnderecos: [],
             cidades: [],
             estados: [],
             paises: []
@@ -61,17 +60,6 @@ export default class CadastroClienteTeste extends Component {
         }
     }
 
-    async consultaTipoEndereco() {
-        try {
-            let tipoEnderecos = await apiGet("/TipoEndereco");
-
-            this.setState({
-                tipoEnderecos,
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
     async consultaBandeira() {
         try {

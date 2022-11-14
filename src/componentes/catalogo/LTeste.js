@@ -10,7 +10,7 @@ export default class SSCatalog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-       itemCarrinho: {quantidade: "", roupaId: "", carrinhoCompraId: ""},
+          itemCarrinho: { id: "", quantidade: "", tamanho: "",  roupaId: "", carrinhoCompraId: "", clienteId: "" },
         roupas: []
       };
   }
@@ -32,14 +32,23 @@ export default class SSCatalog extends Component {
       console.log(error);
     }
   }
+  // async handleComprar(roupa) {
+  //   try {
+  //  
+  //   } catch (error) {
 
+  //     handleErrorMessage(this.setState.bind(this), error);
+  //   }
+  // }
 
-  async handleComprar(roupa) {
+  async handleComprar(roupa){
     try {
-      window.location.href = "/DetalheRoupa" + "/" + roupa.id;
+      var clienteId = localStorage.getItem('clienteId');
+       var response =  await apiPost("/ItemCarrinho/", {roupaId : roupa.id , clienteId: clienteId} );
+       console.log(response);    
+       window.location.href = "/DetalheRoupa" + "/" + roupa.id;
     } catch (error) {
-
-      handleErrorMessage(this.setState.bind(this), error);
+      console.log(error);
     }
   }
 

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Route, Redirect, BrowserRouter, Switch } from "react-router-dom";
 import Layout from "./layout/Layout";
 import DadosCliente from "./views/cliente/DadosCliente";
-import Endereco from "./views/cliente/Endereco";
 import HomeCadastroSucesso from "./views/cliente/HomeCadastroSucesso";
 import HomeAlteradoSucesso from "./views/cliente/HomeAlteradoSucesso";
 import FormaPagamento from "./views/cliente/FormaPagamento";
@@ -19,6 +18,7 @@ import HomeFinalizaCompra from "./views/cliente/HomeFinalizaCompra";
 import Teste from "./views/cliente/Teste";
 import ConsultaClienteAdmin from "./views/administrador/ConsultaClienteAdmin";
 import LCatalogo from "./componentes/catalogo/LCatalogo";
+import EnderecoEntrega from "./views/cliente/EnderecoEntrega";
 
 
 export default class App extends Component {
@@ -74,9 +74,9 @@ export default class App extends Component {
             component={DadosCliente}
           />
          <this.PublicRoute
-            path="/Endereco"
+            path="/EnderecoEntrega"
             exact
-            component={Endereco}
+            component={EnderecoEntrega}
           />
              <this.PublicRoute
             path="/HomeCadastroSucesso"

@@ -5,48 +5,78 @@ import LForm from "../../componentes/form/LForm";
 import LInput from "../../componentes/form/LInput";
 import { updateStateValue } from "../../util/util";
 import LTable from "../../componentes/table/LTable";
-import { apiDelete, apiGet } from "../../util/apiutil";
+import { apiDelete, apiGet, apiPost } from "../../util/apiutil";
+import LSelect from "../../componentes/form/LSelect";
 
-export default class Endereco extends Component {
+export default class EnderecoEntrega extends Component {
     constructor(props) {
         super(props);
-        this.state = {cliente:{enderecoCobranca:{cidade:{estado:{pais:{}}}}}, clientes:[], cidades:[], estados:[], paises:[] 
+        this.state = {cliente:{enderecoEntrega:{cidade:{estado:{pais:{}}}}}, clientes:[], cidades:[], estados:[], paises:[] 
        }
         
     }
 
     async componentDidMount() {
-        await this.consultaClientes();
+            await this.consultaCidade();
+            await this.consultaEstado();
+            await this.consultaPais();
     }
-      async consultaClientes() {
+
+    async consultaCidade() {
         try {
-          let clientes = await apiGet("/Cliente");
-          console.log(clientes);
-    
-          this.setState({
-            clientes,
-          });
+            let cidades = await apiGet("/Cidade");
+
+            this.setState({
+                cidades,
+            });
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      }
+    }
+
+    async consultaEstado() {
+        try {
+            let estados = await apiGet("/Estado");
+
+            this.setState({
+                estados,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async consultaPais() {
+        try {
+            let paises = await apiGet("/Pais");
+
+            this.setState({
+                paises,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async handleSubmit(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+
+        try {
+            await apiPost("/EnderecoEntrega", this.state.cliente.enderecoEntrega)
+            console.log(this.state.cliente.enderecoEntrega);
+            window.location.href = "/HomeCadastroSucesso";
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
 
     async handlePreventDefaut(event) {
         event.preventDefault();
         event.stopPropagation();
-    }
-
-
-    async alteraSucesso(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        window.location.href = "/HomeAlteradoSucesso";
-    }
-
-    async cadastroSucesso(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        window.location.href = "/HomeCadastroSucesso";
     }
 
     handleSelectedRow(row) {
@@ -103,108 +133,97 @@ export default class Endereco extends Component {
       };
 
     render() {
-        const columns = [
-            {
-              dataField: "enderecoCobranca.cep",
-              text: "CEP",
-              events: this.rowEvents,
-            },
-            {
-              dataField: "nome",
-              text: "Nome",
-              events: this.rowEvents,
-            },
-           ];
-
         return (
             <FormLayout>
                 <Card.Body>
                     <Card.Title style={{ color: "#755721" }} as="h1">
-                     Seus endereços
+                     Novo endereço 
                     </Card.Title>
                     <hr />
-                    <LTable data={this.state.clientes} columns={columns}></LTable>
-                    <LForm  onSubmit={this.alteraSucesso} onCancel={this.sair} onDelete={this.excluir} customDeleteText='Excluir'>
+                    <LForm  onSubmit={this.handleSubmit.bind(this)} onCancel={this.sair} onDelete={this.excluir} customDeleteText='Excluir'>
                         <Form.Row>
                             <h4 className="mt-5" style={{ color: "#755721" }}>Endereço de entrega</h4>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="TIPO LOGRADOURO"
-                                    name="cliente.enderecoCobranca.tipoLogradouro"
+                                    name="cliente.enderecoEntrega.tipoLogradouro"
                                     required
-                                    value={this.state.cliente.enderecoCobranca.tipoLogradouro}
+                                    value={this.state.cliente.enderecoEntrega.tipoLogradouro}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="TIPO RESIDENCIA"
-                                    name="cliente.enderecoCobranca.tipoResidencia"
+                                    name="cliente.enderecoEntrega.tipoResidencia"
                                     required
-                                    value={this.state.cliente.enderecoCobranca.tipoResidencia}
+                                    value={this.state.cliente.enderecoEntrega.tipoResidencia}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="LOGRADOURO"
-                                    name="cliente.enderecoCobranca.logradouro"
+                                    name="cliente.enderecoEntrega.logradouro"
                                     required
-                                    value={this.state.cliente.enderecoCobranca.logradouro}
+                                    value={this.state.cliente.enderecoEntrega.logradouro}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="NUMERO"
-                                    name="cliente.enderecoCobranca.numero"
+                                    name="cliente.enderecoEntrega.numero"
                                     required
-                                    value={this.state.cliente.enderecoCobranca.numero}
+                                    value={this.state.cliente.enderecoEntrega.numero}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="BAIRRO"
-                                    name="cliente.enderecoCobranca.bairro"
+                                    name="cliente.enderecoEntrega.bairro"
                                     required
-                                    value={this.state.cliente.enderecoCobranca.bairro}
+                                    value={this.state.cliente.enderecoEntrega.bairro}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
                                     label="CEP"
-                                    name="cliente.enderecoCobranca.cep"
+                                    name="cliente.enderecoEntrega.cep"
                                     required
-                                    value={this.state.cliente.enderecoCobranca.cep}
+                                    value={this.state.cliente.enderecoEntrega.cep}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
-                                <LInput
+                                <LSelect
                                     label="CIDADE"
-                                    name="cliente.enderecoCobranca.cidade.descricao"
+                                    items={this.state.cidades}
+                                    name="cliente.enderecoEntrega.cidadeId"
                                     required
-                                    value={this.state.cliente.enderecoCobranca.cidade.descricao}
+                                    value={this.state.cliente.enderecoEntrega.cidadeId}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
-                                <LInput
+                                <LSelect
                                     label="ESTADO"
-                                    name="cliente.enderecoCobranca.cidade.estado.descricao"
+                                    items={this.state.estados}
+                                    name="cliente.enderecoEntrega.estadoId"
                                     required
-                                    value={this.state.cliente.enderecoCobranca.cidade.estado.descricao}
+                                    value={this.state.cliente.enderecoEntrega.estadoId}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
-                                <LInput
+                               <LSelect
                                     label="PAIS"
-                                    name="cliente.enderecoCobranca.cidade.estado.pais.descricao"
+                                    items={this.state.paises}
+                                    name="cliente.enderecoEntrega.paisId"
                                     required
-                                    value={this.state.cliente.enderecoCobranca.cidade.estado.pais.descricao}
+                                    value={this.state.cliente.enderecoEntrega.paisId}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>

@@ -102,20 +102,20 @@ export default class CarrinhoCliente extends Component {
              margin: '1em'
 
            }} >
-             Tamanho
+             Tamanho: 
            </Card.Title>
            <ButtonGroup style={{
              margin: '1em'
            }}>
              <Button style={{
                color: "#755721"
-             }}>{itemCarrinho.roupa.tamanho}</Button>
+             }}>{itemCarrinho.tamanho}</Button>
            </ButtonGroup>
            <Card.Title style={{
              color: "#755721",
 
            }} >
-             Quantidade
+             Quantidade: 
              {itemCarrinho.quantidade}</Card.Title>
          </Card.Body>
        </Card>
@@ -133,7 +133,7 @@ export default class CarrinhoCliente extends Component {
             ))}
               <Form.Check type="checkbox" label="Utilizar endereço cadastrado" />
               <p></p>
-            <Button style={{
+            <Button href="/EnderecoEntrega" style={{
                color: "#755721"
              }}>Adicionar novo endereço de entrega</Button>
              <p></p>
@@ -153,7 +153,7 @@ export default class CarrinhoCliente extends Component {
              <p></p>
           </Card>
      </CardGroup>
-     <Button  style={{
+     <Button href="/HomeFinalizaCompra"  style={{
                color: "#755721", margin: "2em", marginRight: "10em", marginLeft: "30em"
              }}>Finalizar compra</Button>
      </div>
