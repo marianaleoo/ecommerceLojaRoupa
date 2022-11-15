@@ -11,7 +11,13 @@ import LSelect from "../../componentes/form/LSelect";
 export default class EnderecoEntrega extends Component {
     constructor(props) {
         super(props);
-        this.state = {cliente:{enderecoEntrega:{cidade:{estado:{pais:{}}}}}, clientes:[], cidades:[], estados:[], paises:[] 
+        this.state = {
+            cliente: {
+             enderecoEntrega: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", cidade: {estadoId: "", estado:{ paisId: ""}} , tipoEnderecoId: "" },
+            },
+        cidades:[], 
+        estados:[], 
+        paises:[] 
        }
         
     }
@@ -64,6 +70,8 @@ export default class EnderecoEntrega extends Component {
 
 
         try {
+            // var clienteId = localStorage.getItem('clienteId');
+            // this.state.cliente.enderecoEntrega.clienteId = clienteId;
             await apiPost("/EnderecoEntrega", this.state.cliente.enderecoEntrega)
             console.log(this.state.cliente.enderecoEntrega);
             window.location.href = "/HomeCadastroSucesso";
@@ -211,9 +219,9 @@ export default class EnderecoEntrega extends Component {
                                 <LSelect
                                     label="ESTADO"
                                     items={this.state.estados}
-                                    name="cliente.enderecoEntrega.estadoId"
+                                    name="cliente.enderecoEntrega.cidade.estadoId"
                                     required
-                                    value={this.state.cliente.enderecoEntrega.estadoId}
+                                    value={this.state.cliente.enderecoEntrega.cidade.estado.estadoId}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
@@ -221,9 +229,9 @@ export default class EnderecoEntrega extends Component {
                                <LSelect
                                     label="PAIS"
                                     items={this.state.paises}
-                                    name="cliente.enderecoEntrega.paisId"
+                                    name="cliente.enderecoEntrega.cidade.estado.paisId"
                                     required
-                                    value={this.state.cliente.enderecoEntrega.paisId}
+                                    value={this.state.cliente.enderecoEntrega.cidade.estado.paisId}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
