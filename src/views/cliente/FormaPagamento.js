@@ -1,36 +1,51 @@
 import { Component } from "react";
 import { Card, Col, Form } from "react-bootstrap";
 import FormLayout from "../../layout/FormLayout";
+import LForm from "../../componentes/form/LForm";
 import LInput from "../../componentes/form/LInput";
 import { updateStateValue } from "../../util/util";
 import LTable from "../../componentes/table/LTable";
-import { apiGet, apiPost } from "../../util/apiutil";
-import LForm from "../../componentes/form/LForm";
-
+import { apiDelete, apiGet, apiPost } from "../../util/apiutil";
+import LSelect from "../../componentes/form/LSelect";
 
 export default class FormaPagamento extends Component {
     constructor(props) {
         super(props);
-        this.state = {cartaoCredito:{numerocartao: "", nomecartao: "", bandeiracartao: "", codigoSeguranca: ""}, cartoesCredito:[]}
-    }
-    async handlePreventDefaut(event) {
-        event.preventDefault();
-        event.stopPropagation();
+        this.state = {
+            cliente: {
+                cartaoCredito: {nomecartao: "", numerocartao: "", bandeiraId: "", bandeira:{}, codigoSeguranca: "" },
+            },
+        bandeiras:[]
+       }
+        
     }
 
-    async cadastroSucesso(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        window.location.href = "/HomeCadastroSucesso";
+    async componentDidMount() {
+            await this.consultaBandeira();
+    }
+
+    async consultaBandeira() {
+        try {
+            let bandeiras = await apiGet("/Bandeira");
+
+            this.setState({
+                bandeiras,
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     async handleSubmit(event) {
         event.preventDefault();
         event.stopPropagation();
 
+
         try {
-            console.log(this.state.cartaoCredito)
-            await apiPost("/CartaoCredito", this.state.cartaoCredito)
+            var clienteId = localStorage.getItem('clienteId');
+            this.state.cliente.cartaoCredito.clienteId = clienteId;
+            await apiPost("/CartaoCredito", this.state.cliente.cartaoCredito)
+         
             window.location.href = "/HomeCadastroSucesso";
 
         } catch (error) {
@@ -39,19 +54,9 @@ export default class FormaPagamento extends Component {
 
     }
 
-    async componentDidMount() {
-        await this.consultaCartaoCredito();
-    }
-    async consultaCartaoCredito() {
-        try {
-            let cartoesCredito = await apiGet ("/CartaoCredito");
-
-            this.setState({
-                cartoesCredito,
-            });
-        } catch (error) {
-            console.log(error);
-        }
+    async handlePreventDefaut(event) {
+        event.preventDefault();
+        event.stopPropagation();
     }
 
     handleSelectedRow(row) {
@@ -59,7 +64,7 @@ export default class FormaPagamento extends Component {
     
         console.log(selectedRow);
         this.setState({
-          cartaoCredito: selectedRow,
+          cliente: selectedRow,
         });
       }
 
@@ -72,8 +77,17 @@ export default class FormaPagamento extends Component {
     async excluir(event) {
         event.preventDefault();
         event.stopPropagation();
-        window.location.href = "/HomeExcluidoSucesso";
-    }
+    
+        try {
+           console.log(this.state.cliente)
+           await apiDelete("/CartaoCredito", this.state.cartaoCredito)     
+           window.location.href = "/HomeExcluidoSucesso";
+
+       } catch (error) {
+          console.log(error);
+        }
+
+      }
 
     async handleInputChange(event) {
         const target = event.target;
@@ -88,7 +102,7 @@ export default class FormaPagamento extends Component {
     async AlteraNomeInput(event){
         const target = event.target;
         let { value } = target;
-        this.setState({cartaoCredito: {...this.state.cartaoCredito,  nomecartao: value}})
+        this.setState({cliente: {...this.state.cliente,  nome: value}})
         console.log( this.state);
     }
 
@@ -99,66 +113,53 @@ export default class FormaPagamento extends Component {
       };
 
     render() {
-        const columns = [
-            {
-              dataField: "numerocartao",
-              text: "Nº do Cartão",
-              events: this.rowEvents,
-            },
-            {
-              dataField: "nomecartao",
-              text: "Nome impresso no Cartão",
-              events: this.rowEvents,
-            },
-          ];
-
         return (
             <FormLayout>
                 <Card.Body>
                     <Card.Title style={{ color: "#755721" }} as="h1">
-                     Forma Pagamento
+                     Novoa forma de pagamento
                     </Card.Title>
                     <hr />
-                    <LTable data={this.state.cartoesCredito} columns={columns}></LTable>
-                    <LForm onSubmit={this.handleSubmit.bind(this)} onCancel={this.sair} onDelete={this.excluir} customDeleteText='Excluir'>
+                    <LForm  onSubmit={this.handleSubmit.bind(this)} onCancel={this.sair} onDelete={this.excluir} customDeleteText='Excluir'>
                         <Form.Row>
-                            <h4 className="mt-5" style={{ color: "#755721" }}>Cadastrar Cartão de Crédito</h4>
+                            <h4 className="mt-5" style={{ color: "#755721" }}>Forma de Pagamento</h4>
                             <Form.Group as={Col} md={12}>
                                 <LInput
-                                    label="Nº DO CARTÃO"
-                                    name="cartaoCredito.numerocartao"
+                                    label="Nome impresso do cartão"
+                                    name="cliente.cartaoCredito.nomecartao"
                                     required
-                                    value={this.state.cartaoCredito.numerocartao}
-                                    onChange={this.AlteraNomeInput.bind(this)}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} md={12}>
-                                <LInput
-                                    label="NOME IMPRESSO NO CARTÃO"
-                                    name="cartaoCredito.nomecartao"
-                                    required
-                                    value={this.state.cartaoCredito.nomecartao}
-                                    onChange={this.AlteraNomeInput.bind(this)}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} md={12}>
-                                <LInput
-                                    label="BANDEIRA"
-                                    name="cartaoCredito.bandeiraCartao"
-                                    required
-                                    value={this.state.cartaoCredito.bandeiraCartao}
+                                    value={this.state.cliente.cartaoCredito.nomecartao}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md={12}>
                                 <LInput
-                                    label="CÓDIGO DE SEGURANÇA"
-                                    name="cartaoCredito.codigoSeguranca"
+                                    label="Nº do Cartão"
+                                    name="cliente.cartaoCredito.numerocartao"
                                     required
-                                    value={this.state.cartaoCredito.codigoSeguranca}
+                                    value={this.state.cliente.cartaoCredito.numerocartao}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
+                            <Form.Group as={Col}>
+                            <LSelect
+                                    label="Bandeira"
+                                    items={this.state.bandeiras}
+                                    name="cliente.cartaoCredito.bandeiraId"
+                                    required
+                                    value={this.state.cliente.cartaoCredito.bandeiraId}
+                                    onChange={this.handleInputChange.bind(this)}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md={12}>
+                                <LInput
+                                    label="Código de Segurança"
+                                    name="cliente.cartaoCredito.codigoSeguranca"
+                                    required
+                                    value={this.state.cliente.cartaoCredito.codigoSeguranca}
+                                    onChange={this.handleInputChange.bind(this)}
+                                />
+                            </Form.Group>                
                         </Form.Row>
                     </LForm>
                     <hr />
@@ -167,5 +168,3 @@ export default class FormaPagamento extends Component {
         );
     }
 }
-
-

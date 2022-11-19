@@ -147,7 +147,7 @@ export default class CarrinhoCliente extends Component {
             ))}
                <Form.Check type="checkbox" label="Utilizar forma de pagamento cadastrada" />
                <p></p>
-              <Button style={{
+              <Button href="/FormaPagamento" style={{
                color: "#755721"
              }}>Adicionar nova forma de pagamento</Button>
              <p></p>

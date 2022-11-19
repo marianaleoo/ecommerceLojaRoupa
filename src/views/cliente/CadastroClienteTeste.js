@@ -6,8 +6,6 @@ import LInput from "../../componentes/form/LInput";
 import { updateStateValue } from "../../util/util";
 import { apiGet, apiPost } from "../../util/apiultil";
 import LSelect from "../../componentes/form/LSelect";
-import ESelect from "../../componentes/form/ESelect";
-import EESelect from "../../componentes/form/EESelect";
 
 export default class CadastroClienteTeste extends Component {
     constructor(props) {
@@ -20,7 +18,7 @@ export default class CadastroClienteTeste extends Component {
             generos: [],
             bandeiras: [],
             cidades: [],
-            estados: [],
+            estados: [],    
             paises: []
 
         };

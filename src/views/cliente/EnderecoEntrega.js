@@ -13,7 +13,7 @@ export default class EnderecoEntrega extends Component {
         super(props);
         this.state = {
             cliente: {
-             enderecoEntrega: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", cidade: {estadoId: "", estado:{ paisId: ""}} , tipoEnderecoId: "" },
+             enderecoEntrega: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", cidade: {estadoId: "", estado:{  paisId: ""}} , tipoEnderecoId: "" },
             },
         cidades:[], 
         estados:[], 
@@ -70,8 +70,8 @@ export default class EnderecoEntrega extends Component {
 
 
         try {
-            // var clienteId = localStorage.getItem('clienteId');
-            // this.state.cliente.enderecoEntrega.clienteId = clienteId;
+            var clienteId = localStorage.getItem('clienteId');
+            this.state.cliente.enderecoEntrega.clienteId = clienteId;
             await apiPost("/EnderecoEntrega", this.state.cliente.enderecoEntrega)
             console.log(this.state.cliente.enderecoEntrega);
             window.location.href = "/HomeCadastroSucesso";
@@ -205,9 +205,9 @@ export default class EnderecoEntrega extends Component {
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
-                            <Form.Group as={Col} md={12}>
-                                <LSelect
-                                    label="CIDADE"
+                            <Form.Group as={Col} controlId="formGridCidade">
+                            <LSelect
+                                    label="Cidade"
                                     items={this.state.cidades}
                                     name="cliente.enderecoEntrega.cidadeId"
                                     required
@@ -215,26 +215,26 @@ export default class EnderecoEntrega extends Component {
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
-                            <Form.Group as={Col} md={12}>
-                                <LSelect
-                                    label="ESTADO"
+                            <Form.Group as={Col} controlId="formGridEstado">
+                            <LSelect
+                                    label="Estado"
                                     items={this.state.estados}
                                     name="cliente.enderecoEntrega.cidade.estadoId"
                                     required
-                                    value={this.state.cliente.enderecoEntrega.cidade.estado.estadoId}
+                                    value={this.state.cliente.enderecoEntrega.cidade.estadoId}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
-                            <Form.Group as={Col} md={12}>
-                               <LSelect
-                                    label="PAIS"
+                            <Form.Group as={Col} controlId="formGridPais">
+                            <LSelect
+                                    label="Pais"
                                     items={this.state.paises}
                                     name="cliente.enderecoEntrega.cidade.estado.paisId"
                                     required
                                     value={this.state.cliente.enderecoEntrega.cidade.estado.paisId}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
-                            </Form.Group>
+                            </Form.Group> 
                         </Form.Row>
                     </LForm>
                     <hr />
