@@ -64,7 +64,7 @@ export default class SSCatalog extends Component {
     const { roupas } = this.props;
     const catalog = this.state.roupas.map((roupa, i) => (
       <Col md={4}>
-        <div className="mx-3 mb-4">
+        <div className="mx-3 mb-4">    
           <Card   style={{margin: "3em", marginRight: "5em",  marginLeft: "5em"}}>
             <Card.Img
               variant="top"

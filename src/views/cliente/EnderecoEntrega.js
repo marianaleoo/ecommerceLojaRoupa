@@ -99,7 +99,7 @@ export default class EnderecoEntrega extends Component {
     async sair(event) {
         event.preventDefault();
         event.stopPropagation();
-        window.location.href = "/";
+        window.location.href = "/HomeCadastroSucesso";
     }
 
     async excluir(event) {

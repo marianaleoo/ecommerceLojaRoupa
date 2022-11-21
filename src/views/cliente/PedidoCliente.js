@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   Col,
+  CardGroup,
   ButtonGroup,
 } from "react-bootstrap";
 import FormLayout from "../../layout/FormLayout";
@@ -49,57 +50,60 @@ export default class PedidoCliente extends Component {
     return (
       <FormLayout>
         {this.state.pedidos.map((pedido, roupaId) => (
-          <Col md={12}>
-            <div className="mx- mb-4">
+           <Col md={12}>
+           <div className="mx- mb-4">
+           <Card.Title style={{
+                    color: "#755721",
+                    margin: "1em"
+      
+                  }} >
+                  Meus pedidos 
+                  </Card.Title>
+          <Card.Title style={{
+                    margin: "1em"
+                  }}>Status do pedido: {pedido.status}</Card.Title>
+         <CardGroup>
+         <Card.Title style={{
+                    margin: "1em"
+                  }}>Item do seu pedido: </Card.Title>
+           <Card style={{ margin: "2em", marginRight: "5em", marginLeft: "5em" }}>
+             <Card.Img
+               variant="top"
+               src={`${pedido.itemCarrinho.roupa.imgLink}`}
+               style={{ width: "100%", height: "275px" }}
+             />
+               <Card.Title>{`${pedido.itemCarrinho.roupa.nome}`}</Card.Title>
+               <Card.Text>
+                 <strong>R${pedido.itemCarrinho.roupa.preco}</strong>
+                 <p>{pedido.itemCarrinho.roupa.descricao}</p>
+               </Card.Text>
+            </Card>
+              <Card style={{ margin: "2em", marginRight: "5em", marginLeft: "5em" }}>
               <Card.Title style={{
-             color: "#755721",
-             margin: '1em'
-
-           }}>Meus Pedidos</Card.Title>
-                    <Card.Title style={{
-                     margin: '1em'
-           }}>Status do seu pedido:{`${pedido.status}`}</Card.Title>
-              <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
-              <Card.Title>Item do seu pedido: </Card.Title>
-                 <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
-                 <Card.Img
-                   variant="top"
-                   src={`${pedido.itemCarrinho.roupa.imgLink}`}
-                   style={{ width: "100%", height: "275px" }}
-                 />
-                 <Card.Body>
-                   <Card.Title>{`${pedido.itemCarrinho.roupa.nome}`}</Card.Title>
-                   <Card.Text>
-                     <strong>R${pedido.itemCarrinho.roupa.preco}</strong>
-                     <p>{pedido.itemCarrinho.roupa.descricao}</p>
-                   </Card.Text>
-                   <Card.Title style={{
-                     color: "#755721",
-                     margin: '1em'
-        
-                   }} >
-                     Tamanho: 
-                   </Card.Title>
-                   <ButtonGroup style={{
-                     margin: '1em'
-                   }}>
-                     <Button style={{
-                       color: "#755721"
-                     }}>{pedido.itemCarrinho.tamanho}</Button>
-                   </ButtonGroup>
-                   <Card.Title style={{
-                     color: "#755721",
-        
-                   }} >
-                     Quantidade: 
-                     {pedido.itemCarrinho.quantidade}</Card.Title>
-                 </Card.Body>
-               </Card>
-              </Card>
-            </div>
-          </Col>
-           
-        ))} </FormLayout>
+                 color: "#755721",
+                 margin: '1em'
+    
+               }} >
+                 Tamanho: 
+               </Card.Title>
+               <ButtonGroup style={{
+                 margin: '1em'
+               }}>
+                 <Button style={{
+                   color: "#755721"
+                 }}>{pedido.itemCarrinho.tamanho}</Button>
+               </ButtonGroup>
+               <Card.Title style={{
+                 color: "#755721",
+    
+               }} >
+                 Quantidade: 
+                 {pedido.itemCarrinho.quantidade}</Card.Title>                   
+              </Card>      
+           </CardGroup>
+           </div>
+     </Col>
+     ))} </FormLayout>
 
     );
 

@@ -84,7 +84,14 @@ export default class DetalheRoupa extends Component {
   render() {
     const catalog = this.state.roupas.map((roupa, roupaId) => (
     <FormLayout>
-          <Col md={6}>
+      <Card.Title style={{
+                color: "#755721",
+                margin: '5'
+  
+              }} >
+               Detalhe da compra 
+              </Card.Title>
+          <Col md={10}>
           <div className="mx-3 mb-4">
         <CardGroup>
           <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
@@ -93,13 +100,21 @@ export default class DetalheRoupa extends Component {
               src={`${roupa.imgLink}`}
               style={{ width: "100%", height: "275px" }}
             />
-            <Card.Body>
-              <Card.Title>{`${roupa.nome}`}</Card.Title>
-              <Card.Text>
+          </Card>
+          <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
+          <Card.Title style={{
+                margin: '1em'
+  
+              }}>{`${roupa.nome}`}</Card.Title>
+              <Card.Text style={{
+                color: "#755721",
+                margin: '1em'
+  
+              }}>
                 <strong>R${roupa.preco}</strong>
                 <p>{roupa.descricao}</p>
               </Card.Text>
-              <Card.Title style={{
+            <Card.Title style={{
                 color: "#755721",
                 margin: '1em'
   
@@ -110,26 +125,31 @@ export default class DetalheRoupa extends Component {
                 margin: '1em'
               }}>{this.state.itensCarrinho.map((itemCarrinho, i) => (
                 <>
-                 <Button style={{color: "#755721"}} onClick={() =>
+                 <Button  onClick={() =>
                    {this.handleTamanhoItem(itemCarrinho.tamanho = "PP")}}>PP</Button>
-                     <Button style={{color: "#755721"}} onClick={() =>
+                     <Button  onClick={() =>
                    {this.handleTamanhoItem(itemCarrinho.tamanho = "P")}}>P</Button>
-                     <Button style={{color: "#755721"}} onClick={() =>
+                     <Button  onClick={() =>
                    {this.handleTamanhoItem(itemCarrinho.tamanho = "M")}}>M</Button>
-                     <Button style={{color: "#755721"}} onClick={() =>
+                     <Button onClick={() =>
                    {this.handleTamanhoItem(itemCarrinho.tamanho = "G")}}>G</Button>
-                     <Button style={{color: "#755721"}} onClick={() =>
+                     <Button  onClick={() =>
                    {this.handleTamanhoItem(itemCarrinho.tamanho = "GG")}}>GG</Button>
                 </>
               ))}
               </ButtonGroup>
               <Card.Title style={{
                 color: "#755721",
+                margin: '1em'
   
               }} >
                 Quantidade
               </Card.Title>
-              <DropdownButton id="dropdown-basic-button" title="Quantidade">
+              <DropdownButton style={{
+                color: "#755721",
+                margin: '1em'
+  
+              }} id="dropdown-basic-button" title="Quantidade">
               {this.state.itensCarrinho.map((itemCarrinho, i) => (
                 <>
               <Dropdown.Item href="#/action-1" onClick={() =>  
@@ -154,7 +174,11 @@ export default class DetalheRoupa extends Component {
                {this.handleQuantidadeItem(itemCarrinho.quantidade = 10)} }>10</Dropdown.Item>
                 </>))}
             </DropdownButton>
-                <Button
+                <Button style={{
+                color: "#755721",
+                margin: '1em'
+  
+              }}
                   variant="dark"
                   block
                   onClick={() => {
@@ -164,7 +188,6 @@ export default class DetalheRoupa extends Component {
                   <FontAwesomeIcon icon={faCartPlus} className="mr-2" />
                   Adicionar item no carrinho
                 </Button>
-            </Card.Body>
           </Card>
           </CardGroup>
           </div>

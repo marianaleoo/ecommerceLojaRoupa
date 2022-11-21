@@ -90,13 +90,21 @@ export default class CarrinhoCliente extends Component {
     }
   }
 
+  
+
   render() {
     return (
       <FormLayout>
       {this.state.itensCarrinho.map((itemCarrinho, roupaId) => (    
       <Col md={12}>
        <div className="mx- mb-4">
-       <Card.Title>Meu carrinho</Card.Title>
+       <Card.Title style={{
+                color: "#755721",
+                margin: '5'
+  
+              }} >
+              Meu carrinho
+              </Card.Title>
      <CardGroup>
        <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
          <Card.Img
@@ -133,7 +141,9 @@ export default class CarrinhoCliente extends Component {
          </Card.Body>
        </Card>
        <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
-            <Card.Title>Endereço de entrega cadastrado: </Card.Title>
+            <Card.Title style={{
+                color: "#755721"  
+              }}>Endereço de entrega cadastrado: </Card.Title>
             {this.state.enderecosEntrega.map((enderecoEntrega, i) => (
                        <Card.Text>
                        <p>Tipo Residência: {enderecoEntrega.tipoResidencia}</p>
@@ -144,13 +154,17 @@ export default class CarrinhoCliente extends Component {
                        <p>Cep: {enderecoEntrega.cep}</p>
                      </Card.Text>
             ))}
-              <Form.Check type="checkbox" label="Utilizar endereço cadastrado" />
+              <Form.Check style={{
+                color: "#755721"  
+              }} type="checkbox" label="Utilizar endereço cadastrado" />
               <p></p>
             <Button href="/EnderecoEntrega" style={{
                color: "#755721"
              }}>Adicionar novo endereço de entrega</Button>
              <p></p>
-             <Card.Title>Forma de pagamento cadastrado: </Card.Title>
+             <Card.Title style={{
+                color: "#755721"  
+              }}>Forma de pagamento cadastrado: </Card.Title>
             {this.state.cartoesCredito.map((cartaoCredito, i) => (
                        <Card.Text>
                        <p>Numero cartão: {cartaoCredito.numeroCartao}</p>
@@ -158,7 +172,9 @@ export default class CarrinhoCliente extends Component {
                        <p>Codigo de segurança: {cartaoCredito.codigoSeguranca}</p>
                      </Card.Text>
             ))}
-               <Form.Check type="checkbox" label="Utilizar forma de pagamento cadastrada" />
+               <Form.Check style={{
+                color: "#755721"  
+              }} type="checkbox" label="Utilizar forma de pagamento cadastrada" />
                <p></p>
               <Button href="/FormaPagamento" style={{
                color: "#755721"
