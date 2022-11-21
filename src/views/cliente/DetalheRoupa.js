@@ -53,7 +53,6 @@ export default class DetalheRoupa extends Component {
   async handleAdicionarCarrinho(roupa){
     try {   
       var clienteId = localStorage.getItem('clienteId');
-      this.state.pedido.status = "EM ANÁLISE";
       this.state.pedido.clienteId = clienteId;
       await apiPost("/Pedido", this.state.pedido)
        window.location.href = ("/CarrinhoCliente");

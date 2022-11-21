@@ -2,8 +2,8 @@ import { Component } from 'react';
 import { Row, Button, ButtonGroup, Card, CardGroup, Col, DropdownButton, Form, FormGroup } from 'react-bootstrap';
 import FormLayout from '../../layout/FormLayout';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { apiGet } from '../../util/apiutil';
+import { faCartPlus, faShoppingCart, faWindowRestore } from '@fortawesome/free-solid-svg-icons';
+import { apiGet, apiPost, apiPut } from '../../util/apiutil';
 import LAlerta from '../../componentes/alerta/LAlerta';
 import LInput from '../../componentes/form/LInput';
 import LSelect from '../../componentes/form/LSelect';
@@ -12,7 +12,8 @@ export default class CarrinhoCliente extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      compra: {}
+      compra: { pedidoId: 4, status: "EM PROCESSAMENTO", cartaoCredito: true, cupomPromocional: false, enderecoEntregaId: 1},
+      pedido:{id: 4, frete: "", valorTotalVenda: "", status: "", clienteId: "", itemCarrinhoId: "" },
       itensCarrinho: [],
       enderecosEntrega:[],
       cartoesCredito:[]
@@ -74,10 +75,16 @@ export default class CarrinhoCliente extends Component {
     }
   }
   
-  async finalizarCompra(){
+  async finalizarCompra(itemCarrinho){
     try{    
-
-
+        await apiPost("/Compra", this.state.compra)
+        this.state.pedido.status = "EM ANÁLISE"
+        var clienteId = localStorage.getItem('clienteId');
+        this.state.pedido.clienteId = clienteId;
+        this.state.pedido.itemCarrinhoId = itemCarrinho.id;
+        await apiPut("Pedido/" + this.state.pedido.id,  this.state.pedido)
+        window.location.href = ("/HomeFinalizaCompra");
+         
     }catch (error) {
       console.log(error);
     }
@@ -159,9 +166,11 @@ export default class CarrinhoCliente extends Component {
              <p></p>
           </Card>
      </CardGroup>
-     <Button href="/HomeFinalizaCompra"  style={{
+     <Button  style={{
                color: "#755721", margin: "2em", marginRight: "10em", marginLeft: "30em"
-             }}>Finalizar compra</Button>
+             }}   onClick={() => {
+              this.finalizarCompra(itemCarrinho);
+            }}>Finalizar compra</Button>
      </div>
      </Col>
 ))} </FormLayout>
