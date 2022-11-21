@@ -12,10 +12,7 @@ export default class CarrinhoCliente extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      // itemCarrinho: { id: "", quantidade: "", roupaId: "", carrinhoCompraId: "", clienteId: "" },
-      // enderecoEntrega:{ tipoResidencia : "", tipoLogradouro: "", logradouro: "", numero: "",  bairro: "", cep: "", clienteId: "", cidadeId: ""},
-      carrinhoCompras: [],
-      roupas: [],
+      compra: {}
       itensCarrinho: [],
       enderecosEntrega:[],
       cartoesCredito:[]
@@ -73,6 +70,15 @@ export default class CarrinhoCliente extends Component {
         itensCarrinho: cliente[0].carrinho.itensCarrinho
       });
     } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  async finalizarCompra(){
+    try{    
+
+
+    }catch (error) {
       console.log(error);
     }
   }

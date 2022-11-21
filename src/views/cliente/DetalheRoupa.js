@@ -13,6 +13,7 @@ export default class DetalheRoupa extends Component {
     super(props)
     this.state = {
       itemCarrinho: { id: "", quantidade: "", tamanho: "",  roupaId: "", carrinhoCompraId: "", clienteId: "" },
+      pedido:{frete: "", valorTotalVenda: "", status: "", clienteId: "" },
       roupas: [],
       itensCarrinho: [],
     };
@@ -51,6 +52,10 @@ export default class DetalheRoupa extends Component {
 
   async handleAdicionarCarrinho(roupa){
     try {   
+      var clienteId = localStorage.getItem('clienteId');
+      this.state.pedido.status = "EM ANÁLISE";
+      this.state.pedido.clienteId = clienteId;
+      await apiPost("/Pedido", this.state.pedido)
        window.location.href = ("/CarrinhoCliente");
     } catch (error) {
       console.log(error);
