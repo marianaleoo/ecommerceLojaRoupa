@@ -13,7 +13,7 @@ export default class FormaPagamento extends Component {
         super(props);
         this.state = {
             cliente: {
-                cartaoCredito: {nomecartao: "", numerocartao: "", bandeiraId: "", bandeira:{}, codigoSeguranca: "" },
+                cartaoCredito: {nomecartao: "", numerocartao: "", validadeCartao: "",  bandeiraId: "", bandeira:{}, codigoSeguranca: "" },
             },
         bandeiras:[]
        }
@@ -138,6 +138,16 @@ export default class FormaPagamento extends Component {
                                     name="cliente.cartaoCredito.numerocartao"
                                     required
                                     value={this.state.cliente.cartaoCredito.numerocartao}
+                                    onChange={this.handleInputChange.bind(this)}
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} controlId="formGridValidadeCartao">
+                                <LInput
+                                    label="Nome impresso do cartão"
+                                    name="cliente.cartaoCredito.validadeCartao"
+                                    error={this.state.error}
+                                    required
+                                    value={this.state.cliente.cartaoCredito.validadeCartao}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>

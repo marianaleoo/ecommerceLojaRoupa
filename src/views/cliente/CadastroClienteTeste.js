@@ -12,7 +12,7 @@ export default class CadastroClienteTeste extends Component {
         super(props);
         this.state = {
             cliente: {
-                 cpf: "", dataNascimento: "", nome: "", email: "", ddd: "", telefone: "", tipoTelefoneId:"", senha: "", confirmarSenha: "", generoId: "", enderecoCobranca: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", cidade: {estadoId: "", estado:{ paisId: ""}} , tipoEnderecoId: "" },  enderecoEntrega: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", cidade: {estadoId: "", estado:{ paisId: ""}} , tipoEnderecoId: "" }, cartaoCredito: {nomecartao: "", numerocartao: "", bandeiraCartaoId: "", codigoSeguranca: "" },
+                 cpf: "", dataNascimento: "", nome: "", email: "", ddd: "", telefone: "", tipoTelefoneId:"", senha: "", confirmarSenha: "", generoId: "", enderecoCobranca: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", cidade: {estadoId: "", estado:{ paisId: ""}} , tipoEnderecoId: "" },  enderecoEntrega: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", cidade: {estadoId: "", estado:{ paisId: ""}} , tipoEnderecoId: "" }, cartaoCredito: {nomecartao: "", numerocartao: "", validadeCartao: "",  bandeiraCartaoId: "", codigoSeguranca: "" },
             },
             tiposTelefone: [],
             generos: [],
@@ -520,6 +520,16 @@ export default class CadastroClienteTeste extends Component {
                             </Form.Group>
                         </Row>
                         <Row>
+                           <Form.Group as={Col} controlId="formGridValidadeCartao">
+                                <LInput
+                                    label="Nome impresso do cartão"
+                                    name="cliente.cartaoCredito.validadeCartao"
+                                    error={this.state.error}
+                                    required
+                                    value={this.state.cliente.cartaoCredito.validadeCartao}
+                                    onChange={this.handleInputChange.bind(this)}
+                                />
+                            </Form.Group>
                             <Form.Group as={Col} controlId="formGridBandeiraCartao">
                                 <LSelect
                                     label="Bandeira"

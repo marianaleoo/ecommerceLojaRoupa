@@ -12,11 +12,12 @@ export default class CarrinhoCliente extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      compra: { pedidoId: 4, status: "EM PROCESSAMENTO", cartaoCredito: true, cupomPromocional: false, enderecoEntregaId: 1},
+      compra: { pedidoId: 4, status: "EM PROCESSAMENTO", cartaoCreditoId: 12, cupomPromocionalId: null, enderecoEntregaId: 1},
       pedido:{id: 4, frete: "", valorTotalVenda: "", status: "", clienteId: "", itemCarrinhoId: "" },
       itensCarrinho: [],
       enderecosEntrega:[],
       cartoesCredito:[]
+      
 
     }
   };
@@ -90,6 +91,15 @@ export default class CarrinhoCliente extends Component {
     }
   }
 
+  async salvarEnderecoCompra(enderecoEntrega) {
+    try {
+
+      await apiPost("/Compra");
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
   
 
   render() {
@@ -152,11 +162,13 @@ export default class CarrinhoCliente extends Component {
                        <p>Número: {enderecoEntrega.numero}</p>
                        <p>Bairro: {enderecoEntrega.bairro}</p>
                        <p>Cep: {enderecoEntrega.cep}</p>
+                       <Form.Check style={{
+                color: "#755721"  
+              }} onClick={() => {
+                this.salvarEnderecoCompra(enderecoEntrega);
+              }} type="checkbox" value="enderecoEntrega" label="Utilizar endereço cadastrado" />
                      </Card.Text>
             ))}
-              <Form.Check style={{
-                color: "#755721"  
-              }} type="checkbox" label="Utilizar endereço cadastrado" />
               <p></p>
             <Button href="/EnderecoEntrega" style={{
                color: "#755721"
@@ -169,12 +181,12 @@ export default class CarrinhoCliente extends Component {
                        <Card.Text>
                        <p>Numero cartão: {cartaoCredito.numeroCartao}</p>
                        <p>Nome cartão: {cartaoCredito.nomeCartao}</p>
-                       <p>Codigo de segurança: {cartaoCredito.codigoSeguranca}</p>
-                     </Card.Text>
-            ))}
-               <Form.Check style={{
-                color: "#755721"  
-              }} type="checkbox" label="Utilizar forma de pagamento cadastrada" />
+                       <p>Validade do Cartão: {cartaoCredito.validadeCartao}</p>
+                       <Form.Check style={{
+                            color: "#755721"  
+                          }} type="checkbox" label="Utilizar forma de pagamento cadastrada" />
+                     </Card.Text>                
+            ))}          
                <p></p>
               <Button href="/FormaPagamento" style={{
                color: "#755721"
