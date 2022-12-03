@@ -8,19 +8,22 @@ import {
 } from "react-bootstrap";
 import FormLayout from "../../layout/FormLayout";
 import Layout from "../../layout/Layout";
-import { apiGet } from "../../util/apiutil";
+import { apiGet, apiPost } from "../../util/apiutil";
 
 export default class PedidoCliente extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pedido: { id: "", frete: "", valorTotalVenda: "", status: "", clienteId: "", itemCarrinhoId: "" },
-      pedidos: []
+      compra: { clienteId: "" },
+      itemCompra: { status: "", compraId: "", roupaId: "", preco: "" },
+      itensCompra: [],
+      compras: []
     }
   }
 
   async componentDidMount() {
-    await this.consultaPedidoCliente();
+    console.log("teste");
+    await this.consultaitemCompraCliente();
 
   }
 
@@ -29,16 +32,33 @@ export default class PedidoCliente extends Component {
     event.stopPropagation();
   }
 
-  async consultaPedidoCliente() {
+  async consultaitemCompraCliente() {
     try {
       var clienteId = localStorage.getItem('clienteId');
-      var retorno = await apiGet("/Pedido" + "/" + clienteId)
-      console.log(retorno);
+      var compra = await apiGet("/Compra" + "/" + clienteId)
+      console.log(compra);
+      var itensCompra = compra.map((c) => {
+        return c.itensCompra
+      }).flat(1);
 
-      this.setState({ 
-        pedidos : retorno
-        
-       });
+      console.log(itensCompra);
+      this.setState({
+        itensCompra: itensCompra
+
+      });
+      this.setState({
+        compras: compra
+
+      });
+    } catch (error) {
+    }
+  }
+
+  async trocarItemCompra(itemCompra) {
+    try {
+
+      await apiPost("Compra/Troca", itemCompra);
+      await this.consultaitemCompraCliente();
 
     } catch (error) {
 
@@ -49,63 +69,52 @@ export default class PedidoCliente extends Component {
   render() {
     return (
       <FormLayout>
-        {this.state.pedidos.map((pedido, roupaId) => (
-           <Col md={12}>
-           <div className="mx- mb-4">
-           <Card.Title style={{
-                    color: "#755721",
-                    margin: "1em"
-      
-                  }} >
-                  Meus pedidos 
-                  </Card.Title>
-          <Card.Title style={{
-                    margin: "1em"
-                  }}>Status do pedido: {pedido.status}</Card.Title>
-         <CardGroup>
-         <Card.Title style={{
-                    margin: "1em"
-                  }}>Item do seu pedido: </Card.Title>
-           <Card style={{ margin: "2em", marginRight: "5em", marginLeft: "5em" }}>
-             <Card.Img
-               variant="top"
-               src={`${pedido.itemCarrinho.roupa.imgLink}`}
-               style={{ width: "100%", height: "275px" }}
-             />
-               <Card.Title>{`${pedido.itemCarrinho.roupa.nome}`}</Card.Title>
-               <Card.Text>
-                 <strong>R${pedido.itemCarrinho.roupa.preco}</strong>
-                 <p>{pedido.itemCarrinho.roupa.descricao}</p>
-               </Card.Text>
-            </Card>
-              <Card style={{ margin: "2em", marginRight: "5em", marginLeft: "5em" }}>
+        {this.state.compras.map((compra, id) => (
+          <Col md={12}>
+            <div className="mx- mb-4">
               <Card.Title style={{
-                 color: "#755721",
-                 margin: '1em'
-    
-               }} >
-                 Tamanho: 
-               </Card.Title>
-               <ButtonGroup style={{
-                 margin: '1em'
-               }}>
-                 <Button style={{
-                   color: "#755721"
-                 }}>{pedido.itemCarrinho.tamanho}</Button>
-               </ButtonGroup>
-               <Card.Title style={{
-                 color: "#755721",
-    
-               }} >
-                 Quantidade: 
-                 {pedido.itemCarrinho.quantidade}</Card.Title>                   
-              </Card>      
-           </CardGroup>
-           </div>
-     </Col>
-     ))} </FormLayout>
+                color: "#755721",
+                margin: "1em"
 
+              }} >
+                Compra {compra.id}
+              </Card.Title>
+              <Card.Title style={{
+                margin: "1em"
+              }}>Status da compra: {compra.status}</Card.Title>
+              <Card.Title style={{
+                margin: "1em"
+              }}>Itens da compra: </Card.Title>
+              {this.state.itensCompra.map((itemCompra, id) => (
+                <Col md={6}>
+                  <div className="mx- mb-4">
+                    <CardGroup>
+
+                      <Card style={{ margin: "2em", marginRight: "5em", marginLeft: "5em" }}>
+                        <Card.Img
+                          variant="top"
+                          src={`${itemCompra.roupa.imgLink}`}
+                          style={{ width: "100%", height: "180px" }}
+                        />
+                        <Card.Title>{`${itemCompra.roupa.nome}`}</Card.Title>
+                        <Card.Text>
+                          <strong>R${itemCompra.preco}</strong>
+                          <p>{itemCompra.roupa.descricao}</p>
+                          <p>Status do seu item: {itemCompra.status}</p>
+                        </Card.Text>
+                        <ButtonGroup>
+                          <Button  onClick={() => {
+                            this.trocarItemCompra(itemCompra);
+                          }}>Trocar</Button>
+                        </ButtonGroup>
+
+                      </Card>
+
+                    </CardGroup>
+                  </div>
+                </Col>
+              ))}</div></Col>
+        ))} </FormLayout>
     );
-
   };
 }

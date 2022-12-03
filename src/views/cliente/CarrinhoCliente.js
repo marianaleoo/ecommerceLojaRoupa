@@ -7,17 +7,16 @@ import { apiGet, apiPost, apiPut } from '../../util/apiutil';
 import LAlerta from '../../componentes/alerta/LAlerta';
 import LInput from '../../componentes/form/LInput';
 import LSelect from '../../componentes/form/LSelect';
+import { updateStateValue } from '../../util/util';
 
 export default class CarrinhoCliente extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      compra: { pedidoId: 4, status: "EM PROCESSAMENTO", cartaoCreditoId: 12, cupomPromocionalId: 1, enderecoEntregaId: "", enderecoEntrega:{}},
-      pedido:{id: 4, frete: "", valorTotalVenda: "", status: "", clienteId: "", itemCarrinhoId: "" },
+      compra: { status: "EM PROCESSAMENTO", cartaoCreditoId: "", cupomPromocionalId: 1, enderecoEntregaId: "", clienteId: ""},
       itensCarrinho: [],
       enderecosEntrega:[],
       cartoesCredito:[],
-      enderecoEntrega1: {}
     }
   };
 
@@ -74,16 +73,14 @@ export default class CarrinhoCliente extends Component {
     }
   }
   
-  async finalizarCompra(itemCarrinho){
+  async finalizarCompra(){
     try{    
-        this.state.compra.enderecoEntrega = this.state.enderecoEntrega1
         console.log(this.state.compra);
-        await apiPost("/Compra", this.state.compra)
-        this.state.pedido.status = "EM ANÁLISE"
+        let compra = this.state.compra;
         var clienteId = localStorage.getItem('clienteId');
-        this.state.pedido.clienteId = clienteId;
-        this.state.pedido.itemCarrinhoId = itemCarrinho.id;
-        await apiPut("Pedido/" + this.state.pedido.id,  this.state.pedido)
+        compra.clienteId = clienteId
+        await apiPost("/Compra", compra )
+
         window.location.href = ("/HomeFinalizaCompra");
          
     }catch (error) {
@@ -103,19 +100,20 @@ export default class CarrinhoCliente extends Component {
     }
   }
 
-  // async salvarCartaoCompra(cartaoCredito){
-  //     try {
-  //      return null;
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  // }
-  
+  async handleInputChange(event) {
+    const target = event.target;
+    let { name, value } = target;
+    console.log(name, value);
+    const updated = updateStateValue(this.state, name, value);
+    await this.setState({
+      updated,
+
+    });
+  }
 
   render() {
     return (
       <FormLayout>
-      {this.state.itensCarrinho.map((itemCarrinho, roupaId) => (    
       <Col md={12}>
        <div className="mx- mb-4">
        <Card.Title style={{
@@ -126,6 +124,9 @@ export default class CarrinhoCliente extends Component {
               Meu carrinho
               </Card.Title>
      <CardGroup>
+     {this.state.itensCarrinho.map((itemCarrinho, roupaId) => (    
+       <Col md={6}>
+       <div className="mx-3 mb-4">  
        <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
          <Card.Img
            variant="top"
@@ -160,28 +161,22 @@ export default class CarrinhoCliente extends Component {
              {itemCarrinho.quantidade}</Card.Title>
          </Card.Body>
        </Card>
+       </div>
+       </Col>
+       ))}
+         <Col md={12}></Col>
        <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
             <Card.Title style={{
                 color: "#755721"  
-              }}>Endereço de entrega cadastrado: </Card.Title>
-            {this.state.enderecosEntrega.map((enderecoEntrega, i) => (
-                       <Card.Text>
-                       <p>Tipo Residência: {enderecoEntrega.tipoResidencia}</p>
-                       <p>Tipo Logradouro: {enderecoEntrega.tipoLogradouro}</p>
-                       <p>Logradouro: {enderecoEntrega.logradouro}</p>
-                       <p>Número: {enderecoEntrega.numero}</p>
-                       <p>Cep: {enderecoEntrega.cep}</p>
-                       <p>Bairro: {enderecoEntrega.bairro}</p>
-                       <p>Cidade: {enderecoEntrega.cidade.descricao}</p>
-                       <p>Estado: {enderecoEntrega.cidade.estado.descricao}</p>
-                       <p>Pais: {enderecoEntrega.cidade.estado.pais.descricao}</p>
-                       <Form.Check  style={{
-                color: "#755721"  
-              }}  onClick={() => {
-                this.salvarEnderecoCompra(enderecoEntrega);
-              }} type="checkbox" label="Utilizar endereço cadastrado"></Form.Check>
-                     </Card.Text>
-            ))}
+              }}>Selecione um endereço de entrega cadastrado: </Card.Title>
+                 <LSelect
+                  label="Endereços"
+                  items={this.state.enderecosEntrega.map((e) => {return {id: e.id, descricao: e.logradouro + " " + e.numero}})}
+                  name="compra.enderecoEntregaId"
+                  required
+                  value={this.state.compra.enderecoEntregaId}
+                  onChange={this.handleInputChange.bind(this)}
+                />
               <p></p>
             <Button href="/EnderecoEntrega" style={{
                color: "#755721"
@@ -189,32 +184,31 @@ export default class CarrinhoCliente extends Component {
              <p></p>
              <Card.Title style={{
                 color: "#755721"  
-              }}>Forma de pagamento cadastrado: </Card.Title>
-            {this.state.cartoesCredito.map((cartaoCredito, i) => (
-                       <Card.Text>
-                       <p>Numero cartão: {cartaoCredito.numeroCartao}</p>
-                       <p>Nome cartão: {cartaoCredito.nomeCartao}</p>
-                       <p>Validade do Cartão: {cartaoCredito.validadeCartao}</p>
-                       <Form.Check style={{
-                            color: "#755721"  
-                          }} type="checkbox" label="Utilizar forma de pagamento cadastrada"></Form.Check>
-                     </Card.Text>                
-            ))}          
+              }}>Selecione uma forma de pagamento cadastrado: </Card.Title>
+                <LSelect
+                  label="Cartões de crédito"
+                  items={this.state.cartoesCredito.map((c) => {return {id: c.id, descricao: c.numeroCartao}})}
+                  name="compra.cartaoCreditoId"
+                  required
+                  value={this.state.compra.cartaoCreditoId}
+                  onChange={this.handleInputChange.bind(this)}
+                />
                <p></p>
               <Button href="/FormaPagamento" style={{
                color: "#755721"
              }}>Adicionar nova forma de pagamento</Button>
              <p></p>
           </Card>
+          
      </CardGroup>
      <Button  style={{
                color: "#755721", margin: "2em", marginRight: "10em", marginLeft: "30em"
              }}   onClick={() => {
-              this.finalizarCompra(itemCarrinho);
+              this.finalizarCompra();
             }}>Finalizar compra</Button>
      </div>
      </Col>
-))} </FormLayout>
+ </FormLayout>
 
     );
 

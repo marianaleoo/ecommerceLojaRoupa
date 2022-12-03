@@ -44,8 +44,7 @@ export default class SSCatalog extends Component {
   async handleComprar(roupa){
     try {
       var clienteId = localStorage.getItem('clienteId');
-       var response =  await apiPost("/ItemCarrinho/", {roupaId : roupa.id , clienteId: clienteId} );
-       console.log(response);    
+   
        window.location.href = "/DetalheRoupa" + "/" + roupa.id;
     } catch (error) {
       console.log(error);

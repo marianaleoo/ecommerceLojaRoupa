@@ -117,7 +117,7 @@ export default class FormaPagamento extends Component {
             <FormLayout>
                 <Card.Body>
                     <Card.Title style={{ color: "#755721" }} as="h1">
-                     Novoa forma de pagamento
+                     Nova forma de pagamento
                     </Card.Title>
                     <hr />
                     <LForm  onSubmit={this.handleSubmit.bind(this)} onCancel={this.sair} onDelete={this.excluir} customDeleteText='Excluir'>
@@ -142,11 +142,12 @@ export default class FormaPagamento extends Component {
                                 />
                             </Form.Group>
                             <Form.Group as={Col} controlId="formGridValidadeCartao">
-                                <LInput
-                                    label="Nome impresso do cartão"
+                            <LInput
+                                    label="Validade Cartao"
                                     name="cliente.cartaoCredito.validadeCartao"
-                                    error={this.state.error}
                                     required
+                                    error={this.state.error}
+                                    type="Date"
                                     value={this.state.cliente.cartaoCredito.validadeCartao}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
