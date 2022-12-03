@@ -12,18 +12,16 @@ export default class CarrinhoCliente extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      compra: { pedidoId: 4, status: "EM PROCESSAMENTO", cartaoCreditoId: 12, cupomPromocionalId: null, enderecoEntregaId: 1},
+      compra: { pedidoId: 4, status: "EM PROCESSAMENTO", cartaoCreditoId: 12, cupomPromocionalId: 1, enderecoEntregaId: "", enderecoEntrega:{}},
       pedido:{id: 4, frete: "", valorTotalVenda: "", status: "", clienteId: "", itemCarrinhoId: "" },
       itensCarrinho: [],
       enderecosEntrega:[],
-      cartoesCredito:[]
-      
-
+      cartoesCredito:[],
+      enderecoEntrega1: {}
     }
   };
 
   async componentDidMount() {
-    console.log("teste");
     await this.consultaCarrinhoCompra();
     await this.consultaClienteEndereco();
     await this.consultaClienteCartão();
@@ -78,6 +76,8 @@ export default class CarrinhoCliente extends Component {
   
   async finalizarCompra(itemCarrinho){
     try{    
+        this.state.compra.enderecoEntrega = this.state.enderecoEntrega1
+        console.log(this.state.compra);
         await apiPost("/Compra", this.state.compra)
         this.state.pedido.status = "EM ANÁLISE"
         var clienteId = localStorage.getItem('clienteId');
@@ -93,13 +93,23 @@ export default class CarrinhoCliente extends Component {
 
   async salvarEnderecoCompra(enderecoEntrega) {
     try {
-
-      await apiPost("/Compra");
-      
+        
+      console.log(enderecoEntrega)
+      this.setState({
+       enderecoEntrega1 : enderecoEntrega
+      })
     } catch (error) {
       console.log(error);
     }
   }
+
+  // async salvarCartaoCompra(cartaoCredito){
+  //     try {
+  //      return null;
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  // }
   
 
   render() {
@@ -160,13 +170,16 @@ export default class CarrinhoCliente extends Component {
                        <p>Tipo Logradouro: {enderecoEntrega.tipoLogradouro}</p>
                        <p>Logradouro: {enderecoEntrega.logradouro}</p>
                        <p>Número: {enderecoEntrega.numero}</p>
-                       <p>Bairro: {enderecoEntrega.bairro}</p>
                        <p>Cep: {enderecoEntrega.cep}</p>
-                       <Form.Check style={{
+                       <p>Bairro: {enderecoEntrega.bairro}</p>
+                       <p>Cidade: {enderecoEntrega.cidade.descricao}</p>
+                       <p>Estado: {enderecoEntrega.cidade.estado.descricao}</p>
+                       <p>Pais: {enderecoEntrega.cidade.estado.pais.descricao}</p>
+                       <Form.Check  style={{
                 color: "#755721"  
-              }} onClick={() => {
+              }}  onClick={() => {
                 this.salvarEnderecoCompra(enderecoEntrega);
-              }} type="checkbox" value="enderecoEntrega" label="Utilizar endereço cadastrado" />
+              }} type="checkbox" label="Utilizar endereço cadastrado"></Form.Check>
                      </Card.Text>
             ))}
               <p></p>
@@ -184,7 +197,7 @@ export default class CarrinhoCliente extends Component {
                        <p>Validade do Cartão: {cartaoCredito.validadeCartao}</p>
                        <Form.Check style={{
                             color: "#755721"  
-                          }} type="checkbox" label="Utilizar forma de pagamento cadastrada" />
+                          }} type="checkbox" label="Utilizar forma de pagamento cadastrada"></Form.Check>
                      </Card.Text>                
             ))}          
                <p></p>
