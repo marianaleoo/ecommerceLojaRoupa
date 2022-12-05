@@ -80,7 +80,7 @@ export default class GerenciamentoTroca extends Component {
         try {
             console.log(row);
             row.recusarTroca = true;
-            let itemCompraAlterada = await apiPut("/ItemCompra/RecusarTroca/" + row)
+            let itemCompraAlterada = await apiPut("/ItemCompra/RecusarTroca/" , row)
             console.log(itemCompraAlterada);
             await this.consultaItemCompra();
         } catch (error) {
@@ -129,15 +129,6 @@ export default class GerenciamentoTroca extends Component {
                     return <Button style={{ color: "#755721" }} onClick={() => {
                         this.recusarTroca(row);
                     }}>Recusar troca</Button>
-                }
-            },
-            {
-                text: "Avançar Status",
-                dataField: "Avançar status da compra",
-                formatter: (cell, row) => {
-                    return <Button style={{ color: "#755721" }} onClick={() => {
-                        this.alterarStatus(row);
-                    }}>Avançar status da compra</Button>
                 }
             },
         ];

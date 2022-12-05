@@ -13,7 +13,7 @@ export default class CarrinhoCliente extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      compra: { status: "EM_PROCESSAMENTO", cartaoCreditoId: "", cupomPromocionalId: 1, enderecoEntregaId: "", clienteId: "" },
+      compra: { status: "EM_PROCESSAMENTO", cartaoCreditoId: "", cupomTrocaId: "", enderecoEntregaId: "", clienteId: "", valorTotal: "" },
       codigoCupomTroca: "",
       itensCarrinho: [],
       enderecosEntrega: [],
@@ -32,7 +32,6 @@ export default class CarrinhoCliente extends Component {
     try {
       var clienteId = localStorage.getItem('clienteId');
       let enderecoEntrega = await apiGet("/EnderecoEntrega" + "/" + clienteId)
-      console.log(enderecoEntrega);
 
       this.setState({
         enderecosEntrega: enderecoEntrega
@@ -48,7 +47,6 @@ export default class CarrinhoCliente extends Component {
     try {
       var clienteId = localStorage.getItem('clienteId');
       let cartaoCredito = await apiGet("/CartaoCredito" + "/" + clienteId)
-      console.log(cartaoCredito);
 
       this.setState({
         cartoesCredito: cartaoCredito
@@ -64,7 +62,6 @@ export default class CarrinhoCliente extends Component {
     try {
       var clienteId = localStorage.getItem('clienteId');
       let cliente = await apiGet("/Cliente" + "/" + clienteId);
-      // console.log(cliente);
 
       this.setState({
         itensCarrinho: cliente[0].carrinho.itensCarrinho
@@ -80,6 +77,7 @@ export default class CarrinhoCliente extends Component {
       let compra = this.state.compra;
       var clienteId = localStorage.getItem('clienteId');
       compra.clienteId = clienteId
+      compra.cupomTrocaId = this.state.codigoCupomTroca[0].id;
       await apiPost("/Compra", compra)
 
       window.location.href = ("/HomeFinalizaCompra");
@@ -103,9 +101,17 @@ export default class CarrinhoCliente extends Component {
 
   async aplicarCupom(){
     try {
+      let cupomTroca = this.state.codigoCupomTroca
+      console.log(cupomTroca);
+      let codigoCupom = await apiGet("/CupomTroca/ConsultaCupom/" + cupomTroca )
+      console.log(codigoCupom);
+
+      this.setState({
+        codigoCupomTroca: codigoCupom[0].codigo
+      });
       
     } catch (error) {
-      
+      console.log(error);
     }
   }
 
