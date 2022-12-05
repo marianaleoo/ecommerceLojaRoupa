@@ -82,10 +82,14 @@ export default class PedidoCliente extends Component {
               <Card.Title style={{
                 margin: "1em"
               }}>Status da compra: {compra.status}</Card.Title>
-              <Card.Title style={{
+               <Card.Title style={{
                 margin: "1em"
+              }}>Valor Total da compra: {compra.valorTotal}</Card.Title>
+              <Card.Title style={{
+                margin: "1em",
+                color: "#755721"
               }}>Itens da compra: </Card.Title>
-              {this.state.itensCompra.map((itemCompra, id) => (
+              {compra.itensCompra.map((itemCompra, id) => (
                 <Col md={6}>
                   <div className="mx- mb-4">
                     <CardGroup>
@@ -101,9 +105,10 @@ export default class PedidoCliente extends Component {
                           <strong>R${itemCompra.preco}</strong>
                           <p>{itemCompra.roupa.descricao}</p>
                           <p>Status do seu item: {itemCompra.status}</p>
+                          <p>Código do cupom: {itemCompra?.cupomTroca?.codigo}</p>
                         </Card.Text>
                         <ButtonGroup>
-                          <Button  onClick={() => {
+                          <Button disabled={compra.status != "ENTREGUE" || itemCompra.status != null} onClick={() => {
                             this.trocarItemCompra(itemCompra);
                           }}>Trocar</Button>
                         </ButtonGroup>

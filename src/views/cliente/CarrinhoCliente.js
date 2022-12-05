@@ -13,10 +13,11 @@ export default class CarrinhoCliente extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      compra: { status: "EM PROCESSAMENTO", cartaoCreditoId: "", cupomPromocionalId: 1, enderecoEntregaId: "", clienteId: ""},
+      compra: { status: "EM_PROCESSAMENTO", cartaoCreditoId: "", cupomPromocionalId: 1, enderecoEntregaId: "", clienteId: "" },
+      codigoCupomTroca: "",
       itensCarrinho: [],
-      enderecosEntrega:[],
-      cartoesCredito:[],
+      enderecosEntrega: [],
+      cartoesCredito: [],
     }
   };
 
@@ -24,39 +25,39 @@ export default class CarrinhoCliente extends Component {
     await this.consultaCarrinhoCompra();
     await this.consultaClienteEndereco();
     await this.consultaClienteCartão();
-    
+
   }
 
-  async consultaClienteEndereco(){
+  async consultaClienteEndereco() {
     try {
       var clienteId = localStorage.getItem('clienteId');
       let enderecoEntrega = await apiGet("/EnderecoEntrega" + "/" + clienteId)
       console.log(enderecoEntrega);
 
-      this.setState({ 
-       enderecosEntrega : enderecoEntrega
-       
+      this.setState({
+        enderecosEntrega: enderecoEntrega
+
       });
     } catch (error) {
       console.log(error);
-    } 
-    
+    }
+
   }
 
-  async consultaClienteCartão(){
+  async consultaClienteCartão() {
     try {
       var clienteId = localStorage.getItem('clienteId');
       let cartaoCredito = await apiGet("/CartaoCredito" + "/" + clienteId)
       console.log(cartaoCredito);
 
-      this.setState({ 
-        cartoesCredito : cartaoCredito 
-       
+      this.setState({
+        cartoesCredito: cartaoCredito
+
       });
     } catch (error) {
       console.log(error);
-    } 
-    
+    }
+
   }
 
   async consultaCarrinhoCompra() {
@@ -72,31 +73,39 @@ export default class CarrinhoCliente extends Component {
       console.log(error);
     }
   }
-  
-  async finalizarCompra(){
-    try{    
-        console.log(this.state.compra);
-        let compra = this.state.compra;
-        var clienteId = localStorage.getItem('clienteId');
-        compra.clienteId = clienteId
-        await apiPost("/Compra", compra )
 
-        window.location.href = ("/HomeFinalizaCompra");
-         
-    }catch (error) {
+  async finalizarCompra() {
+    try {
+      console.log(this.state.compra);
+      let compra = this.state.compra;
+      var clienteId = localStorage.getItem('clienteId');
+      compra.clienteId = clienteId
+      await apiPost("/Compra", compra)
+
+      window.location.href = ("/HomeFinalizaCompra");
+
+    } catch (error) {
       console.log(error);
     }
   }
 
   async salvarEnderecoCompra(enderecoEntrega) {
     try {
-        
+
       console.log(enderecoEntrega)
       this.setState({
-       enderecoEntrega1 : enderecoEntrega
+        enderecoEntrega1: enderecoEntrega
       })
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async aplicarCupom(){
+    try {
+      
+    } catch (error) {
+      
     }
   }
 
@@ -114,101 +123,113 @@ export default class CarrinhoCliente extends Component {
   render() {
     return (
       <FormLayout>
-      <Col md={12}>
-       <div className="mx- mb-4">
-       <Card.Title style={{
-                color: "#755721",
-                margin: '5'
-  
-              }} >
-              Meu carrinho
-              </Card.Title>
-     <CardGroup>
-     {this.state.itensCarrinho.map((itemCarrinho, roupaId) => (    
-       <Col md={6}>
-       <div className="mx-3 mb-4">  
-       <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
-         <Card.Img
-           variant="top"
-           src={`${itemCarrinho.roupa.imgLink}`}
-           style={{ width: "100%", height: "275px" }}
-         />
-         <Card.Body>
-           <Card.Title>{`${itemCarrinho.roupa.nome}`}</Card.Title>
-           <Card.Text>
-             <strong>R${itemCarrinho.roupa.preco}</strong>
-             <p>{itemCarrinho.roupa.descricao}</p>
-           </Card.Text>
-           <Card.Title style={{
-             color: "#755721",
-             margin: '1em'
-
-           }} >
-             Tamanho: 
-           </Card.Title>
-           <ButtonGroup style={{
-             margin: '1em'
-           }}>
-             <Button style={{
-               color: "#755721"
-             }}>{itemCarrinho.tamanho}</Button>
-           </ButtonGroup>
-           <Card.Title style={{
-             color: "#755721",
-
-           }} >
-             Quantidade: 
-             {itemCarrinho.quantidade}</Card.Title>
-         </Card.Body>
-       </Card>
-       </div>
-       </Col>
-       ))}
-         <Col md={12}></Col>
-       <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
+        <Col md={12}>
+          <div className="mx- mb-4">
             <Card.Title style={{
-                color: "#755721"  
-              }}>Selecione um endereço de entrega cadastrado: </Card.Title>
-                 <LSelect
+              color: "#755721",
+              margin: '5'
+
+            }} >
+              Meu carrinho
+            </Card.Title>
+            <CardGroup>
+              {this.state.itensCarrinho.map((itemCarrinho, roupaId) => (
+                <Col md={6}>
+                  <div className="mx-3 mb-4">
+                    <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
+                      <Card.Img
+                        variant="top"
+                        src={`${itemCarrinho.roupa.imgLink}`}
+                        style={{ width: "100%", height: "275px" }}
+                      />
+                      <Card.Body>
+                        <Card.Title>{`${itemCarrinho.roupa.nome}`}</Card.Title>
+                        <Card.Text>
+                          <strong>R${itemCarrinho.roupa.preco}</strong>
+                          <p>{itemCarrinho.roupa.descricao}</p>
+                        </Card.Text>
+                        <Card.Title style={{
+                          color: "#755721",
+                          margin: '1em'
+
+                        }} >
+                          Tamanho:
+                        </Card.Title>
+                        <ButtonGroup style={{
+                          margin: '1em'
+                        }}>
+                          <Button style={{
+                            color: "#755721"
+                          }}>{itemCarrinho.tamanho}</Button>
+                        </ButtonGroup>
+                        <Card.Title style={{
+                          color: "#755721",
+
+                        }} >
+                          Quantidade:
+                          {itemCarrinho.quantidade}</Card.Title>
+                      </Card.Body>
+                    </Card>
+                  </div>
+                </Col>
+              ))}
+              <Col md={12}></Col>
+              <Card style={{ margin: "3em", marginRight: "5em", marginLeft: "5em" }}>
+                <Card.Title style={{
+                  color: "#755721"
+                }}>Selecione um endereço de entrega cadastrado: </Card.Title>
+                <LSelect
                   label="Endereços"
-                  items={this.state.enderecosEntrega.map((e) => {return {id: e.id, descricao: e.logradouro + " " + e.numero}})}
+                  items={this.state.enderecosEntrega.map((e) => { return { id: e.id, descricao: e.logradouro + " " + e.numero } })}
                   name="compra.enderecoEntregaId"
                   required
                   value={this.state.compra.enderecoEntregaId}
                   onChange={this.handleInputChange.bind(this)}
                 />
-              <p></p>
-            <Button href="/EnderecoEntrega" style={{
-               color: "#755721"
-             }}>Adicionar novo endereço de entrega</Button>
-             <p></p>
-             <Card.Title style={{
-                color: "#755721"  
-              }}>Selecione uma forma de pagamento cadastrado: </Card.Title>
+                <p></p>
+                <Button href="/EnderecoEntrega" style={{
+                  color: "#755721"
+                }}>Adicionar novo endereço de entrega</Button>
+                <p></p>
+                <Card.Title style={{
+                  color: "#755721"
+                }}>Selecione uma forma de pagamento cadastrado: </Card.Title>
                 <LSelect
                   label="Cartões de crédito"
-                  items={this.state.cartoesCredito.map((c) => {return {id: c.id, descricao: c.numeroCartao}})}
+                  items={this.state.cartoesCredito.map((c) => { return { id: c.id, descricao: c.numeroCartao } })}
                   name="compra.cartaoCreditoId"
                   required
                   value={this.state.compra.cartaoCreditoId}
                   onChange={this.handleInputChange.bind(this)}
                 />
-               <p></p>
-              <Button href="/FormaPagamento" style={{
-               color: "#755721"
-             }}>Adicionar nova forma de pagamento</Button>
-             <p></p>
-          </Card>
-          
-     </CardGroup>
-     <Button  style={{
-               color: "#755721", margin: "2em", marginRight: "10em", marginLeft: "30em"
-             }}   onClick={() => {
+                <p></p>
+                <Button href="/FormaPagamento" style={{
+                  color: "#755721"
+                }}>Adicionar nova forma de pagamento</Button>
+                <p></p>
+                <LInput
+                  label="Cupom Troca"
+                  name="codigoCupomTroca"
+                  required
+                  value={this.state.codigoCupomTroca}
+                  onChange={this.handleInputChange.bind(this)}
+                />
+                <Button style={{
+                  color: "#755721", margin: "2em", marginRight: "10em", marginLeft: "30em"
+                }} onClick={() => {
+                  this.aplicarCupom();
+                }}>Aplicar cupom </Button>
+              </Card>
+
+            </CardGroup>
+            <Button style={{
+              color: "#755721", margin: "2em", marginRight: "10em", marginLeft: "30em"
+            }} onClick={() => {
               this.finalizarCompra();
             }}>Finalizar compra</Button>
-     </div>
-     </Col>
- </FormLayout>
+          </div>
+        </Col>
+      </FormLayout>
 
     );
 

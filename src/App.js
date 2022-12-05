@@ -21,6 +21,7 @@ import LCatalogo from "./componentes/catalogo/LCatalogo";
 import EnderecoEntrega from "./views/cliente/EnderecoEntrega";
 import PedidoCliente from "./views/cliente/PedidoCliente";
 import GerenciamentoCompra from "./views/administrador/GerenciamentoCompra";
+import GerenciamentoTroca from "./views/administrador/GerenciamentoTroca";
 
 
 export default class App extends Component {
@@ -164,6 +165,11 @@ export default class App extends Component {
             path="/GerenciamentoCompra"
             exact
             component={GerenciamentoCompra}
+          />
+           <this.PublicRoute
+            path="/GerenciamentoTroca"
+            exact
+            component={GerenciamentoTroca}
           />
         </Switch>
       </BrowserRouter>

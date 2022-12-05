@@ -19,8 +19,8 @@ export default class DetalheRoupa extends Component {
       pedido:{frete: "", valorTotalVenda: "", status: "", clienteId: "" },
       roupas: [],
       itensCarrinho: [],
-      tamanhos: [{ id: "P", descricao: "P" }, { id: "M", descricao: "M" }],
-      quantidades: [{ id: "1", descricao: "1" }, { id: "2", descricao: "2" }]
+      tamanhos: [{ id: "PP", descricao: "PP" }, { id: "P", descricao: "P" }, { id: "M", descricao: "M" }, { id: "G", descricao: "G" }, { id: "GG", descricao: "GG" }],
+      quantidades: [{ id: "1", descricao: "1" }, { id: "2", descricao: "2" }, { id: "3", descricao: "3" }, { id: "4", descricao: "4" }, { id: "5", descricao: "5" }, { id: "6", descricao: "6" }, { id: "7", descricao: "7" }, { id: "8", descricao: "8" }, { id: "9", descricao: "9" } , { id: "10", descricao: "10" }]
     };
   }
 
