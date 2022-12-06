@@ -13,7 +13,8 @@ export default class CarrinhoCliente extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      compra: { status: "EM_PROCESSAMENTO", cartaoCreditoId: "", cupomTrocaId: "", enderecoEntregaId: "", clienteId: "", valorTotal: "" },
+      compra: { status: "EM_PROCESSAMENTO", cartaoCreditoId: "", cupomTrocaId: "", enderecoEntregaId: "", clienteId: "" },
+      cupomId: 0,
       codigoCupomTroca: "",
       itensCarrinho: [],
       enderecosEntrega: [],
@@ -62,10 +63,12 @@ export default class CarrinhoCliente extends Component {
     try {
       var clienteId = localStorage.getItem('clienteId');
       let cliente = await apiGet("/Cliente" + "/" + clienteId);
+      console.log(cliente);
 
       this.setState({
         itensCarrinho: cliente[0].carrinho.itensCarrinho
       });
+      
     } catch (error) {
       console.log(error);
     }
@@ -73,11 +76,11 @@ export default class CarrinhoCliente extends Component {
 
   async finalizarCompra() {
     try {
-      console.log(this.state.compra);
       let compra = this.state.compra;
       var clienteId = localStorage.getItem('clienteId');
-      compra.clienteId = clienteId
-      compra.cupomTrocaId = this.state.codigoCupomTroca[0].id;
+      compra.clienteId = clienteId;
+      compra.cupomTrocaId = this.state.cupomId;
+      console.log(this.state.compra)
       await apiPost("/Compra", compra)
 
       window.location.href = ("/HomeFinalizaCompra");
@@ -105,9 +108,10 @@ export default class CarrinhoCliente extends Component {
       console.log(cupomTroca);
       let codigoCupom = await apiGet("/CupomTroca/ConsultaCupom/" + cupomTroca )
       console.log(codigoCupom);
+     
 
       this.setState({
-        codigoCupomTroca: codigoCupom[0].codigo
+        cupomId: codigoCupom[0].id
       });
       
     } catch (error) {
@@ -186,7 +190,7 @@ export default class CarrinhoCliente extends Component {
                 }}>Selecione um endereço de entrega cadastrado: </Card.Title>
                 <LSelect
                   label="Endereços"
-                  items={this.state.enderecosEntrega.map((e) => { return { id: e.id, descricao: e.logradouro + " " + e.numero } })}
+                  items={this.state.enderecosEntrega.map((e) => { return { id: e.id, descricao: e.logradouro + ", " + e.numero + ". " + "Frete: " + e.cidade.frete } })}
                   name="compra.enderecoEntregaId"
                   required
                   value={this.state.compra.enderecoEntregaId}
@@ -216,12 +220,11 @@ export default class CarrinhoCliente extends Component {
                 <LInput
                   label="Cupom Troca"
                   name="codigoCupomTroca"
-                  required
                   value={this.state.codigoCupomTroca}
                   onChange={this.handleInputChange.bind(this)}
                 />
                 <Button style={{
-                  color: "#755721", margin: "2em", marginRight: "10em", marginLeft: "30em"
+                  color: "#755721"
                 }} onClick={() => {
                   this.aplicarCupom();
                 }}>Aplicar cupom </Button>
@@ -229,7 +232,7 @@ export default class CarrinhoCliente extends Component {
 
             </CardGroup>
             <Button style={{
-              color: "#755721", margin: "2em", marginRight: "10em", marginLeft: "30em"
+              color: "#755721",  margin: "2em", marginRight: "10em", marginLeft: "30em"
             }} onClick={() => {
               this.finalizarCompra();
             }}>Finalizar compra</Button>

@@ -76,12 +76,12 @@ export default class App extends Component {
             exact
             component={DadosCliente}
           />
-         <this.PublicRoute
+          <this.PublicRoute
             path="/EnderecoEntrega"
             exact
             component={EnderecoEntrega}
           />
-             <this.PublicRoute
+          <this.PublicRoute
             path="/HomeCadastroSucesso"
             exact
             component={HomeCadastroSucesso}
@@ -91,7 +91,7 @@ export default class App extends Component {
             exact
             component={HomeAlteradoSucesso}
           />
-            <this.PublicRoute
+          <this.PublicRoute
             path="/FormaPagamento"
             exact
             component={FormaPagamento}
@@ -101,7 +101,7 @@ export default class App extends Component {
             exact
             component={HomeAtualizadoSucesso}
           />
-            <this.PublicRoute
+          <this.PublicRoute
             path="/HomeFinalizaCompra"
             exact
             component={HomeFinalizaCompra}
@@ -116,7 +116,7 @@ export default class App extends Component {
             exact
             component={ConsultaCliente}
           />
-           <this.PublicRoute
+          <this.PublicRoute
             path="/CadastroClienteTeste"
             exact
             component={CadastroClienteTeste}
@@ -131,42 +131,42 @@ export default class App extends Component {
             exact
             component={LoginCliente}
           />
-              <this.PublicRoute
+          <this.PublicRoute
             path="/MeuCarrinho"
             exact
             component={MeuCarrinho}
           />
-            <this.PublicRoute
+          <this.PublicRoute
             path="/CarrinhoCliente"
             exact
             component={CarrinhoCliente}
           />
-            <this.PublicRoute
+          <this.PublicRoute
             path="/FinalizandoCompra"
             exact
             component={FinalizandoCompra}
           />
-           <this.PublicRoute
+          <this.PublicRoute
             path="/Teste"
             exact
             component={Teste}
           />
-           <this.PublicRoute
+          <this.PublicRoute
             path="/ConsultaClienteAdmin"
             exact
             component={ConsultaClienteAdmin}
           />
-             <this.PublicRoute
+          <this.PublicRoute
             path="/PedidoCliente"
             exact
             component={PedidoCliente}
           />
-            <this.PublicRoute
+          <this.PublicRoute
             path="/GerenciamentoCompra"
             exact
             component={GerenciamentoCompra}
           />
-           <this.PublicRoute
+          <this.PublicRoute
             path="/GerenciamentoTroca"
             exact
             component={GerenciamentoTroca}

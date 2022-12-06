@@ -71,8 +71,12 @@ export default class SSCatalog extends Component {
               style={{ width: "100%", height: "275px" }}
             />
             <Card.Body>
-              <Card.Title>{`${roupa.nome}`}</Card.Title>
-              <Card.Text>
+              <Card.Title style={{
+                  color: "#755721"
+                }}>{`${roupa.nome}`}</Card.Title>
+              <Card.Text style={{
+                  color: "#755721"
+                }}>
                 <strong>R${roupa.preco}</strong>
                 <p>{roupa.descricao}</p>
               </Card.Text>

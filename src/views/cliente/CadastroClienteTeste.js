@@ -12,7 +12,7 @@ export default class CadastroClienteTeste extends Component {
         super(props);
         this.state = {
             cliente: {
-                 cpf: "", dataNascimento: "", nome: "", email: "", ddd: "", telefone: "", tipoTelefoneId:"", senha: "", confirmarSenha: "", generoId: "", enderecoCobranca: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", cidade: {estadoId: "", estado:{ paisId: ""}} , tipoEnderecoId: "" },  enderecoEntrega: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", cidade: {estadoId: "", estado:{ paisId: ""}} , tipoEnderecoId: "" }, cartaoCredito: {nomecartao: "", numerocartao: "", validadeCartao: "",  bandeiraCartaoId: "", codigoSeguranca: "" },
+                 cpf: "", dataNascimento: "", nome: "", email: "", ddd: "", telefone: "", tipoTelefoneId:"", senha: "", confirmarSenha: "", generoId: "", enderecoCobranca: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", cidade: {estadoId: "", estado:{ paisId: ""}} , tipoEnderecoId: "" },  enderecoEntrega: { tipoLogradouro: "", tipoResidencia: "", logradouro: "", numero: "", bairro: "", cep: "", cidadeId: "", cidade: {estadoId: "", estado:{ paisId: ""}} , tipoEnderecoId: "" }, cartaoCredito: {nomecartao: "", numerocartao: "", validadeCartao: "",  bandeiraId: "", codigoSeguranca: "" },
             },
             tiposTelefone: [],
             generos: [],
@@ -28,7 +28,6 @@ export default class CadastroClienteTeste extends Component {
         await this.consultaCidade();
         await this.consultaEstado();
         await this.consultaPais();
-        await this.consultaTipoEndereco();
         await this.consultaBandeira();
         await this.consultaGenero();
         await this.consultaTipoTelefone();
@@ -108,18 +107,13 @@ export default class CadastroClienteTeste extends Component {
         }
     }
 
-    handleClick() {
-       
-    }
-
-
     async handleSubmit(event) {
         event.preventDefault();
         event.stopPropagation();
 
         try {
-            console.log(this.state.cliente)
-            await apiPost("/Cliente", this.state.cliente)
+            let cliente = this.state.cliente;
+            await apiPost("/Cliente", cliente)
             window.location.href = "/HomeCadastroSucesso";
 
         } catch (error) {
@@ -522,10 +516,11 @@ export default class CadastroClienteTeste extends Component {
                         <Row>
                            <Form.Group as={Col} controlId="formGridValidadeCartao">
                                 <LInput
-                                    label="Nome impresso do cartão"
+                                    label="Validade do cartão"
                                     name="cliente.cartaoCredito.validadeCartao"
                                     error={this.state.error}
                                     required
+                                    type="Date"
                                     value={this.state.cliente.cartaoCredito.validadeCartao}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
@@ -534,10 +529,10 @@ export default class CadastroClienteTeste extends Component {
                                 <LSelect
                                     label="Bandeira"
                                     items={this.state.bandeiras}
-                                    name="cliente.cartaoCredito.bandeiraCartaoId"
+                                    name="cliente.cartaoCredito.bandeiraId"
                                     error={this.state.error}
                                     required
-                                    value={this.state.cliente.cartaoCredito.bandeiraCartaoId}
+                                    value={this.state.cliente.cartaoCredito.bandeiraId}
                                     onChange={this.handleInputChange.bind(this)}
                                 />
                             </Form.Group>
